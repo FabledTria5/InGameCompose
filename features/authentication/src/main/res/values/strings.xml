@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="authentication_options">
+        <item name="sign_in">Sign in</item>
+        <item name="sign_up">Sign up</item>
+    </string-array>
+    <string name="sign_in_message">Sign in to the app to get recommendations and add\ngames to your favorites</string>
+    <string name="email_placeholder">E-mail</string>
+    <string name="password_placeholder">Password</string>
+    <string name="social_networks">Use social networks</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="nickname_placeholder">Nickname</string>
+    <string name="sign_up">Sign up</string>
+    <string name="password_recovery_message">Enter your email address and\nwe will send you a new password</string>
+    <string name="send">Send</string>
+</resources>

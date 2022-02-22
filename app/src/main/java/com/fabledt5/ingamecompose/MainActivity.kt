@@ -1,0 +1,50 @@
+package com.fabledt5.ingamecompose
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
+import com.fabledt5.common.theme.InGameComposeTheme
+import com.fabledt5.ingamecompose.ui.MainScreen
+import com.fabledt5.navigation.NavigationManager
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@ExperimentalPagerApi
+@AndroidEntryPoint
+@ExperimentalAnimationApi
+class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var navigationManager: NavigationManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setContent {
+            InGameComposeTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    ProvideWindowInsets {
+                        val systemUiController = rememberSystemUiController()
+                        SideEffect {
+                            systemUiController.setStatusBarColor(
+                                color = Color.Transparent,
+                                darkIcons = false
+                            )
+                        }
+                        MainScreen(navigationManager = navigationManager)
+                    }
+                }
+            }
+        }
+    }
+
+}

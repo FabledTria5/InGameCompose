@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "755688951051",
+    "project_id": "ingamecompose",
+    "storage_bucket": "ingamecompose.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755688951051:android:54128ddee6b376b4c7a60e",
+        "android_client_info": {
+          "package_name": "com.fabledt5.ingamecompose"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "755688951051-uuqfnut35orslk1l9f02it69dlb2kbk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYDl1K25qrWS_Ms8-D5euoiKZsDAYhARA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755688951051-uuqfnut35orslk1l9f02it69dlb2kbk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
