@@ -299,7 +299,8 @@ fun RecommendedGamesPage(gamesList: List<GameItem>) {
                         PaddingValues(end = 5.dp, top = 10.dp)
                     else
                         PaddingValues(start = 5.dp, top = 10.dp)
-                )
+                ),
+                onGameClick = { }
             )
         }
     }
@@ -308,7 +309,9 @@ fun RecommendedGamesPage(gamesList: List<GameItem>) {
 @Composable
 fun GameCard(game: GameItem, modifier: Modifier = Modifier, onGameClick: (Int) -> Unit) {
     Card(
-        modifier = modifier.height(100.dp).clickable { onGameClick(game.gameId) },
+        modifier = modifier
+            .height(100.dp)
+            .clickable { onGameClick(game.gameId) },
         elevation = 10.dp,
         shape = RoundedCornerShape(size = 10.dp)
     ) {
