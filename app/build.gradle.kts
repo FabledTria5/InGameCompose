@@ -59,6 +59,8 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":features:splash"))
     implementation(project(":features:authentication"))
+    implementation(project(":features:home"))
+    implementation(project(":features:game"))
 
     // Kotlin
     implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")

@@ -16,12 +16,12 @@ fun GamesListResponse.toEntity(): List<HotGameEntity> = results.map { result ->
 }
 
 private fun pickRating(slug: String) = when (slug) {
-    ESRBRatings.everyone.name -> "7"
-    ESRBRatings.`everyone-10-plus`.name -> "12"
-    ESRBRatings.teen.name -> "16"
-    ESRBRatings.mature.name -> "16"
+    ESRBRatings.everyone.name -> "7+"
+    ESRBRatings.`everyone-10-plus`.name -> "12+"
+    ESRBRatings.teen.name -> "16+"
+    ESRBRatings.mature.name -> "16+"
     ESRBRatings.`adults-only`.name -> "18+"
-    else -> "16"
+    else -> "16+"
 }
 
 @Suppress("EnumEntryName")

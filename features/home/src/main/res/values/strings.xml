@@ -6,4 +6,5 @@
         <item name="New">New</item>
     </string-array>
     <string name="for_platform">For Platform</string>
+    <string name="hot_games_error">Unable to load games</string>
 </resources>

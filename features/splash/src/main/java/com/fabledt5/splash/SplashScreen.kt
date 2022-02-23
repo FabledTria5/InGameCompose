@@ -22,6 +22,7 @@ fun SplashScreen(splashViewModel: SplashViewModel) {
     LaunchedEffect(key1 = true) {
         delay(timeMillis = 500)
         if (!splashViewModel.isUserAuthenticated) splashViewModel.openLoginScreen()
+        else splashViewModel.openHomeScreen()
     }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

@@ -17,7 +17,7 @@ class GamesListRepositoryImpl @Inject constructor(
     override suspend fun getHotGames(gamesCount: Int): List<GameItem> {
         val localGamesList = hotGamesDao.getHotGames()
         return if (localGamesList.isNotEmpty()) {
-            if (System.currentTimeMillis() - localGamesList.first().createdAt < TimeUnit.DAYS.convert(
+            if (System.currentTimeMillis() - localGamesList.first().createdAt >= TimeUnit.DAYS.convert(
                     7,
                     TimeUnit.MILLISECONDS
                 )
