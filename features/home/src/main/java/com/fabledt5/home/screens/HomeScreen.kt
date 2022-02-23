@@ -1,10 +1,10 @@
 package com.fabledt5.home.screens
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -23,23 +23,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fabledt5.common.items.OutlinedDropDown
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.common.utils.drawImageForeground
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.home.R
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 import kotlin.concurrent.fixedRateTimer
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen() {
+    val scope = rememberCoroutineScope()
+    val gamesPagerState = rememberPagerState(initialPage = 0)
+
     Column(modifier = Modifier.fillMaxSize()) {
         HotGames(
             listOf(
@@ -57,7 +59,13 @@ fun HomeScreen() {
                 GameItem(gameId = 0),
             )
         )
-        RecommendedGames()
+        RecommendedGamesTabs(
+            gamesPagerState,
+            onTabSelected = { index ->
+                scope.launch { gamesPagerState.scrollToPage(index) }
+            })
+        PlatformsList(platformSelected = {})
+        RecommendedGamesPager(gamesPagerState)
     }
 }
 
@@ -99,7 +107,9 @@ fun HotGames(hotGames: List<GameItem>) {
             pagerState = pagerState,
             activeColor = Turquoise,
             inactiveColor = Color.DarkGray.copy(alpha = .3f),
-            indicatorWidth = with(LocalDensity.current) { screenSize.width.toDp() / (hotGames.size + 2) },
+            indicatorWidth = with(LocalDensity.current) {
+                screenSize.width.toDp() / (hotGames.size + 2)
+            },
             indicatorHeight = 3.dp,
             indicatorShape = RoundedCornerShape(5.dp),
             spacing = 10.dp
@@ -159,12 +169,11 @@ fun HotGame(hotGame: GameItem) {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
-fun RecommendedGames() {
-    val gamesPagerState = rememberPagerState(initialPage = 0)
-    val scope = rememberCoroutineScope()
+fun RecommendedGamesTabs(gamesPagerState: PagerState, onTabSelected: (Int) -> Unit) {
     val gamesTabs = stringArrayResource(id = R.array.home_screen_tabs)
 
     Box(
@@ -188,11 +197,13 @@ fun RecommendedGames() {
             gamesTabs.forEachIndexed { index, tabName ->
                 Tab(
                     selected = gamesPagerState.currentPage == index,
-                    onClick = { scope.launch { gamesPagerState.scrollToPage(index) } },
+                    onClick = { onTabSelected(index) },
                     modifier = Modifier
                         .background(
-                            color = if (gamesPagerState.currentPage == index) Color(0xFF0c0d0e)
-                            else Color.Transparent,
+                            color = if (gamesPagerState.currentPage == index)
+                                Color(0xFF0c0d0e)
+                            else
+                                Color.Transparent,
                             shape = RoundedCornerShape(size = 10.dp)
                         )
                         .border(
@@ -215,12 +226,11 @@ fun RecommendedGames() {
             }
         }
     }
-    PlatformsList()
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun PlatformsList() {
+fun PlatformsList(platformSelected: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -230,14 +240,87 @@ fun PlatformsList() {
     ) {
         Text(
             text = stringResource(R.string.for_platform).uppercase(),
+            modifier = Modifier.padding(end = 20.dp),
             color = Color.White.copy(alpha = .9f),
             fontWeight = FontWeight.Bold,
             fontFamily = Mark,
             fontSize = 17.sp
         )
+        OutlinedDropDown(
+            itemsList = listOf(
+                "Playstation 5",
+                "XBox Series X/S",
+                "Nintendo Switch",
+                "PC"
+            ),
+            selectedItem = "Playstation 5",
+            onItemSelected = { platformSelected(it) }
+        )
     }
 }
 
+@ExperimentalFoundationApi
+@ExperimentalPagerApi
+@Composable
+fun RecommendedGamesPager(gamesPagerState: PagerState) {
+    HorizontalPager(
+        count = 3,
+        state = gamesPagerState,
+        modifier = Modifier.fillMaxWidth()
+    ) { page ->
+        when (page) {
+            0 -> RecommendedGamesPage(
+                gamesList = listOf(
+                    GameItem(gameId = 0),
+                    GameItem(gameId = 1),
+                    GameItem(gameId = 2),
+                    GameItem(gameId = 3)
+                )
+            )
+            1 -> RecommendedGamesPage(gamesList = listOf())
+            2 -> RecommendedGamesPage(gamesList = listOf())
+        }
+    }
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun RecommendedGamesPage(gamesList: List<GameItem>) {
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(count = 2),
+        contentPadding = PaddingValues(horizontal = 10.dp),
+        userScrollEnabled = false
+    ) {
+        itemsIndexed(items = gamesList, key = { _, item -> item.gameId }) { index, game ->
+            GameCard(
+                game = game,
+                modifier = Modifier.padding(
+                    if (index.mod(2) == 0)
+                        PaddingValues(end = 5.dp, top = 10.dp)
+                    else
+                        PaddingValues(start = 5.dp, top = 10.dp)
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun GameCard(game: GameItem, modifier: Modifier = Modifier, onGameClick: (Int) -> Unit) {
+    Card(
+        modifier = modifier.height(100.dp).clickable { onGameClick(game.gameId) },
+        elevation = 10.dp,
+        shape = RoundedCornerShape(size = 10.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.god_of_war_placeholder),
+            contentDescription = "${game.gameTitle} game poster",
+            contentScale = ContentScale.Crop
+        )
+    }
+}
+
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Preview(showBackground = true, backgroundColor = 0xFF18181C)

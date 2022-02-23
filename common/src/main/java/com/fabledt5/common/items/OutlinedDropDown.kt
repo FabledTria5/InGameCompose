@@ -13,25 +13,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.fabledt5.common.R
 
 @ExperimentalMaterialApi
 @Composable
-fun OutlinedDropDown(modifier: Modifier = Modifier) {
-    val itemsList = listOf("Playstation 5", "XBox Series X/S", "Nintendo Switch", "PC")
-
+fun OutlinedDropDown(
+    modifier: Modifier = Modifier,
+    itemsList: List<String>,
+    selectedItem: String,
+    onItemSelected: (String) -> Unit
+) {
     var isExpanded by remember { mutableStateOf(false) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
-    var selectedText by remember { mutableStateOf(itemsList.first()) }
 
     val icon = if (isExpanded) Icons.Default.KeyboardArrowUp
     else Icons.Default.KeyboardArrowDown
 
     Column(modifier = modifier) {
         OutlinedTextField(
-            value = selectedText,
+            value = selectedItem,
             onValueChange = {},
             modifier = modifier.onGloballyPositioned { coordinates ->
                 textFieldSize = coordinates.size.toSize()
@@ -62,17 +63,10 @@ fun OutlinedDropDown(modifier: Modifier = Modifier) {
             })
         ) {
             itemsList.forEach { platform ->
-                DropdownMenuItem(onClick = { selectedText = platform }) {
+                DropdownMenuItem(onClick = { onItemSelected(platform) }) {
                     Text(text = platform, color = Color.White)
                 }
             }
         }
     }
-}
-
-@ExperimentalMaterialApi
-@Preview(showBackground = true, backgroundColor = 0xFF000000)
-@Composable
-fun OutlinedDropDownPreview() {
-    OutlinedDropDown()
 }
