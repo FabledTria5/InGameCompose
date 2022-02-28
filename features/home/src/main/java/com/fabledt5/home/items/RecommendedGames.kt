@@ -2,9 +2,6 @@ package com.fabledt5.home.items
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -18,9 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.items.CoilImage
 import com.fabledt5.common.theme.DarkLateGray
+import com.fabledt5.common.theme.MediumLateBlue
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.Resource
 import com.fabledt5.home.R
+import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.MainAxisAlignment
+import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -87,7 +89,13 @@ fun RecommendedGamesTabs(gamesPagerState: PagerState, onTabSelected: (Int) -> Un
 @ExperimentalFoundationApi
 @ExperimentalPagerApi
 @Composable
-fun RecommendedGamesPager(gamesPagerState: PagerState, onGameClick: (Int) -> Unit) {
+fun RecommendedGamesPager(
+    gamesPagerState: PagerState,
+    upcomingGames: Resource<List<GameItem>>,
+    bestGames: Resource<List<GameItem>>,
+    newGames: Resource<List<GameItem>>,
+    onGameClick: (Int) -> Unit
+) {
     HorizontalPager(
         count = 3,
         state = gamesPagerState,
@@ -95,30 +103,15 @@ fun RecommendedGamesPager(gamesPagerState: PagerState, onGameClick: (Int) -> Uni
     ) { page ->
         when (page) {
             0 -> RecommendedGamesPage(
-                gamesList = listOf(
-                    GameItem(gameId = 0),
-                    GameItem(gameId = 1),
-                    GameItem(gameId = 2),
-                    GameItem(gameId = 3)
-                ),
+                upcomingGames,
                 onGameClick = onGameClick
             )
             1 -> RecommendedGamesPage(
-                gamesList = listOf(
-                    GameItem(gameId = 0),
-                    GameItem(gameId = 1),
-                    GameItem(gameId = 2),
-                    GameItem(gameId = 3)
-                ),
+                bestGames,
                 onGameClick = onGameClick
             )
             2 -> RecommendedGamesPage(
-                gamesList = listOf(
-                    GameItem(gameId = 0),
-                    GameItem(gameId = 1),
-                    GameItem(gameId = 2),
-                    GameItem(gameId = 3)
-                ),
+                newGames,
                 onGameClick = onGameClick
             )
         }
@@ -127,23 +120,53 @@ fun RecommendedGamesPager(gamesPagerState: PagerState, onGameClick: (Int) -> Uni
 
 @ExperimentalFoundationApi
 @Composable
-fun RecommendedGamesPage(gamesList: List<GameItem>, onGameClick: (Int) -> Unit) {
-    LazyVerticalGrid(
-        cells = GridCells.Fixed(count = 2),
-        contentPadding = PaddingValues(horizontal = 10.dp),
-        userScrollEnabled = false
+fun RecommendedGamesPage(games: Resource<List<GameItem>>, onGameClick: (Int) -> Unit) {
+    when (games) {
+        is Resource.Error -> ShowRecommendedGamesError()
+        is Resource.Success -> ShowRecommendedGames(
+            gamesList = games.data,
+            onGameClick = onGameClick
+        )
+        else -> ShowRecommendedGamesLoading()
+    }
+}
+
+@Composable
+fun ShowRecommendedGamesError() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(
+            text = "Error while receiving games",
+            color = Color.White,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun ShowRecommendedGamesLoading() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        contentAlignment = Alignment.Center
     ) {
-        itemsIndexed(items = gamesList, key = { _, item -> item.gameId }) { index, game ->
-            GameCard(
-                game = game,
-                modifier = Modifier.padding(
-                    if (index.mod(2) == 0)
-                        PaddingValues(end = 5.dp, top = 10.dp)
-                    else
-                        PaddingValues(start = 5.dp, top = 10.dp)
-                ),
-                onGameClick = onGameClick
-            )
+        CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MediumLateBlue)
+    }
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun ShowRecommendedGames(gamesList: List<GameItem>, onGameClick: (Int) -> Unit) {
+    FlowRow(
+        modifier = Modifier
+            .navigationBarsPadding()
+            .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 65.dp)
+            .fillMaxWidth(),
+        mainAxisAlignment = MainAxisAlignment.SpaceBetween,
+        crossAxisSpacing = 10.dp
+    ) {
+        gamesList.forEach { gameItem ->
+            GameCard(game = gameItem, onGameClick = onGameClick)
         }
     }
 }
@@ -153,6 +176,7 @@ fun GameCard(game: GameItem, modifier: Modifier = Modifier, onGameClick: (Int) -
     Card(
         modifier = modifier
             .height(100.dp)
+            .fillMaxWidth(fraction = .49f)
             .clickable { onGameClick(game.gameId) },
         elevation = 10.dp,
         shape = RoundedCornerShape(size = 10.dp),

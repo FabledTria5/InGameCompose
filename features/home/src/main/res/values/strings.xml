@@ -2,7 +2,7 @@
 <resources>
     <string-array name="home_screen_tabs">
         <item name="upcoming">Upcoming</item>
-        <item name="Popular">Popular</item>
+        <item name="Best">Best</item>
         <item name="New">New</item>
     </string-array>
     <string name="for_platform">For Platform</string>

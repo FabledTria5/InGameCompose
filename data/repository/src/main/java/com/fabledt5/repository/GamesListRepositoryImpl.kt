@@ -4,6 +4,7 @@ import com.fabledt5.db.dao.HotGamesDao
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.repository.GamesListRepository
 import com.fabledt5.mapper.toDomain
+import com.fabledt5.mapper.toDomainShort
 import com.fabledt5.mapper.toEntity
 import com.fabledt5.remote.GamesService
 import java.util.concurrent.TimeUnit
@@ -25,12 +26,22 @@ class GamesListRepositoryImpl @Inject constructor(
                 localGamesList.toDomain()
             } else {
                 hotGamesDao.clearHotGames()
-                loadGamesFromRemote(gamesCount)
+                loadHotGamesFromRemote(gamesCount)
             }
-        } else loadGamesFromRemote(gamesCount)
+        } else loadHotGamesFromRemote(gamesCount)
     }
 
-    private suspend fun loadGamesFromRemote(gamesCount: Int): List<GameItem> {
+    override suspend fun getMonthlyGames(dates: String, gamesCount: Int): List<GameItem> =
+        gamesService.getGamesByDates(pageSize = gamesCount, dates = dates).toDomainShort()
+
+    override suspend fun getBestGames(ratings: String, gamesCount: Int): List<GameItem> =
+        gamesService.getBestGames(pageSize = gamesCount, metacriticRatings = ratings)
+            .toDomainShort()
+
+    override suspend fun getNewGames(dates: String, gamesCount: Int): List<GameItem> =
+        gamesService.getGamesByDates(pageSize = gamesCount, dates = dates).toDomainShort()
+
+    private suspend fun loadHotGamesFromRemote(gamesCount: Int): List<GameItem> {
         val hotGamesResponse = gamesService.getHotGamesList(pageSize = gamesCount)
         hotGamesDao.insertHotGames(hotGamesResponse.toEntity())
         return hotGamesDao.getHotGames().toDomain()

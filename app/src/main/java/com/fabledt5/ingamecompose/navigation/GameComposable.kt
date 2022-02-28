@@ -26,7 +26,6 @@ fun NavGraphBuilder.gameComposable() {
     ) { navBackStackEntry ->
         val gameId = navBackStackEntry.arguments?.getInt(GameDirection.KEY_GAME_ID)
         requireNotNull(gameId)
-
         GameScreen()
     }
 

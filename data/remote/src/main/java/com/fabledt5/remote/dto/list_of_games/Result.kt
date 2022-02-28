@@ -10,7 +10,7 @@ data class Result(
     @SerializedName("dominant_color")
     val dominantColor: String,
     @SerializedName("esrb_rating")
-    val esrbRating: EsrbRating,
+    val esrbRating: EsrbRating?,
     @SerializedName("genres")
     val genres: List<Genre>,
     @SerializedName("id")

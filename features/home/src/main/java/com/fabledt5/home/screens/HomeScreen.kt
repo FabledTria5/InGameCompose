@@ -3,6 +3,8 @@ package com.fabledt5.home.screens
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,10 +27,19 @@ import kotlinx.coroutines.launch
 fun HomeScreen(homeViewModel: HomeViewModel) {
     val scope = rememberCoroutineScope()
     val gamesPagerState = rememberPagerState(initialPage = 0)
+    val scrollState = rememberScrollState()
 
     val hotGamesList by homeViewModel.hotGamesList.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    val upcomingGames by homeViewModel.upcomingGames.collectAsState()
+    val bestGames by homeViewModel.bestGames.collectAsState()
+    val newGames by homeViewModel.newGames.collectAsState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+    ) {
         HotGames(hotGames = hotGamesList, onGameClicked = {})
         RecommendedGamesTabs(
             gamesPagerState,
@@ -36,6 +47,14 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
                 scope.launch { gamesPagerState.scrollToPage(index) }
             })
         PlatformsList(platformSelected = {})
-        RecommendedGamesPager(gamesPagerState, onGameClick = {})
+        RecommendedGamesPager(
+            gamesPagerState = gamesPagerState,
+            upcomingGames = upcomingGames,
+            bestGames = bestGames,
+            newGames = newGames,
+            onGameClick = {
+                homeViewModel.openGameScreen(gameId = it)
+            }
+        )
     }
 }

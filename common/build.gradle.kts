@@ -59,6 +59,7 @@ dependencies {
     api(dependencyNotation = "com.google.accompanist:accompanist-insets:$accompanistVersion")
     api(dependencyNotation = "com.google.accompanist:accompanist-pager:$accompanistVersion")
     api(dependencyNotation = "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion")
+    api(dependencyNotation = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion")
 
     // Testing
     testImplementation(dependencyNotation = "junit:junit:4.13.2")
