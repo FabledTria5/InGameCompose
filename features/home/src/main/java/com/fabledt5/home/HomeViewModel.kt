@@ -3,6 +3,7 @@ package com.fabledt5.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.use_case.home.HomeCases
 import com.fabledt5.navigation.NavigationManager
@@ -24,6 +25,9 @@ class HomeViewModel @Inject constructor(
     private val _hotGamesList = MutableStateFlow<Resource<List<GameItem>>>(Resource.Loading)
     val hotGamesList = _hotGamesList.asStateFlow()
 
+    private val _platformsList = MutableStateFlow<Resource<List<PlatformItem>>>(Resource.Idle)
+    val platformsList = _platformsList.asStateFlow()
+
     private val _upcomingGames = MutableStateFlow<Resource<List<GameItem>>>(Resource.Loading)
     val upcomingGames = _upcomingGames.asStateFlow()
 
@@ -35,7 +39,15 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadHotGamesList()
+        loadPlatformsList()
         loadGamesLists()
+    }
+
+    private fun loadPlatformsList() = viewModelScope.launch(Dispatchers.IO) {
+        val platformsListResult = homeCases.getPlatformsList()
+        _platformsList.value =
+            if (platformsListResult.isNotEmpty()) Resource.Success(data = platformsListResult)
+            else Resource.Error(message = "Empty list")
     }
 
     private fun loadHotGamesList() = viewModelScope.launch(Dispatchers.IO) {

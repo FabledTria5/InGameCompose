@@ -1,8 +1,11 @@
 package com.fabledt5.mapper
 
 import com.fabledt5.db.entities.HotGameEntity
+import com.fabledt5.db.entities.PlatformEntity
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.PlatformItem
 
+@JvmName("toDomainHotGameEntity")
 fun List<HotGameEntity>.toDomain(): List<GameItem> = map { entity ->
     GameItem(
         gameId = entity.id,
@@ -12,4 +15,9 @@ fun List<HotGameEntity>.toDomain(): List<GameItem> = map { entity ->
         gamePEGIRating = entity.gamePEGIRating,
         gameReleaseYear = entity.releaseYear,
     )
+}
+
+@JvmName("toDomainPlatformEntity")
+fun List<PlatformEntity>.toDomain(): List<PlatformItem> = map { entity ->
+    PlatformItem(platformId = entity.platformId, platformName = entity.platformName)
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.fabledt5.db.GamesDataBase
 import com.fabledt5.db.dao.HotGamesDao
+import com.fabledt5.db.dao.PlatformsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +26,10 @@ object DbModule {
     @Singleton
     @Provides
     fun provideHotGamesDao(gamesDataBase: GamesDataBase): HotGamesDao = gamesDataBase.hotGamesDao()
+
+    @Singleton
+    @Provides
+    fun providePlatformsDao(gamesDataBase: GamesDataBase): PlatformsDao =
+        gamesDataBase.platformsDao()
 
 }

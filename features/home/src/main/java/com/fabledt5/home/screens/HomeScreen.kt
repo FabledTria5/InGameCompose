@@ -30,6 +30,7 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
     val scrollState = rememberScrollState()
 
     val hotGamesList by homeViewModel.hotGamesList.collectAsState()
+    val platformsList by homeViewModel.platformsList.collectAsState()
 
     val upcomingGames by homeViewModel.upcomingGames.collectAsState()
     val bestGames by homeViewModel.bestGames.collectAsState()
@@ -46,7 +47,9 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
             onTabSelected = { index ->
                 scope.launch { gamesPagerState.scrollToPage(index) }
             })
-        PlatformsList(platformSelected = {})
+        PlatformsList(platformsList = platformsList, onPlatformSelected = {
+
+        })
         RecommendedGamesPager(
             gamesPagerState = gamesPagerState,
             upcomingGames = upcomingGames,

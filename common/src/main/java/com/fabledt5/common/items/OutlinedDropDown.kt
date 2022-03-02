@@ -1,7 +1,9 @@
 package com.fabledt5.common.items
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -13,11 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
 import com.fabledt5.common.R
 import com.fabledt5.common.theme.Background
-import com.fabledt5.common.theme.DarkLateGray
 
 @ExperimentalMaterialApi
 @Composable
@@ -27,6 +28,8 @@ fun OutlinedDropDown(
     selectedItem: String,
     onItemSelected: (String) -> Unit
 ) {
+    var platformsItemSize by remember { mutableStateOf(IntSize.Zero) }
+
     var isExpanded by remember { mutableStateOf(false) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
@@ -65,11 +68,15 @@ fun OutlinedDropDown(
                 .width(with(LocalDensity.current) {
                     textFieldSize.width.toDp()
                 })
+                .height(with(LocalDensity.current) { (platformsItemSize.height + 10).toDp() * 3 })
                 .background(Background)
         ) {
             itemsList.forEach { platform ->
                 DropdownMenuItem(
-                    onClick = { onItemSelected(platform) }
+                    onClick = { onItemSelected(platform) },
+                    modifier = Modifier.onGloballyPositioned {
+                        platformsItemSize = it.size
+                    }
                 ) {
                     Text(text = platform, color = Color.White)
                 }

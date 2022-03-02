@@ -1,7 +1,9 @@
 package com.fabledt5.repository
 
 import com.fabledt5.db.dao.HotGamesDao
+import com.fabledt5.db.dao.PlatformsDao
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.repository.GamesListRepository
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.mapper.toDomainShort
@@ -12,7 +14,8 @@ import javax.inject.Inject
 
 class GamesListRepositoryImpl @Inject constructor(
     private val gamesService: GamesService,
-    private val hotGamesDao: HotGamesDao
+    private val hotGamesDao: HotGamesDao,
+    private val platformsDao: PlatformsDao
 ) : GamesListRepository {
 
     override suspend fun getHotGames(gamesCount: Int): List<GameItem> {
@@ -40,6 +43,16 @@ class GamesListRepositoryImpl @Inject constructor(
 
     override suspend fun getNewGames(dates: String, gamesCount: Int): List<GameItem> =
         gamesService.getGamesByDates(pageSize = gamesCount, dates = dates).toDomainShort()
+
+    override suspend fun getPlatformsList(): List<PlatformItem> {
+        val localPlatformsList = platformsDao.getPlatformsList()
+        return if (!localPlatformsList.isNullOrEmpty()) localPlatformsList.toDomain()
+        else {
+            val remotePlatformsList = gamesService.getGamePlatforms()
+            platformsDao.insertPlatforms(platforms = remotePlatformsList.toEntity())
+            platformsDao.getPlatformsList().toDomain()
+        }
+    }
 
     private suspend fun loadHotGamesFromRemote(gamesCount: Int): List<GameItem> {
         val hotGamesResponse = gamesService.getHotGamesList(pageSize = gamesCount)

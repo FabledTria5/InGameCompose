@@ -16,11 +16,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.items.OutlinedDropDown
 import com.fabledt5.common.theme.Mark
+import com.fabledt5.domain.model.PlatformItem
+import com.fabledt5.domain.model.Resource
 import com.fabledt5.home.R
 
 @ExperimentalMaterialApi
 @Composable
-fun PlatformsList(platformSelected: (String) -> Unit) {
+fun PlatformsList(
+    platformsList: Resource<List<PlatformItem>>,
+    onPlatformSelected: (PlatformItem) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -36,15 +41,15 @@ fun PlatformsList(platformSelected: (String) -> Unit) {
             fontFamily = Mark,
             fontSize = 17.sp
         )
-        OutlinedDropDown(
-            itemsList = listOf(
-                "Playstation 5",
-                "XBox Series X/S",
-                "Nintendo Switch",
-                "PC"
-            ),
-            selectedItem = "Playstation 5",
-            onItemSelected = { platformSelected(it) }
-        )
+        if (platformsList is Resource.Success)
+            OutlinedDropDown(
+                itemsList = platformsList.data.map { it.platformName },
+                selectedItem = platformsList.data.first().platformName,
+                onItemSelected = { platformName ->
+                    val selectedPlatform =
+                        platformsList.data.first { it.platformName == platformName }
+                    onPlatformSelected(selectedPlatform)
+                }
+            )
     }
 }
