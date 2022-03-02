@@ -1,7 +1,7 @@
 package com.fabledt5.navigation
 
 import androidx.annotation.DrawableRes
-import com.fabledt5.navigation.directions.BottomNavigationDirections
+import com.fabledt5.navigation.directions.PrimaryAppDirections
 
 sealed class BottomBarItem(
     val destination: NavigationCommand,
@@ -9,22 +9,22 @@ sealed class BottomBarItem(
     @DrawableRes val icon: Int
 ) {
     object Home : BottomBarItem(
-        destination = BottomNavigationDirections.home,
+        destination = PrimaryAppDirections.home,
         title = "Home",
         icon = R.drawable.ic_home
     )
     object Catalogue : BottomBarItem(
-        destination = BottomNavigationDirections.catalogue,
+        destination = PrimaryAppDirections.catalogue,
         title = "Catalogue",
         icon = R.drawable.ic_catalogue
     )
     object Collections : BottomBarItem(
-        destination = BottomNavigationDirections.collections,
+        destination = PrimaryAppDirections.collections,
         title = "Collections",
         icon = R.drawable.ic_collections
     )
     object Profile : BottomBarItem(
-        destination = BottomNavigationDirections.profile,
+        destination = PrimaryAppDirections.profile,
         title = "Profile",
         icon = R.drawable.ic_profile
     )

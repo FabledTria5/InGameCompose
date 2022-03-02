@@ -5,11 +5,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(dependencyNotation = "com.android.tools.build:gradle:7.1.1")
+        classpath(dependencyNotation = "com.android.tools.build:gradle:7.1.2")
         classpath(dependencyNotation = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
         classpath(dependencyNotation = "com.google.dagger:hilt-android-gradle-plugin:2.40.5")
         classpath(dependencyNotation = "com.google.gms:google-services:4.3.10")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
     }
 }
 

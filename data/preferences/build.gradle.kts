@@ -19,8 +19,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -34,6 +34,8 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":domain"))
 
     // Kotlin
     implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")

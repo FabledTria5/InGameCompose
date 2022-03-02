@@ -6,6 +6,7 @@ import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.use_case.authentication.AuthenticationCases
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.directions.AuthorizationDirections
+import com.fabledt5.navigation.directions.PrimaryAppDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +41,9 @@ class AuthenticationViewModel @Inject constructor(
 
     fun authenticateUser(userEmail: String, userPassword: String) =
         authenticationCases.authenticateUser(userEmail, userPassword).onEach { resource ->
+            if (resource is Resource.Success) {
+                navigationManager.navigate(PrimaryAppDirections.home)
+            }
             _loginState.value = resource
         }.launchIn(viewModelScope)
 

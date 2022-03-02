@@ -1,6 +1,7 @@
 package com.fabledt5.ingamecompose.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
@@ -14,11 +15,13 @@ import com.fabledt5.common.theme.DarkLateGray
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.ingamecompose.navigation.authenticationGraph
+import com.fabledt5.ingamecompose.navigation.gameComposable
+import com.fabledt5.ingamecompose.navigation.primaryGraph
 import com.fabledt5.navigation.BottomBarItem
 import com.fabledt5.navigation.NavigationCommand
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.Routes
-import com.fabledt5.navigation.directions.BottomNavigationDirections
+import com.fabledt5.navigation.directions.PrimaryAppDirections
 import com.fabledt5.navigation.directions.SplashDirections
 import com.fabledt5.splash.SplashScreen
 import com.google.accompanist.insets.navigationBarsPadding
@@ -26,8 +29,12 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+@ExperimentalCoroutinesApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
@@ -36,10 +43,10 @@ fun MainScreen(navigationManager: NavigationManager) {
     var currentDestination by remember { mutableStateOf(SplashDirections.splash) }
 
     val bottomNavigationDestinations = listOf(
-        BottomNavigationDirections.home,
-        BottomNavigationDirections.catalogue,
-        BottomNavigationDirections.collections,
-        BottomNavigationDirections.profile
+        PrimaryAppDirections.home,
+        PrimaryAppDirections.catalogue,
+        PrimaryAppDirections.collections,
+        PrimaryAppDirections.profile
     )
 
     LaunchedEffect(key1 = navigationManager.commands) {
@@ -67,6 +74,8 @@ fun MainScreen(navigationManager: NavigationManager) {
                 SplashScreen(splashViewModel = hiltViewModel())
             }
             authenticationGraph()
+            primaryGraph()
+            gameComposable()
         }
     }
 }

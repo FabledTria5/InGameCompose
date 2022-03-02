@@ -48,6 +48,7 @@ dependencies {
     // Kotlin
     implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
     implementation(dependencyNotation = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+    implementation(dependencyNotation = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 
     // Compose
     val composeVersion = "1.1.0-rc03"

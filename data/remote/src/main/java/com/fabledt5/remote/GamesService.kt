@@ -5,6 +5,7 @@ import com.fabledt5.remote.dto.game_details.GameDetailsResult
 import com.fabledt5.remote.dto.game_screenshots.GameScreenshotsResult
 import com.fabledt5.remote.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.dto.list_of_games.GamesListResponse
+import com.fabledt5.remote.dto.platforms_list.PlatformsListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -15,6 +16,23 @@ interface GamesService {
     suspend fun getHotGamesList(
         @Query(value = "page_size") pageSize: Int
     ): GamesListResponse
+
+    @GET(value = "api/games")
+    suspend fun getGamesByDates(
+        @Query(value = "page_size") pageSize: Int,
+        @Query(value = "dates") dates: String,
+        @Query(value = "platforms") platforms: Int
+    ): GamesListResponse
+
+    @GET(value = "api/games")
+    suspend fun getBestGames(
+        @Query(value = "page_size") pageSize: Int,
+        @Query(value = "metacritic") metacriticRatings: String,
+        @Query(value = "platforms") platforms: Int
+    ): GamesListResponse
+
+    @GET(value = "api/platforms")
+    suspend fun getGamePlatforms(): PlatformsListResponse
 
     @GET(value = "api/games")
     suspend fun searchGames(
