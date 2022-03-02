@@ -10,23 +10,34 @@ import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.directions.GameDirection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val homeCases: HomeCases
 ) : ViewModel() {
 
+    private val selectedPlatform = homeCases.getFavoritePlatformId()
+
     private val _hotGamesList = MutableStateFlow<Resource<List<GameItem>>>(Resource.Loading)
     val hotGamesList = _hotGamesList.asStateFlow()
 
     private val _platformsList = MutableStateFlow<Resource<List<PlatformItem>>>(Resource.Idle)
     val platformsList = _platformsList.asStateFlow()
+
+    val favoritePlatform = selectedPlatform
+        .filter { it != -1 }
+        .flatMapLatest { platformId ->
+            homeCases.getFavoritePlatform(platformId = platformId)
+        }.onEach { platformItem ->
+            loadGamesLists(gamesPlatformId = platformItem.platformId)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, PlatformItem())
 
     private val _upcomingGames = MutableStateFlow<Resource<List<GameItem>>>(Resource.Loading)
     val upcomingGames = _upcomingGames.asStateFlow()
@@ -40,7 +51,12 @@ class HomeViewModel @Inject constructor(
     init {
         loadHotGamesList()
         loadPlatformsList()
-        loadGamesLists()
+    }
+
+    private fun loadHotGamesList() = viewModelScope.launch(Dispatchers.IO) {
+        val hotGamesResult = homeCases.getHotGames()
+        _hotGamesList.value = if (hotGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+        else Resource.Success(data = hotGamesResult)
     }
 
     private fun loadPlatformsList() = viewModelScope.launch(Dispatchers.IO) {
@@ -50,20 +66,18 @@ class HomeViewModel @Inject constructor(
             else Resource.Error(message = "Empty list")
     }
 
-    private fun loadHotGamesList() = viewModelScope.launch(Dispatchers.IO) {
-        val hotGamesResult = homeCases.getHotGames()
-        _hotGamesList.value = if (hotGamesResult.isEmpty()) Resource.Error(message = "Empty list")
-        else Resource.Success(data = hotGamesResult)
+    fun changePlatform(platformId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        homeCases.setFavoritePlatform(platformId = platformId)
     }
 
-    private fun loadGamesLists() = viewModelScope.launch(Dispatchers.IO) {
-        val upcomingGames = async { homeCases.getUpcomingGames() }
+    private fun loadGamesLists(gamesPlatformId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        val upcomingGames = async { homeCases.getUpcomingGames(gamesPlatformId) }
         val upcomingGamesResult = upcomingGames.await()
 
-        val bestGames = async { homeCases.getBestGames() }
+        val bestGames = async { homeCases.getBestGames(gamesPlatformId) }
         val bestGamesResult = bestGames.await()
 
-        val newGames = async { homeCases.getNewGames() }
+        val newGames = async { homeCases.getNewGames(gamesPlatformId) }
         val newGamesResult = newGames.await()
 
         _upcomingGames.value =

@@ -5,8 +5,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesRepository {
 
-    suspend fun persistPrimaryPlatform(platform: PlatformItem)
+    fun getFavoritePlatform(platformId: Int): Flow<PlatformItem>
 
-    fun readFavoritePlatforms(): Flow<PlatformItem>
+    fun getFavoritePlatformId(): Flow<Int>
+
+    suspend fun saveFavoritePlatform(platformId: Int)
 
 }

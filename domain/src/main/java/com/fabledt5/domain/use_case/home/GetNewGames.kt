@@ -10,7 +10,7 @@ class GetNewGames @Inject constructor(
     private val gamesListRepository: GamesListRepository
 ) {
 
-    suspend operator fun invoke(): List<GameItem> {
+    suspend operator fun invoke(platformId: Int): List<GameItem> {
         val cal = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
@@ -19,7 +19,11 @@ class GetNewGames @Inject constructor(
         cal.time = Date()
         val endDate = formatter.format(cal.time)
 
-        return gamesListRepository.getNewGames(dates = "$startDate,$endDate", gamesCount = 8)
+        return gamesListRepository.getNewGames(
+            dates = "$startDate,$endDate",
+            platformId = platformId,
+            gamesCount = 8
+        )
     }
 
 }

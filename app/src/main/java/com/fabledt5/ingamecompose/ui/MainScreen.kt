@@ -21,7 +21,6 @@ import com.fabledt5.navigation.BottomBarItem
 import com.fabledt5.navigation.NavigationCommand
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.Routes
-import com.fabledt5.navigation.directions.GameDirection
 import com.fabledt5.navigation.directions.PrimaryAppDirections
 import com.fabledt5.navigation.directions.SplashDirections
 import com.fabledt5.splash.SplashScreen

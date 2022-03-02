@@ -7,5 +7,8 @@ data class HomeCases @Inject constructor(
     val getUpcomingGames: GetUpcomingGames,
     val getBestGames: GetBestGames,
     val getNewGames: GetNewGames,
-    val getPlatformsList: GetPlatformsList
+    val getPlatformsList: GetPlatformsList,
+    val getFavoritePlatform: GetFavoritePlatform,
+    val setFavoritePlatform: SetFavoritePlatform,
+    val getFavoritePlatformId: GetFavoritePlatformId
 )

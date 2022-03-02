@@ -18,8 +18,10 @@ import com.fabledt5.home.items.RecommendedGamesPager
 import com.fabledt5.home.items.RecommendedGamesTabs
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -31,6 +33,7 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
 
     val hotGamesList by homeViewModel.hotGamesList.collectAsState()
     val platformsList by homeViewModel.platformsList.collectAsState()
+    val favoritePlatform by homeViewModel.favoritePlatform.collectAsState()
 
     val upcomingGames by homeViewModel.upcomingGames.collectAsState()
     val bestGames by homeViewModel.bestGames.collectAsState()
@@ -41,15 +44,20 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        HotGames(hotGames = hotGamesList, onGameClicked = {})
+        HotGames(
+            hotGames = hotGamesList,
+            onGameClicked = { homeViewModel.openGameScreen(gameId = it) })
         RecommendedGamesTabs(
             gamesPagerState,
             onTabSelected = { index ->
                 scope.launch { gamesPagerState.scrollToPage(index) }
             })
-        PlatformsList(platformsList = platformsList, onPlatformSelected = {
-
-        })
+        PlatformsList(
+            platformsList = platformsList,
+            favoritePlatform = favoritePlatform,
+            onPlatformSelected = { platformId ->
+                homeViewModel.changePlatform(platformId = platformId)
+            })
         RecommendedGamesPager(
             gamesPagerState = gamesPagerState,
             upcomingGames = upcomingGames,

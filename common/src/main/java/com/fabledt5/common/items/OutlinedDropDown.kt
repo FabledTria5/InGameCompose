@@ -73,7 +73,10 @@ fun OutlinedDropDown(
         ) {
             itemsList.forEach { platform ->
                 DropdownMenuItem(
-                    onClick = { onItemSelected(platform) },
+                    onClick = {
+                        onItemSelected(platform)
+                        isExpanded = false
+                    },
                     modifier = Modifier.onGloballyPositioned {
                         platformsItemSize = it.size
                     }

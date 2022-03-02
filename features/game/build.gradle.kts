@@ -56,6 +56,7 @@ dependencies {
     implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation(dependencyNotation = "androidx.activity:activity-compose:1.4.0")
 
     // Design
     implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")

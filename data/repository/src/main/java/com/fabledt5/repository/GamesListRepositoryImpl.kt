@@ -1,5 +1,6 @@
 package com.fabledt5.repository
 
+import android.util.Log
 import com.fabledt5.db.dao.HotGamesDao
 import com.fabledt5.db.dao.PlatformsDao
 import com.fabledt5.domain.model.GameItem
@@ -8,6 +9,8 @@ import com.fabledt5.domain.repository.GamesListRepository
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.mapper.toDomainShort
 import com.fabledt5.mapper.toEntity
+import com.fabledt5.preferences.AppPreferences
+import com.fabledt5.preferences.AppPreferencesImpl
 import com.fabledt5.remote.GamesService
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -15,8 +18,13 @@ import javax.inject.Inject
 class GamesListRepositoryImpl @Inject constructor(
     private val gamesService: GamesService,
     private val hotGamesDao: HotGamesDao,
-    private val platformsDao: PlatformsDao
+    private val platformsDao: PlatformsDao,
+    private val appPreferences: AppPreferences
 ) : GamesListRepository {
+
+    companion object {
+        private const val TAG = "GamesListRepositoryImpl"
+    }
 
     override suspend fun getHotGames(gamesCount: Int): List<GameItem> {
         val localGamesList = hotGamesDao.getHotGames()
@@ -34,23 +42,47 @@ class GamesListRepositoryImpl @Inject constructor(
         } else loadHotGamesFromRemote(gamesCount)
     }
 
-    override suspend fun getMonthlyGames(dates: String, gamesCount: Int): List<GameItem> =
-        gamesService.getGamesByDates(pageSize = gamesCount, dates = dates).toDomainShort()
-
-    override suspend fun getBestGames(ratings: String, gamesCount: Int): List<GameItem> =
-        gamesService.getBestGames(pageSize = gamesCount, metacriticRatings = ratings)
+    override suspend fun getMonthlyGames(
+        dates: String,
+        platformId: Int,
+        gamesCount: Int
+    ): List<GameItem> =
+        gamesService.getGamesByDates(pageSize = gamesCount, dates = dates, platforms = platformId)
             .toDomainShort()
 
-    override suspend fun getNewGames(dates: String, gamesCount: Int): List<GameItem> =
-        gamesService.getGamesByDates(pageSize = gamesCount, dates = dates).toDomainShort()
+    override suspend fun getBestGames(
+        ratings: String,
+        platformId: Int,
+        gamesCount: Int
+    ): List<GameItem> =
+        gamesService.getBestGames(
+            pageSize = gamesCount,
+            metacriticRatings = ratings,
+            platforms = platformId
+        ).toDomainShort()
+
+    override suspend fun getNewGames(
+        dates: String,
+        platformId: Int,
+        gamesCount: Int
+    ): List<GameItem> =
+        gamesService.getGamesByDates(pageSize = gamesCount, dates = dates, platforms = platformId)
+            .toDomainShort()
 
     override suspend fun getPlatformsList(): List<PlatformItem> {
         val localPlatformsList = platformsDao.getPlatformsList()
         return if (!localPlatformsList.isNullOrEmpty()) localPlatformsList.toDomain()
         else {
-            val remotePlatformsList = gamesService.getGamePlatforms()
-            platformsDao.insertPlatforms(platforms = remotePlatformsList.toEntity())
-            platformsDao.getPlatformsList().toDomain()
+            try {
+                val remotePlatformsList = gamesService.getGamePlatforms()
+                platformsDao.insertPlatforms(platforms = remotePlatformsList.toEntity())
+                val firstPlatformId = remotePlatformsList.results.first().id
+                appPreferences.persistFavoritePlatform(firstPlatformId)
+                platformsDao.getPlatformsList().toDomain()
+            } catch (e: Exception) {
+                Log.e(TAG, "getPlatformsList:", e)
+                emptyList()
+            }
         }
     }
 

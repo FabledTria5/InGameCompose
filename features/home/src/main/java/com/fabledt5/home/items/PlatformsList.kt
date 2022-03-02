@@ -1,9 +1,7 @@
 package com.fabledt5.home.items
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.items.OutlinedDropDown
 import com.fabledt5.common.theme.Mark
+import com.fabledt5.common.theme.MediumLateBlue
 import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.home.R
@@ -24,7 +23,8 @@ import com.fabledt5.home.R
 @Composable
 fun PlatformsList(
     platformsList: Resource<List<PlatformItem>>,
-    onPlatformSelected: (PlatformItem) -> Unit
+    favoritePlatform: PlatformItem,
+    onPlatformSelected: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -41,15 +41,17 @@ fun PlatformsList(
             fontFamily = Mark,
             fontSize = 17.sp
         )
-        if (platformsList is Resource.Success)
+        if (platformsList is Resource.Success && favoritePlatform.platformName.isNotEmpty())
             OutlinedDropDown(
                 itemsList = platformsList.data.map { it.platformName },
-                selectedItem = platformsList.data.first().platformName,
+                selectedItem = favoritePlatform.platformName,
                 onItemSelected = { platformName ->
                     val selectedPlatform =
                         platformsList.data.first { it.platformName == platformName }
-                    onPlatformSelected(selectedPlatform)
+                    onPlatformSelected(selectedPlatform.platformId)
                 }
             )
+        else
+            CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MediumLateBlue)
     }
 }

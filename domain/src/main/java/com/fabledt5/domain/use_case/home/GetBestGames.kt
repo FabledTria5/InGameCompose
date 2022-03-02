@@ -7,7 +7,7 @@ class GetBestGames @Inject constructor(
     private val gamesListRepository: GamesListRepository
 ) {
 
-    suspend operator fun invoke() =
-        gamesListRepository.getBestGames(ratings = "90,100", gamesCount = 8)
+    suspend operator fun invoke(platformId: Int) =
+        gamesListRepository.getBestGames(ratings = "90,100", platformId = platformId, gamesCount = 8)
 
 }

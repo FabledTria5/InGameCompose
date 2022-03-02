@@ -20,13 +20,15 @@ interface GamesService {
     @GET(value = "api/games")
     suspend fun getGamesByDates(
         @Query(value = "page_size") pageSize: Int,
-        @Query(value = "dates") dates: String
+        @Query(value = "dates") dates: String,
+        @Query(value = "platforms") platforms: Int
     ): GamesListResponse
 
     @GET(value = "api/games")
     suspend fun getBestGames(
         @Query(value = "page_size") pageSize: Int,
-        @Query(value = "metacritic") metacriticRatings: String
+        @Query(value = "metacritic") metacriticRatings: String,
+        @Query(value = "platforms") platforms: Int
     ): GamesListResponse
 
     @GET(value = "api/platforms")
