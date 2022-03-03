@@ -2,7 +2,7 @@ package com.fabledt5.mapper
 
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.utlis.toPEGI
-import com.fabledt5.remote.dto.list_of_games.GamesListResponse
+import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
 
 fun GamesListResponse.toDomainShort() = results.map { result ->
     GameItem(

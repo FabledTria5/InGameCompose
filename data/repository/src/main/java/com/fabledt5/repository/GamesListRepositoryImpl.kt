@@ -10,8 +10,7 @@ import com.fabledt5.mapper.toDomain
 import com.fabledt5.mapper.toDomainShort
 import com.fabledt5.mapper.toEntity
 import com.fabledt5.preferences.AppPreferences
-import com.fabledt5.preferences.AppPreferencesImpl
-import com.fabledt5.remote.GamesService
+import com.fabledt5.remote.api.GamesService
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

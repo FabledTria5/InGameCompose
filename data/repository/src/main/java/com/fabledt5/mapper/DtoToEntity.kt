@@ -3,8 +3,8 @@ package com.fabledt5.mapper
 import com.fabledt5.db.entities.HotGameEntity
 import com.fabledt5.db.entities.PlatformEntity
 import com.fabledt5.domain.utlis.toPEGI
-import com.fabledt5.remote.dto.list_of_games.GamesListResponse
-import com.fabledt5.remote.dto.platforms_list.PlatformsListResponse
+import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
+import com.fabledt5.remote.api.dto.platforms_list.PlatformsListResponse
 import java.util.*
 
 fun GamesListResponse.toEntity(): List<HotGameEntity> = results.map { result ->
