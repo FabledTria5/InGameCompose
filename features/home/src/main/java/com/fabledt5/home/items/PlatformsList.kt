@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.items.OutlinedDropDown
+import com.fabledt5.common.components.OutlinedDropDown
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MediumLateBlue
 import com.fabledt5.domain.model.PlatformItem

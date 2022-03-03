@@ -1,4 +1,4 @@
-package com.fabledt5.common.items
+package com.fabledt5.common.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable

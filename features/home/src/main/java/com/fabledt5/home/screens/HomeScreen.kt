@@ -11,11 +11,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
+import com.fabledt5.common.components.OutlinedTabs
 import com.fabledt5.home.HomeViewModel
+import com.fabledt5.home.R
 import com.fabledt5.home.items.HotGames
 import com.fabledt5.home.items.PlatformsList
 import com.fabledt5.home.items.RecommendedGamesPager
-import com.fabledt5.home.items.RecommendedGamesTabs
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,11 +49,13 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
         HotGames(
             hotGames = hotGamesList,
             onGameClicked = { homeViewModel.openGameScreen(gameId = it) })
-        RecommendedGamesTabs(
-            gamesPagerState,
+        OutlinedTabs(
+            pagerState = gamesPagerState,
+            tabsTitles = stringArrayResource(id = R.array.home_screen_tabs),
             onTabSelected = { index ->
                 scope.launch { gamesPagerState.scrollToPage(index) }
-            })
+            }
+        )
         PlatformsList(
             platformsList = platformsList,
             favoritePlatform = favoritePlatform,

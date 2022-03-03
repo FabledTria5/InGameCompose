@@ -50,7 +50,7 @@ dependencies {
     implementation(dependencyNotation = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
 
     // Compose
-    val composeVersion = "1.1.0-rc03"
+    val composeVersion = "1.1.1"
     implementation(dependencyNotation = "androidx.compose.ui:ui:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")

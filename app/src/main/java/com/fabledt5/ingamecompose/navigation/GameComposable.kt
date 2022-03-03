@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import com.fabledt5.game.GameViewModel
-import com.fabledt5.game.screens.game.GameScreen
+import com.fabledt5.game.screens.GameScreen
 import com.fabledt5.ingamecompose.MainActivity
 import com.fabledt5.navigation.directions.GameDirection
 import com.google.accompanist.navigation.animation.composable
@@ -17,6 +17,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalPagerApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.gameComposable() {
 

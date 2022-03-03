@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="game_data_tabs">
+        <item>About</item>
+        <item>Info</item>
+        <item>Requirements</item>
+    </array>
+    <string name="see_all">See all</string>
+    <string name="rating">Rating</string>
+    <string name="icon_star">Star Icon</string>
+    <string name="snapshots">Snapshots</string>
+    <string name="same_series">Same series</string>
+</resources>

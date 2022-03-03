@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.fabledt5.common.theme.DarkLateGray
+import com.fabledt5.common.theme.DimGray
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.ingamecompose.navigation.authenticationGraph
@@ -109,7 +109,7 @@ fun RowScope.AddNavigationItem(
     BottomNavigationItem(
         selected = currentDestination == screen.destination,
         onClick = { navHostController.navigate(screen.destination.route) },
-        label = { Text(text = screen.title, fontFamily = Mark, color = DarkLateGray) },
+        label = { Text(text = screen.title, fontFamily = Mark, color = DimGray) },
         icon = {
             Icon(
                 painter = painterResource(id = screen.icon),
