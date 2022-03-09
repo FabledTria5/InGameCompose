@@ -1,7 +1,7 @@
 package com.fabledt5.remote.api
 
 import com.fabledt5.remote.api.dto.game_creators.GameCreatorsResponse
-import com.fabledt5.remote.api.dto.game_details.GameDetailsResult
+import com.fabledt5.remote.api.dto.game_details.GameDetailsResponse
 import com.fabledt5.remote.api.dto.game_screenshots.GameScreenshotsResult
 import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
@@ -47,7 +47,7 @@ interface GamesService {
     @GET(value = "api/games/{id}")
     suspend fun getGameDetails(
         @Path(value = "id") gameId: Int
-    ): GameDetailsResult
+    ): GameDetailsResponse
 
     @GET(value = "api/games/{id}/movies")
     suspend fun getGameTrailers(
@@ -55,11 +55,11 @@ interface GamesService {
     ): GameTrailersResponse
 
     @GET(value = "api/games/{game_pk}/screenshots")
-    suspend fun getGameScreenshots(
+    suspend fun getGameSnapshots(
         @Path(value = "game_pk") gameId: Int
     ): GameScreenshotsResult
 
-    @GET(value = "api/games/{game_pk}/screenshots")
+    @GET(value = "api/games/{game_pk}/development-team")
     suspend fun getGameCreators(
         @Path(value = "game_pk") gameId: Int
     ): GameCreatorsResponse

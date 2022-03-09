@@ -3,7 +3,6 @@ package com.fabledt5.repository
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
@@ -23,7 +22,7 @@ class AuthRepositoryImpl @Inject constructor(private val authenticator: Firebase
             authenticator.createUserWithEmailAndPassword(email, password).await()
             emit(Resource.Success(data = authenticator.currentUser?.uid))
         } catch (e: Exception) {
-            emit(Resource.Error(message = e.message ?: ""))
+            emit(Resource.Error(exception = e))
         }
     }
 
@@ -33,7 +32,7 @@ class AuthRepositoryImpl @Inject constructor(private val authenticator: Firebase
             authenticator.signInWithEmailAndPassword(email, password).await()
             emit(Resource.Success(data = true))
         } catch (e: Exception) {
-            emit(Resource.Error(message = e.message ?: ""))
+            emit(Resource.Error(exception = e))
         }
     }
 
@@ -43,7 +42,7 @@ class AuthRepositoryImpl @Inject constructor(private val authenticator: Firebase
             authenticator.sendPasswordResetEmail(email).await()
             emit(Resource.Success(data = true))
         } catch (e: Exception) {
-            emit(Resource.Error(message = e.message ?: ""))
+            emit(Resource.Error(exception = e))
         }
     }
 
@@ -53,7 +52,7 @@ class AuthRepositoryImpl @Inject constructor(private val authenticator: Firebase
             authenticator.currentUser?.delete()?.await()
             emit(Resource.Success(true))
         } catch (e: Exception) {
-            emit(Resource.Error(e.message ?: ""))
+            emit(Resource.Error(exception = e))
         }
     }
 

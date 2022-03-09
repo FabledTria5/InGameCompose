@@ -1,4 +1,4 @@
-package com.fabledt5.remote.api.di
+package com.fabledt5.remote.di
 
 import com.fabledt5.remote.utils.ApiInterceptor
 import com.fabledt5.remote.BuildConfig

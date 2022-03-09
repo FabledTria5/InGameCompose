@@ -15,7 +15,8 @@ class RegisterUser @Inject constructor(
     operator fun invoke(email: String, password: String, nickName: String) =
         authRepository.signUpFirebase(email, password).flatMapLatest { resource ->
             when (resource) {
-                is Resource.Error -> flowOf(Resource.Error(message = "User was not created"))
+                is Resource.Error ->
+                    flowOf(Resource.Error(exception = Throwable("User was not created")))
                 Resource.Loading -> flowOf(Resource.Loading)
                 is Resource.Success -> {
                     resource.data?.let { uid ->
@@ -24,7 +25,7 @@ class RegisterUser @Inject constructor(
                             userNickname = nickName,
                             userUId = uid
                         )
-                    } ?: flowOf(Resource.Error(message = "User was not created"))
+                    } ?: flowOf(Resource.Error(exception = Throwable("User was not created")))
                 }
                 else -> flowOf(Resource.Idle)
             }

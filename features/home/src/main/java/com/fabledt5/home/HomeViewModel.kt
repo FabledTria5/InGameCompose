@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadHotGamesList() = viewModelScope.launch(Dispatchers.IO) {
         val hotGamesResult = homeCases.getHotGames()
-        _hotGamesList.value = if (hotGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+        _hotGamesList.value = if (hotGamesResult.isEmpty()) Resource.Error()
         else Resource.Success(data = hotGamesResult)
     }
 
@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
         val platformsListResult = homeCases.getPlatformsList()
         _platformsList.value =
             if (platformsListResult.isNotEmpty()) Resource.Success(data = platformsListResult)
-            else Resource.Error(message = "Empty list")
+            else Resource.Error()
     }
 
     fun changePlatform(platformId: Int) = viewModelScope.launch(Dispatchers.IO) {
@@ -81,15 +81,15 @@ class HomeViewModel @Inject constructor(
         val newGamesResult = newGames.await()
 
         _upcomingGames.value =
-            if (upcomingGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+            if (upcomingGamesResult.isEmpty()) Resource.Error()
             else Resource.Success(data = upcomingGamesResult)
 
         _bestGames.value =
-            if (bestGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+            if (bestGamesResult.isEmpty()) Resource.Error()
             else Resource.Success(data = bestGamesResult)
 
         _newGames.value =
-            if (newGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+            if (newGamesResult.isEmpty()) Resource.Error()
             else Resource.Success(data = newGamesResult)
     }
 

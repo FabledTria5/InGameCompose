@@ -10,4 +10,6 @@
     <string name="icon_star">Star Icon</string>
     <string name="snapshots">Snapshots</string>
     <string name="same_series">Same series</string>
+    <string name="unknown">Unknown</string>
+    <string name="game_snapshot">Game Snapshot</string>
 </resources>

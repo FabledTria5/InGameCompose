@@ -17,6 +17,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.gameComposable() {
@@ -27,7 +30,7 @@ fun NavGraphBuilder.gameComposable() {
     ) { navBackStackEntry ->
         val gameId = navBackStackEntry.arguments?.getInt(GameDirection.KEY_GAME_ID)
         requireNotNull(gameId)
-        GameScreen()
+        GameScreen(gameViewModel = gameViewModel(gameId = gameId))
     }
 
 }

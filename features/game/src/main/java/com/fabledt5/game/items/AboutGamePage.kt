@@ -24,7 +24,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -33,26 +32,44 @@ import com.fabledt5.common.theme.DarkLateGray
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.SandyBrown
+import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.Resource
 import com.fabledt5.game.R
 import com.google.accompanist.pager.*
 import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @Composable
-fun AboutGamePage(onShowRatingsClicked: () -> Unit) {
+fun AboutGamePage(gameData: Resource<GameItem>, onShowRatingsClicked: () -> Unit) {
     val snapshotsPagerState = rememberPagerState()
 
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(
-            text = "With the Empire attacking the Kingdoms of the North and the Wild Hunt, a cavalcade of ghastly riders, breathing down your neck, the only way to survive is to fight back. As Geralt of Rivia, a master swordsman and monster hunter, leave none of your enemies standing. Explore a gigantic open world, slay beasts and decide the fates of whole communities with your actions, all in a genuine next generation format. Also known as \"The Witcher III: Wild Hunt\"",
-            modifier = Modifier.padding(horizontal = 10.dp),
-            color = Color.White.copy(alpha = .7f),
-            fontFamily = Proxima,
-        )
+        when (gameData) {
+            is Resource.Success -> Text(
+                text = gameData.data.gameDescription,
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                color = Color.White.copy(alpha = .7f),
+                fontFamily = Proxima,
+            )
+            else -> Unit
+        }
         GameSnapshots(snapshotsPagerState = snapshotsPagerState, gameSnapshots = listOf())
-        GameRatings(gameRating = 4.9f, onShowAllClicked = onShowRatingsClicked)
+        when (gameData) {
+            is Resource.Success -> GameRatings(
+                gameRating = gameData.data.gameRating,
+                onShowAllClicked = onShowRatingsClicked
+            )
+            is Resource.Error -> GameRatings(
+                gameRating = stringResource(R.string.unknown),
+                onShowAllClicked = onShowRatingsClicked
+            )
+            else -> GameRatings(
+                gameRating = "",
+                onShowAllClicked = onShowRatingsClicked
+            )
+        }
         GameFranchise()
     }
 }
@@ -81,7 +98,7 @@ fun GameSnapshots(snapshotsPagerState: PagerState, gameSnapshots: List<String>) 
         ) { page ->
             CoilImage(
                 imagePath = gameSnapshots[page],
-                contentDescription = "Game Snapshot",
+                contentDescription = stringResource(R.string.game_snapshot),
                 modifier = Modifier
                     .fillMaxWidth(fraction = .8f)
                     .height(200.dp)
@@ -103,7 +120,7 @@ fun GameSnapshots(snapshotsPagerState: PagerState, gameSnapshots: List<String>) 
 }
 
 @Composable
-fun GameRatings(gameRating: Float, onShowAllClicked: () -> Unit) {
+fun GameRatings(gameRating: String, onShowAllClicked: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(horizontal = 10.dp)
@@ -126,7 +143,7 @@ fun GameRatings(gameRating: Float, onShowAllClicked: () -> Unit) {
                 append(" ")
                 append(
                     AnnotatedString(
-                        text = gameRating.toString(),
+                        text = gameRating,
                         spanStyle = SpanStyle(color = Color.White, fontWeight = FontWeight.Light)
                     )
                 )
@@ -154,7 +171,7 @@ fun GameRatings(gameRating: Float, onShowAllClicked: () -> Unit) {
         }
     }
     Spacer(modifier = Modifier.height(15.dp))
-    repeat(times = 2) { index ->
+    repeat(times = 2) {
         RatingItem()
         Spacer(modifier = Modifier.height(10.dp))
     }
@@ -252,14 +269,5 @@ fun GameFranchise() {
                     Spacer(modifier = Modifier.width(5.dp))
             }
         }
-    }
-}
-
-@ExperimentalPagerApi
-@Preview(showBackground = true, backgroundColor = 0xFF18181C)
-@Composable
-fun AboutGamePagePreview() {
-    AboutGamePage() {
-
     }
 }

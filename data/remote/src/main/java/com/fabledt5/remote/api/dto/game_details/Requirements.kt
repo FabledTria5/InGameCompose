@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Requirements(
     @SerializedName("minimum")
-    val minimum: String,
+    val minimum: String?,
     @SerializedName("recommended")
-    val recommended: String
+    val recommended: String?
 )
