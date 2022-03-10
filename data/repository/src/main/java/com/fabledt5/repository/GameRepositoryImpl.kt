@@ -2,7 +2,9 @@ package com.fabledt5.repository
 
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.domain.repository.GameRepository
+import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.remote.api.GamesService
@@ -10,8 +12,6 @@ import com.fabledt5.remote.parser.ReviewsParser
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.flow
-import java.math.BigDecimal
-import java.math.RoundingMode
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
@@ -37,8 +37,7 @@ class GameRepositoryImpl @Inject constructor(
                 gamePoster = gameDto.backgroundImage,
                 gameTitle = gameDto.name,
                 gamePEGIRating = gameDto.esrbRating?.slug.toPEGI(),
-                gameRating = BigDecimal(gameDto.rating).setScale(2, RoundingMode.HALF_DOWN)
-                    .toString(),
+                gameRating = gameDto.rating.setScale(n = 1).toString(),
                 gameReleaseYear = gameDto.released.take(n = 4),
                 gameGenres = gameDto.genres.take(n = 3).joinToString { it.name },
                 gameDeveloper = gameDto.developers.first().name,
@@ -66,8 +65,9 @@ class GameRepositoryImpl @Inject constructor(
         emit(Resource.Success(data = gameSnapshotsResponse.results.toDomain()))
     }
 
-    override fun getGameReviews(gameUrl: String) {
-
+    override fun getGameReviews(gameUrl: String): List<ReviewItem> {
+        val gameReviewsResponse = reviewsParser.parseGameReviews(targetUrl = gameUrl)
+        return gameReviewsResponse.toDomain()
     }
 
 }

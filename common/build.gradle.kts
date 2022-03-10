@@ -46,6 +46,7 @@ dependencies {
     // Design
     implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
     implementation(dependencyNotation = "com.google.android.material:material:1.5.0")
+    implementation(dependencyNotation = "com.google.android.exoplayer:exoplayer:2.17.1")
 
     // Compose
     val composeVersion = "1.1.1"

@@ -30,6 +30,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
     val gameDataTabs = stringArrayResource(id = R.array.game_data_tabs)
 
     val gameData by gameViewModel.gameData.collectAsState()
+    val gameSnapshots by gameViewModel.gameSnapshots.collectAsState()
 
     Column(
         modifier = Modifier
@@ -50,7 +51,11 @@ fun GameScreen(gameViewModel: GameViewModel) {
             userScrollEnabled = false
         ) { page ->
             when (page) {
-                0 -> AboutGamePage(gameData = gameData, onShowRatingsClicked = { })
+                0 -> AboutGamePage(
+                    gameData = gameData,
+                    gameSnapshots = gameSnapshots,
+                    onShowRatingsClicked = {}
+                )
             }
         }
     }

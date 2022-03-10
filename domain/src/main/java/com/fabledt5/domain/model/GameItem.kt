@@ -13,5 +13,5 @@ data class GameItem(
     val gameRequirements: GameRequirements? = null,
     val gameDirectors: String = "",
     val gameWriters: String = "",
-    val gameTrailerUrl: String? = null
+    val gameTrailerUrl: String? = null,
 )

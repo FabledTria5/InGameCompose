@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.components.CoilImage
+import com.fabledt5.common.components.VideoPlayer
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.utils.drawImageForeground
 import com.fabledt5.domain.model.GameItem
@@ -92,6 +93,18 @@ fun ShowHeaderContent(onBackClicked: () -> Unit, gameItem: GameItem) {
                 },
             scaleType = ContentScale.Crop
         )
+        gameItem.gameTrailerUrl?.let { url ->
+            VideoPlayer(
+                url = url,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
+                    .drawWithContent {
+                        drawContent()
+                        drawImageForeground()
+                    }
+            )
+        }
         IconButton(
             onClick = onBackClicked,
             modifier = Modifier
