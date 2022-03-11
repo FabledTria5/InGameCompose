@@ -10,10 +10,12 @@ import com.fabledt5.domain.use_case.game.GameCases
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class GameViewModel @AssistedInject constructor(
     @Assisted private val gameId: Int,
@@ -47,19 +49,21 @@ class GameViewModel @AssistedInject constructor(
     init {
         loadGameData()
         loadGameSnapshots()
-        loadGameReviews()
     }
 
     private fun loadGameData() = gameCases.getGameDetails(gameId = gameId).onEach { result ->
         _gameData.value = result
+        if (result is Resource.Success) loadGameReviews(result.data.gameReviewsUrl)
     }.launchIn(viewModelScope)
 
     private fun loadGameSnapshots() = gameCases.getGameSnapshots(gameId = gameId).onEach { result ->
         _gameSnapshots.value = result
     }.launchIn(viewModelScope)
 
-    private fun loadGameReviews() {
-
+    private fun loadGameReviews(gameReviewsUrl: String?) = viewModelScope.launch(Dispatchers.IO) {
+        gameReviewsUrl?.let {
+            _gameReviews.value = gameCases.getGameReviews(it)
+        }
     }
 
 }

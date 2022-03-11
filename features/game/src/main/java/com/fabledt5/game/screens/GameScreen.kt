@@ -31,6 +31,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
 
     val gameData by gameViewModel.gameData.collectAsState()
     val gameSnapshots by gameViewModel.gameSnapshots.collectAsState()
+    val gameReviews by gameViewModel.gameReviews.collectAsState()
 
     Column(
         modifier = Modifier
@@ -54,8 +55,8 @@ fun GameScreen(gameViewModel: GameViewModel) {
                 0 -> AboutGamePage(
                     gameData = gameData,
                     gameSnapshots = gameSnapshots,
-                    onShowRatingsClicked = {}
-                )
+                    gameReviews = gameReviews
+                ) {}
             }
         }
     }

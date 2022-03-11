@@ -16,9 +16,3 @@ fun String?.toPEGI() = when (this) {
 
 fun Double.setScale(n: Int): BigDecimal = BigDecimal(this).setScale(n, RoundingMode.HALF_DOWN)
 
-fun String.toDate(): String {
-    val datePattern = "MMM d, yyyy"
-    val simpleDateFormat = SimpleDateFormat(datePattern, Locale.ENGLISH)
-    return simpleDateFormat.format(this)
-}
-

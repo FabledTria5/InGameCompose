@@ -3,7 +3,6 @@ package com.fabledt5.mapper
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.GameRequirements
 import com.fabledt5.domain.model.ReviewItem
-import com.fabledt5.domain.utlis.toDate
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
 import com.fabledt5.remote.api.dto.game_screenshots.Result
@@ -39,14 +38,16 @@ fun List<Result>.toDomain() = map { result ->
 }
 
 @JvmName("toDomainGameReviewDto")
-fun List<GameReviewDto>.toDomain(): List<ReviewItem> = map { dto ->
-    ReviewItem(
-        reviewerName = dto.criticName,
-        reviewText = dto.reviewText,
-        reviewerRating = if (dto.criticScore.toInt() > 90) 5 else dto.criticScore.toInt() / 20,
-        reviewDate = dto.reviewDate.toDate()
-    )
-}
+fun List<GameReviewDto>.toDomain(): List<ReviewItem> = filter { it.criticScore.isNotEmpty() }
+    .shuffled()
+    .map { dto ->
+        ReviewItem(
+            reviewerName = dto.criticName,
+            reviewText = dto.reviewText,
+            reviewerRating = if (dto.criticScore.toInt() > 90) 5 else dto.criticScore.toInt() / 20,
+            reviewDate = dto.reviewDate
+        )
+    }
 
 fun GameTrailersResponse.toDomain(): List<String> = results
     .take(n = 2)

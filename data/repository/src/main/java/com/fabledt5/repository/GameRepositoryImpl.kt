@@ -51,7 +51,8 @@ class GameRepositoryImpl @Inject constructor(
                 gameWriters = gameDevelopersTeamDto.results
                     .filter { it.id == 1 }
                     .take(n = 3)
-                    .joinToString { it.name }
+                    .joinToString { it.name },
+                gameReviewsUrl = gameDto.metacriticUrl
             )
         }
 

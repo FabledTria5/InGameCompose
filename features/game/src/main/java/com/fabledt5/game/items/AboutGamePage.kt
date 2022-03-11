@@ -10,7 +10,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,6 +36,7 @@ import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.SandyBrown
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.R
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
@@ -47,6 +47,7 @@ import kotlin.math.absoluteValue
 fun AboutGamePage(
     gameData: Resource<GameItem>,
     gameSnapshots: Resource<List<String>>,
+    gameReviews: List<ReviewItem>,
     onShowRatingsClicked: () -> Unit
 ) {
     val snapshotsPagerState = rememberPagerState()
@@ -75,14 +76,17 @@ fun AboutGamePage(
         when (gameData) {
             is Resource.Success -> GameRatings(
                 gameRating = gameData.data.gameRating,
+                gameReviews = gameReviews,
                 onShowAllClicked = onShowRatingsClicked
             )
             is Resource.Error -> GameRatings(
                 gameRating = stringResource(R.string.unknown),
+                gameReviews = emptyList(),
                 onShowAllClicked = onShowRatingsClicked
             )
             else -> GameRatings(
                 gameRating = "",
+                gameReviews = emptyList(),
                 onShowAllClicked = onShowRatingsClicked
             )
         }
@@ -148,7 +152,7 @@ fun GameSnapshots(gameSnapshots: List<String>, snapshotsPagerState: PagerState) 
 }
 
 @Composable
-fun GameRatings(gameRating: String, onShowAllClicked: () -> Unit) {
+fun GameRatings(gameRating: String, gameReviews: List<ReviewItem>, onShowAllClicked: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(horizontal = 10.dp)
@@ -198,19 +202,19 @@ fun GameRatings(gameRating: String, onShowAllClicked: () -> Unit) {
             )
         }
     }
-    Spacer(modifier = Modifier.height(15.dp))
-    repeat(times = 2) {
-        RatingItem()
-        Spacer(modifier = Modifier.height(10.dp))
-    }
+    if (gameReviews.isNotEmpty())
+        gameReviews.subList(0, 2).forEach { reviewItem ->
+            RatingItem(reviewItem = reviewItem)
+        }
 }
 
 @Composable
-fun RatingItem() {
+fun RatingItem(reviewItem: ReviewItem) {
     Card(
         modifier = Modifier
-            .padding(horizontal = 10.dp)
-            .fillMaxWidth(), backgroundColor = DarkLateGray
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+            .fillMaxWidth(),
+        backgroundColor = DarkLateGray
     ) {
         Column(
             modifier = Modifier
@@ -224,7 +228,7 @@ fun RatingItem() {
             ) {
                 Column {
                     Text(
-                        text = "Nick Mollow",
+                        text = reviewItem.reviewerName,
                         color = Color.White,
                         fontFamily = Mark,
                         fontWeight = FontWeight.Bold,
@@ -232,16 +236,26 @@ fun RatingItem() {
                     )
                     Spacer(modifier = Modifier.height(3.dp))
                     Text(
-                        text = "14 days ago",
+                        text = reviewItem.reviewDate,
                         color = Color.Gray,
                         fontFamily = Proxima,
                         fontSize = 10.sp
                     )
                 }
                 Row {
-                    repeat(times = 5) {
+                    repeat(times = 5 - reviewItem.reviewerRating) {
                         Icon(
-                            imageVector = Icons.Filled.Star,
+                            painter = painterResource(id = R.drawable.ic_star_outlined),
+                            contentDescription = stringResource(R.string.icon_star),
+                            modifier = Modifier
+                                .padding(top = 5.dp)
+                                .size(10.dp),
+                            tint = SandyBrown
+                        )
+                    }
+                    repeat(times = reviewItem.reviewerRating) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_star_filled),
                             contentDescription = stringResource(R.string.icon_star),
                             modifier = Modifier
                                 .padding(top = 5.dp)
@@ -253,7 +267,7 @@ fun RatingItem() {
             }
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "It’s a story worthy of a place in the more accepted subculture of dark fantasy ruled across media by Game of Thrones. First-timers will easily love this facet but may also be surprised to learn that this series, and the books it’s based upon, have been the at the fore of adult and mature storytelling for a long time. Wild Hunt is both at times brutal and sexy, with a juxtaposition of hard-edged steel (or silver), blood and death being met with soft, naked skin; passion, lust and even love.",
+                text = reviewItem.reviewText,
                 color = Color.White.copy(alpha = .7f),
                 fontFamily = Proxima,
                 fontSize = 12.sp

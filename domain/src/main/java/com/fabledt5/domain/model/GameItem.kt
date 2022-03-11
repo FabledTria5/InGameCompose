@@ -14,4 +14,5 @@ data class GameItem(
     val gameDirectors: String = "",
     val gameWriters: String = "",
     val gameTrailersUrls: List<String> = emptyList(),
+    val gameReviewsUrl: String? = null
 )

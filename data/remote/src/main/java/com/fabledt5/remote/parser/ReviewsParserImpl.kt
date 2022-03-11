@@ -8,7 +8,7 @@ import javax.inject.Inject
 class ReviewsParserImpl @Inject constructor() : ReviewsParser {
 
     companion object {
-        private const val SORTING_PARAMETER = "critic-reviews?sort-by=publication"
+        private const val SORTING_PARAMETER = "/critic-reviews?sort-by=publication"
     }
 
     override fun parseGameReviews(targetUrl: String): List<GameReviewDto> {
