@@ -26,7 +26,12 @@ import com.fabledt5.common.utils.drawImageForeground
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 
+@ExperimentalPagerApi
 @Composable
 fun GameHeader(onBackClicked: () -> Unit, gameData: Resource<GameItem>) {
     when (gameData) {
@@ -76,6 +81,7 @@ fun ShowEmptyHeader() {
     }
 }
 
+@ExperimentalPagerApi
 @Composable
 fun ShowHeaderContent(onBackClicked: () -> Unit, gameItem: GameItem) {
     val configuration = LocalConfiguration.current
@@ -93,18 +99,18 @@ fun ShowHeaderContent(onBackClicked: () -> Unit, gameItem: GameItem) {
                 },
             scaleType = ContentScale.Crop
         )
-        gameItem.gameTrailerUrl?.let { url ->
-            VideoPlayer(
-                url = url,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
-                    .drawWithContent {
-                        drawContent()
-                        drawImageForeground()
-                    }
-            )
-        }
+        if (gameItem.gameTrailersUrls.isEmpty()) CoilImage(
+            imagePath = gameItem.gamePoster,
+            contentDescription = "${gameItem.gameTitle} game poster",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
+                .drawWithContent {
+                    drawContent()
+                    drawImageForeground()
+                },
+            scaleType = ContentScale.Crop
+        ) else ShowHeaderPager(gameItem = gameItem)
         IconButton(
             onClick = onBackClicked,
             modifier = Modifier
@@ -172,4 +178,51 @@ fun ShowHeaderContent(onBackClicked: () -> Unit, gameItem: GameItem) {
             }
         }
     }
+}
+
+@ExperimentalPagerApi
+@Composable
+fun BoxScope.ShowHeaderPager(gameItem: GameItem) {
+    val pagerState = rememberPagerState()
+    val configuration = LocalConfiguration.current
+
+    HorizontalPager(
+        count = gameItem.gameTrailersUrls.size + 1,
+        state = pagerState,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
+            .drawWithContent {
+                drawContent()
+                drawImageForeground()
+            }
+    ) { page ->
+        if (page == 0)
+            CoilImage(
+                imagePath = gameItem.gamePoster,
+                contentDescription = "${gameItem.gameTitle} game poster",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp),
+                scaleType = ContentScale.Crop
+            )
+        else {
+            VideoPlayer(
+                url = gameItem.gameTrailersUrls[page - 1], modifier = Modifier
+                    .fillMaxWidth()
+                    .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
+            )
+        }
+    }
+
+    HorizontalPagerIndicator(
+        pagerState = pagerState,
+        modifier = Modifier
+            .align(Alignment.TopCenter)
+            .statusBarsPadding(),
+        activeColor = Color.White,
+        inactiveColor = Color.White.copy(alpha = .5f),
+        indicatorWidth = 8.dp,
+        indicatorHeight = 8.dp
+    )
 }

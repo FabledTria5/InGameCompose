@@ -30,8 +30,8 @@ fun VideoPlayer(url: String, modifier: Modifier = Modifier) {
     AndroidView(
         factory = {
             StyledPlayerView(context).apply {
-                this.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
                 player = exoPlayer
+                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
             }
         },
         modifier = modifier

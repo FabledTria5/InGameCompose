@@ -6,7 +6,6 @@ import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.domain.utlis.toDate
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
-import com.fabledt5.remote.api.dto.game_details.Requirements
 import com.fabledt5.remote.api.dto.game_screenshots.Result
 import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
@@ -49,4 +48,6 @@ fun List<GameReviewDto>.toDomain(): List<ReviewItem> = map { dto ->
     )
 }
 
-fun GameTrailersResponse.toDomain(): String? = results.firstOrNull()?.data?.max
+fun GameTrailersResponse.toDomain(): List<String> = results
+    .take(n = 2)
+    .map { it.data.x480 }

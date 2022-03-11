@@ -42,7 +42,7 @@ class GameRepositoryImpl @Inject constructor(
                 gameGenres = gameDto.genres.take(n = 3).joinToString { it.name },
                 gameDeveloper = gameDto.developers.first().name,
                 gameDescription = gameDto.description,
-                gameTrailerUrl = gameTrailerDto.toDomain(),
+                gameTrailersUrls = gameTrailerDto.toDomain(),
                 gameRequirements = gameDto.platforms.toDomain(),
                 gameDirectors = gameDevelopersTeamDto.results
                     .filter { it.id == 2 }
