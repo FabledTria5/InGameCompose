@@ -7,6 +7,8 @@ import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.domain.use_case.game.GameCases
+import com.fabledt5.navigation.NavigationCommand
+import com.fabledt5.navigation.NavigationManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -19,6 +21,7 @@ import kotlinx.coroutines.launch
 
 class GameViewModel @AssistedInject constructor(
     @Assisted private val gameId: Int,
+    private val navigationManager: NavigationManager,
     private val gameCases: GameCases
 ) : ViewModel() {
 
@@ -49,6 +52,10 @@ class GameViewModel @AssistedInject constructor(
     init {
         loadGameData()
         loadGameSnapshots()
+    }
+
+    fun openReviewsScreen() {
+
     }
 
     private fun loadGameData() = gameCases.getGameDetails(gameId = gameId).onEach { result ->

@@ -12,4 +12,6 @@
     <string name="same_series">Same series</string>
     <string name="unknown">Unknown</string>
     <string name="game_snapshot">Game Snapshot</string>
+    <string name="reviews">Reviews</string>
+    <string name="estimate">Estimate</string>
 </resources>
