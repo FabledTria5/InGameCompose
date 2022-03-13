@@ -7,6 +7,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -23,12 +25,18 @@ import com.fabledt5.common.theme.Background
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Proxima
+import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
+import com.fabledt5.game.items.RatingCounter
+import com.fabledt5.game.utils.toRatingsCounter
 import com.google.accompanist.insets.systemBarsPadding
 
 @Composable
-fun ReviewsScreen() {
+fun ReviewsScreen(gameViewModel: GameViewModel) {
     val scrollState = rememberScrollState()
+
+    val gameItem by gameViewModel.gameData.collectAsState()
+    val gameReviews by gameViewModel.gameReviews.collectAsState()
 
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
@@ -69,35 +77,40 @@ fun ReviewsScreen() {
                 fontSize = 13.sp
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = buildAnnotatedString {
-                append(
-                    AnnotatedString(
-                        text = stringResource(R.string.estimate),
-                        spanStyle = SpanStyle(
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            fontFamily = Proxima
+            Text(
+                text = buildAnnotatedString {
+                    append(
+                        AnnotatedString(
+                            text = stringResource(R.string.estimate),
+                            spanStyle = SpanStyle(
+                                color = Color.White,
+                                fontSize = 13.sp,
+                                fontFamily = Proxima
+                            )
                         )
                     )
-                )
-                append(
-                    AnnotatedString(
-                        text = " 4.9",
-                        spanStyle = SpanStyle(
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            fontFamily = Mark,
-                            fontWeight = FontWeight.Bold
+                    append(
+                        AnnotatedString(
+                            text = " 4.9",
+                            spanStyle = SpanStyle(
+                                color = Color.White,
+                                fontSize = 13.sp,
+                                fontFamily = Mark,
+                                fontWeight = FontWeight.Bold
+                            )
                         )
                     )
-                )
-            })
+                },
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
+            GameRatingsCounters(gameRatings = gameReviews.toRatingsCounter())
         }
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF121214)
 @Composable
-fun ReviewsScreenPreview() {
-    ReviewsScreen()
+fun GameRatingsCounters(gameRatings: Map<Int, Int>) {
+    gameRatings.keys.forEach { key ->
+        RatingCounter(rating = key, ratingsCount = gameRatings[key])
+    }
 }

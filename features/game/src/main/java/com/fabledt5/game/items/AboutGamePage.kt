@@ -74,17 +74,17 @@ fun AboutGamePage(
             )
         }
         when (gameData) {
-            is Resource.Success -> GameRatings(
+            is Resource.Success -> GameReviews(
                 gameRating = gameData.data.gameRating,
                 gameReviews = gameReviews,
                 onShowAllClicked = onShowRatingsClicked
             )
-            is Resource.Error -> GameRatings(
+            is Resource.Error -> GameReviews(
                 gameRating = stringResource(R.string.unknown),
                 gameReviews = emptyList(),
                 onShowAllClicked = onShowRatingsClicked
             )
-            else -> GameRatings(
+            else -> GameReviews(
                 gameRating = "",
                 gameReviews = emptyList(),
                 onShowAllClicked = onShowRatingsClicked
@@ -152,7 +152,7 @@ fun GameSnapshots(gameSnapshots: List<String>, snapshotsPagerState: PagerState) 
 }
 
 @Composable
-fun GameRatings(gameRating: String, gameReviews: List<ReviewItem>, onShowAllClicked: () -> Unit) {
+fun GameReviews(gameRating: String, gameReviews: List<ReviewItem>, onShowAllClicked: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(horizontal = 10.dp)
