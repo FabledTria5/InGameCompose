@@ -109,7 +109,7 @@ fun RowScope.AddNavigationItem(
     BottomNavigationItem(
         selected = currentDestination == screen.destination,
         onClick = { navHostController.navigate(screen.destination.route) },
-        label = { Text(text = screen.title, fontFamily = Mark, color = DimGray) },
+        label = { Text(text = screen.title, fontFamily = Mark) },
         icon = {
             Icon(
                 painter = painterResource(id = screen.icon),
@@ -117,6 +117,6 @@ fun RowScope.AddNavigationItem(
             )
         },
         selectedContentColor = Turquoise,
-        unselectedContentColor = Color.Unspecified
+        unselectedContentColor = DimGray,
     )
 }
