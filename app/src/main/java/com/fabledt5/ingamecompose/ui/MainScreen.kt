@@ -15,7 +15,7 @@ import com.fabledt5.common.theme.DimGray
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.ingamecompose.navigation.authenticationGraph
-import com.fabledt5.ingamecompose.navigation.gameComposable
+import com.fabledt5.ingamecompose.navigation.gameGraph
 import com.fabledt5.ingamecompose.navigation.primaryGraph
 import com.fabledt5.navigation.BottomBarItem
 import com.fabledt5.navigation.NavigationCommand
@@ -75,7 +75,7 @@ fun MainScreen(navigationManager: NavigationManager) {
             }
             authenticationGraph()
             primaryGraph()
-            gameComposable()
+            gameGraph()
         }
     }
 }

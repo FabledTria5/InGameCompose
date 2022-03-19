@@ -18,13 +18,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.theme.Background
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Proxima
+import com.fabledt5.domain.model.Resource
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.items.RatingCounter
@@ -67,7 +67,7 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
                 .verticalScroll(scrollState)
         ) {
             Text(
-                text = "The Witcher 3: Wild Hunt",
+                text = (gameItem as Resource.Success).data.gameTitle,
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(top = 5.dp),
@@ -91,7 +91,7 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
                     )
                     append(
                         AnnotatedString(
-                            text = " 4.9",
+                            text = " ${(gameItem as Resource.Success).data.gameRating}",
                             spanStyle = SpanStyle(
                                 color = Color.White,
                                 fontSize = 13.sp,

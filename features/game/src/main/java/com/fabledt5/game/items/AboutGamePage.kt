@@ -48,7 +48,7 @@ fun AboutGamePage(
     gameData: Resource<GameItem>,
     gameSnapshots: Resource<List<String>>,
     gameReviews: List<ReviewItem>,
-    onShowRatingsClicked: () -> Unit
+    onShowReviewsClicked: () -> Unit
 ) {
     val snapshotsPagerState = rememberPagerState()
 
@@ -77,17 +77,17 @@ fun AboutGamePage(
             is Resource.Success -> GameReviews(
                 gameRating = gameData.data.gameRating,
                 gameReviews = gameReviews,
-                onShowAllClicked = onShowRatingsClicked
+                onShowAllClicked = onShowReviewsClicked
             )
             is Resource.Error -> GameReviews(
                 gameRating = stringResource(R.string.unknown),
                 gameReviews = emptyList(),
-                onShowAllClicked = onShowRatingsClicked
+                onShowAllClicked = onShowReviewsClicked
             )
             else -> GameReviews(
                 gameRating = "",
                 gameReviews = emptyList(),
-                onShowAllClicked = onShowRatingsClicked
+                onShowAllClicked = onShowReviewsClicked
             )
         }
         GameFranchise()

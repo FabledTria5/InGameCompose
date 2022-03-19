@@ -7,8 +7,8 @@ import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.domain.use_case.game.GameCases
-import com.fabledt5.navigation.NavigationCommand
 import com.fabledt5.navigation.NavigationManager
+import com.fabledt5.navigation.directions.GameDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -54,9 +54,7 @@ class GameViewModel @AssistedInject constructor(
         loadGameSnapshots()
     }
 
-    fun openReviewsScreen() {
-
-    }
+    fun openReviewsScreen() = navigationManager.navigate(GameDirections.reviews(gameId = gameId))
 
     private fun loadGameData() = gameCases.getGameDetails(gameId = gameId).onEach { result ->
         _gameData.value = result

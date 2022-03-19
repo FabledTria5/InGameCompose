@@ -7,7 +7,7 @@ import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.use_case.home.HomeCases
 import com.fabledt5.navigation.NavigationManager
-import com.fabledt5.navigation.directions.GameDirection
+import com.fabledt5.navigation.directions.GameDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -94,6 +94,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun openGameScreen(gameId: Int) =
-        navigationManager.navigate(GameDirection.game(gameId = gameId))
+        navigationManager.navigate(GameDirections.game(gameId = gameId))
 
 }

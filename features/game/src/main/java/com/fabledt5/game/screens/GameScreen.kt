@@ -55,8 +55,9 @@ fun GameScreen(gameViewModel: GameViewModel) {
                 0 -> AboutGamePage(
                     gameData = gameData,
                     gameSnapshots = gameSnapshots,
-                    gameReviews = gameReviews
-                ) {}
+                    gameReviews = gameReviews,
+                    onShowReviewsClicked = { gameViewModel.openReviewsScreen() }
+                )
             }
         }
     }
