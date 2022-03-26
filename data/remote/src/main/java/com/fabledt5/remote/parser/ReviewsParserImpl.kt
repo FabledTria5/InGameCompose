@@ -19,7 +19,7 @@ class ReviewsParserImpl @Inject constructor() : ReviewsParser {
 
         val result = try {
             Jsoup.connect(gameReviewsUrl).get()
-        } catch (e: MalformedURLException) {
+        } catch (e: IllegalArgumentException) {
             Log.e(TAG, "parseGameReviews: connection to page failed", e)
             return emptyList()
         }

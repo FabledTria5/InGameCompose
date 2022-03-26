@@ -16,6 +16,7 @@ import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.items.AboutGamePage
 import com.fabledt5.game.items.GameHeader
+import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -36,6 +37,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .verticalScroll(screenScrollState)
     ) {
         GameHeader(gameData = gameData, onBackClicked = { })

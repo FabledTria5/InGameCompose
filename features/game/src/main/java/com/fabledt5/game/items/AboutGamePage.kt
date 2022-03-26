@@ -204,16 +204,17 @@ fun GameReviews(gameRating: String, gameReviews: List<ReviewItem>, onShowAllClic
     }
     if (gameReviews.isNotEmpty())
         gameReviews.subList(0, 2).forEach { reviewItem ->
-            RatingItem(reviewItem = reviewItem)
+            GameReviewItem(
+                reviewItem = reviewItem,
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
+            )
         }
 }
 
 @Composable
-fun RatingItem(reviewItem: ReviewItem) {
+fun GameReviewItem(reviewItem: ReviewItem, modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier
-            .padding(horizontal = 10.dp, vertical = 5.dp)
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         backgroundColor = DarkLateGray
     ) {
         Column(

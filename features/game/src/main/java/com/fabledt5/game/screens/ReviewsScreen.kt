@@ -2,8 +2,8 @@ package com.fabledt5.game.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,21 +20,19 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.theme.Background
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
+import com.fabledt5.game.items.GameReviewItem
 import com.fabledt5.game.items.RatingCounter
 import com.fabledt5.game.utils.toRatingsCounter
 import com.google.accompanist.insets.systemBarsPadding
 
 @Composable
 fun ReviewsScreen(gameViewModel: GameViewModel) {
-    val scrollState = rememberScrollState()
-
     val gameItem by gameViewModel.gameData.collectAsState()
     val gameReviews by gameViewModel.gameReviews.collectAsState()
 
@@ -50,7 +48,7 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
             ) {
                 Text(
                     text = stringResource(R.string.reviews).uppercase(),
-                    modifier = Modifier.padding(vertical = 10.dp),
+                    modifier = Modifier.padding(vertical = 15.dp),
                     color = Color.White,
                     fontFamily = Mark,
                     fontWeight = FontWeight.Bold,
@@ -59,54 +57,65 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
             }
         }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Background)
-                .padding(horizontal = 10.dp)
-                .verticalScroll(scrollState)
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 10.dp),
         ) {
-            Text(
-                text = (gameItem as Resource.Success).data.gameTitle,
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .padding(top = 5.dp),
-                color = Color.White,
-                fontFamily = Mark,
-                fontWeight = FontWeight.Bold,
-                fontSize = 13.sp
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = buildAnnotatedString {
-                    append(
-                        AnnotatedString(
-                            text = stringResource(R.string.estimate),
-                            spanStyle = SpanStyle(
-                                color = Color.White,
-                                fontSize = 13.sp,
-                                fontFamily = Proxima
-                            )
-                        )
+            item {
+                Column(
+                    modifier = Modifier
+                        .padding(bottom = 15.dp)
+                        .fillMaxSize()
+                ) {
+                    Text(
+                        text = (gameItem as Resource.Success).data.gameTitle,
+                        modifier = Modifier
+                            .align(CenterHorizontally)
+                            .padding(top = 5.dp),
+                        color = Color.White,
+                        fontFamily = Mark,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp
                     )
-                    append(
-                        AnnotatedString(
-                            text = " ${(gameItem as Resource.Success).data.gameRating}",
-                            spanStyle = SpanStyle(
-                                color = Color.White,
-                                fontSize = 13.sp,
-                                fontFamily = Mark,
-                                fontWeight = FontWeight.Bold
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = buildAnnotatedString {
+                            append(
+                                AnnotatedString(
+                                    text = stringResource(R.string.estimate),
+                                    spanStyle = SpanStyle(
+                                        color = Color.White,
+                                        fontSize = 13.sp,
+                                        fontFamily = Proxima
+                                    )
+                                )
                             )
-                        )
+                            append(
+                                AnnotatedString(
+                                    text = " ${(gameItem as Resource.Success).data.gameRating}",
+                                    spanStyle = SpanStyle(
+                                        color = Color.White,
+                                        fontSize = 13.sp,
+                                        fontFamily = Mark,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                            )
+                        },
+                        modifier = Modifier.padding(bottom = 10.dp)
                     )
-                },
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
-            GameRatingsCounters(
-                gameRatings = gameReviews.toRatingsCounter(),
-                totalReviews = gameReviews.size
-            )
+                    GameRatingsCounters(
+                        gameRatings = gameReviews.toRatingsCounter(),
+                        totalReviews = gameReviews.size
+                    )
+                }
+            }
+            items(gameReviews, key = { it.reviewerName }) {
+                GameReviewItem(
+                    reviewItem = it,
+                    modifier = Modifier.padding(vertical = 5.dp)
+                )
+            }
         }
     }
 }
@@ -114,10 +123,11 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
 @Composable
 fun GameRatingsCounters(gameRatings: Map<Int, Int>, totalReviews: Int) {
     gameRatings.keys.forEach { key ->
+        val percent = gameRatings[key]?.toFloat()?.div(totalReviews)?.times(100)?.toInt() ?: 0
         RatingCounter(
             rating = key,
             ratingsCount = gameRatings[key],
-            ratingsPercent = (totalReviews / 100) * (gameRatings[key] ?: 0)
+            ratingsPercent = percent
         )
     }
 }
