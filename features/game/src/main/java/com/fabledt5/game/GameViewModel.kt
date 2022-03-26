@@ -1,8 +1,6 @@
 package com.fabledt5.game
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
@@ -18,6 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Singleton
 
 class GameViewModel @AssistedInject constructor(
     @Assisted private val gameId: Int,
