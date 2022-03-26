@@ -24,7 +24,7 @@ import com.fabledt5.common.theme.*
 import com.fabledt5.game.R
 
 @Composable
-fun RatingCounter(rating: Int, ratingsCount: Int?) {
+fun RatingCounter(rating: Int, ratingsCount: Int?, ratingsPercent: Int) {
     var activeBoxWidth by remember { mutableStateOf(IntSize.Zero) }
 
     Row(
@@ -70,7 +70,9 @@ fun RatingCounter(rating: Int, ratingsCount: Int?) {
             )
             Box(
                 modifier = Modifier
-                    .width(with(LocalDensity.current) { activeBoxWidth.width.toDp() / 2 })
+                    .width(with(LocalDensity.current) {
+                        activeBoxWidth.width.toDp() / 100 * ratingsPercent
+                    })
                     .height(5.dp)
                     .clip(RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
                     .clip(CutCornerShape(bottomEnd = 20.dp))
@@ -90,5 +92,5 @@ fun RatingCounter(rating: Int, ratingsCount: Int?) {
 @Preview(showBackground = true, backgroundColor = 0x000000)
 @Composable
 fun RatingCounterPreview() {
-    RatingCounter(ratingsCount = 28, rating = 4)
+    RatingCounter(ratingsCount = 28, rating = 4, ratingsPercent = 42)
 }

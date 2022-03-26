@@ -103,14 +103,21 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
                 },
                 modifier = Modifier.padding(bottom = 10.dp)
             )
-            GameRatingsCounters(gameRatings = gameReviews.toRatingsCounter())
+            GameRatingsCounters(
+                gameRatings = gameReviews.toRatingsCounter(),
+                totalReviews = gameReviews.size
+            )
         }
     }
 }
 
 @Composable
-fun GameRatingsCounters(gameRatings: Map<Int, Int>) {
+fun GameRatingsCounters(gameRatings: Map<Int, Int>, totalReviews: Int) {
     gameRatings.keys.forEach { key ->
-        RatingCounter(rating = key, ratingsCount = gameRatings[key])
+        RatingCounter(
+            rating = key,
+            ratingsCount = gameRatings[key],
+            ratingsPercent = (totalReviews / 100) * (gameRatings[key] ?: 0)
+        )
     }
 }

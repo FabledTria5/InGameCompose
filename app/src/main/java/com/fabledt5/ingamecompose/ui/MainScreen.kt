@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
 import com.fabledt5.common.theme.DimGray
 import com.fabledt5.common.theme.Mark
@@ -39,6 +40,9 @@ import kotlinx.coroutines.flow.collectLatest
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen(navigationManager: NavigationManager) {
+    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    }
     val navHostController = rememberAnimatedNavController()
     var currentDestination by remember { mutableStateOf(SplashDirections.splash) }
 
@@ -75,7 +79,7 @@ fun MainScreen(navigationManager: NavigationManager) {
             }
             authenticationGraph()
             primaryGraph()
-            gameGraph()
+            gameGraph(viewModelStoreOwner)
         }
     }
 }

@@ -4,10 +4,11 @@ import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.screens.GameScreen
@@ -24,7 +25,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
-fun NavGraphBuilder.gameGraph() {
+fun NavGraphBuilder.gameGraph(viewModelStoreOwner: ViewModelStoreOwner) {
 
     composable(
         route = GameDirections.gameScreenRoute,
@@ -32,7 +33,22 @@ fun NavGraphBuilder.gameGraph() {
     ) { navBackStackEntry ->
         val gameId = navBackStackEntry.arguments?.getInt(GameDirections.KEY_GAME_ID)
         requireNotNull(gameId)
-        GameScreen(gameViewModel = gameViewModel(gameId = gameId))
+
+        val gameViewModelFactory = EntryPointAccessors.fromActivity(
+            LocalContext.current as Activity,
+            MainActivity.ViewModelFactoryProvider::class.java
+        ).gameViewModelFactory()
+
+        val model = viewModel<GameViewModel>(
+            viewModelStoreOwner = viewModelStoreOwner,
+            factory = GameViewModel.provideFactory(
+                assistedFactory = gameViewModelFactory,
+                gameId = gameId
+            ),
+            key = gameId.toString()
+        )
+
+        GameScreen(gameViewModel = model)
     }
 
     composable(
@@ -41,22 +57,11 @@ fun NavGraphBuilder.gameGraph() {
     ) { navBackStackEntry ->
         val gameId = navBackStackEntry.arguments?.getInt(GameDirections.KEY_GAME_ID)
         requireNotNull(gameId)
-        ReviewsScreen(gameViewModel = gameViewModel(gameId = gameId))
+
+        CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+            val model = viewModel<GameViewModel>(key = gameId.toString())
+            ReviewsScreen(gameViewModel = model)
+        }
     }
 
-}
-
-@ExperimentalCoroutinesApi
-@ExperimentalAnimationApi
-@ExperimentalPagerApi
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@Composable
-fun gameViewModel(gameId: Int): GameViewModel {
-    val factory = EntryPointAccessors.fromActivity(
-        LocalContext.current as Activity,
-        MainActivity.ViewModelFactoryProvider::class.java
-    ).gameViewModelFactory()
-
-    return viewModel(factory = GameViewModel.provideFactory(factory, gameId = gameId))
 }
