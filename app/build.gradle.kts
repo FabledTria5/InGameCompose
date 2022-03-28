@@ -65,7 +65,7 @@ dependencies {
     // Kotlin
     implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
     implementation(dependencyNotation = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation(dependencyNotation = "com.google.firebase:firebase-auth-ktx:21.0.1")
+    implementation(dependencyNotation = "com.google.firebase:firebase-auth-ktx:21.0.3")
 
     // Design
     implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
@@ -97,7 +97,4 @@ dependencies {
     testImplementation(dependencyNotation = "junit:junit:4.13.2")
     androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
     androidTestImplementation(dependencyNotation = "androidx.test.espresso:espresso-core:3.4.0")
-
-    // Timber
-    api(dependencyNotation = "com.jakewharton.timber:timber:5.0.1")
 }

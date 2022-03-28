@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -30,14 +29,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.core.text.HtmlCompat
 import com.fabledt5.common.components.CoilImage
-import com.fabledt5.common.theme.DarkLateGray
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
-import com.fabledt5.common.theme.SandyBrown
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.R
+import com.fabledt5.game.composables.GameReviewItem
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -47,7 +45,7 @@ import kotlin.math.absoluteValue
 fun AboutGamePage(
     gameData: Resource<GameItem>,
     gameSnapshots: Resource<List<String>>,
-    gameReviews: List<ReviewItem>,
+    gameReviews: Resource<List<ReviewItem>>,
     onShowReviewsClicked: () -> Unit
 ) {
     val snapshotsPagerState = rememberPagerState()
@@ -209,72 +207,6 @@ fun GameReviews(gameRating: String, gameReviews: List<ReviewItem>, onShowAllClic
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
             )
         }
-}
-
-@Composable
-fun GameReviewItem(reviewItem: ReviewItem, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        backgroundColor = DarkLateGray
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(all = 10.dp)
-                .fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.Top,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text(
-                        text = reviewItem.reviewerName,
-                        color = Color.White,
-                        fontFamily = Mark,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp
-                    )
-                    Spacer(modifier = Modifier.height(3.dp))
-                    Text(
-                        text = reviewItem.reviewDate,
-                        color = Color.Gray,
-                        fontFamily = Proxima,
-                        fontSize = 10.sp
-                    )
-                }
-                Row {
-                    repeat(times = 5 - reviewItem.reviewerRating) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_star_outlined),
-                            contentDescription = stringResource(R.string.icon_star),
-                            modifier = Modifier
-                                .padding(top = 5.dp)
-                                .size(10.dp),
-                            tint = SandyBrown
-                        )
-                    }
-                    repeat(times = reviewItem.reviewerRating) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_star_filled),
-                            contentDescription = stringResource(R.string.icon_star),
-                            modifier = Modifier
-                                .padding(top = 5.dp)
-                                .size(10.dp),
-                            tint = SandyBrown
-                        )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = reviewItem.reviewText,
-                color = Color.White.copy(alpha = .7f),
-                fontFamily = Proxima,
-                fontSize = 12.sp
-            )
-        }
-    }
 }
 
 @Composable

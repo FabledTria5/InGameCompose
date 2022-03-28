@@ -26,7 +26,7 @@ import com.fabledt5.common.theme.Proxima
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
-import com.fabledt5.game.items.GameReviewItem
+import com.fabledt5.game.composables.GameReviewItem
 import com.fabledt5.game.items.RatingCounter
 import com.fabledt5.game.utils.toRatingsCounter
 import com.google.accompanist.insets.systemBarsPadding

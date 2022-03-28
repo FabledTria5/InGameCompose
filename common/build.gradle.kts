@@ -56,8 +56,7 @@ dependencies {
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling:$composeVersion")
 
     // Accompanist
-    val accompanistVersion = "0.24.1-alpha"
-    api(dependencyNotation = "com.google.accompanist:accompanist-insets:$accompanistVersion")
+    val accompanistVersion = "0.24.5-alpha"
     api(dependencyNotation = "com.google.accompanist:accompanist-pager:$accompanistVersion")
     api(dependencyNotation = "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion")
     api(dependencyNotation = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion")
@@ -69,4 +68,7 @@ dependencies {
 
     // Coil
     implementation(dependencyNotation = "io.coil-kt:coil-compose:1.4.0")
+
+    // Timber
+    api(dependencyNotation = "com.jakewharton.timber:timber:5.0.1")
 }

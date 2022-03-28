@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Singleton
+import timber.log.Timber
 
 class GameViewModel @AssistedInject constructor(
     @Assisted private val gameId: Int,
@@ -45,28 +45,33 @@ class GameViewModel @AssistedInject constructor(
     private val _gameSnapshots = MutableStateFlow<Resource<List<String>>>(Resource.Loading)
     val gameSnapshots = _gameSnapshots.asStateFlow()
 
-    private val _gameReviews = MutableStateFlow<List<ReviewItem>>(emptyList())
+    private val _gameReviews = MutableStateFlow<Resource<List<ReviewItem>>>(Resource.Loading)
     val gameReviews = _gameReviews.asStateFlow()
 
     init {
         loadGameData()
-        loadGameSnapshots()
     }
 
     fun openReviewsScreen() = navigationManager.navigate(GameDirections.reviews(gameId = gameId))
 
     private fun loadGameData() = gameCases.getGameDetails(gameId = gameId).onEach { result ->
         _gameData.value = result
-        if (result is Resource.Success) loadGameReviews(result.data.gameReviewsUrl)
+        if (result is Resource.Success) {
+            loadGameSnapshots()
+            loadGameReviews(result.data.gameReviewsUrl)
+        }
     }.launchIn(viewModelScope)
 
     private fun loadGameSnapshots() = gameCases.getGameSnapshots(gameId = gameId).onEach { result ->
         _gameSnapshots.value = result
     }.launchIn(viewModelScope)
 
-    private fun loadGameReviews(gameReviewsUrl: String?) = viewModelScope.launch(Dispatchers.IO) {
-        gameReviewsUrl?.let {
-            _gameReviews.value = gameCases.getGameReviews(it)
+    private fun loadGameReviews(gameReviewsUrl: String?) {
+        gameReviewsUrl?.let { url ->
+            gameCases.getGameReviews(url).onEach { result ->
+                _gameReviews.value = result
+                if (result is Resource.Error) Timber.e(result.exception)
+            }.launchIn(viewModelScope)
         }
     }
 

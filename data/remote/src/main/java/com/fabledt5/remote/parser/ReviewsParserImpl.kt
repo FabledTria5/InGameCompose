@@ -1,29 +1,20 @@
 package com.fabledt5.remote.parser
 
-import android.util.Log
 import com.fabledt5.remote.parser.dto.GameReviewDto
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import java.net.MalformedURLException
 import javax.inject.Inject
 
 class ReviewsParserImpl @Inject constructor() : ReviewsParser {
 
     companion object {
         private const val SORTING_PARAMETER = "/critic-reviews?sort-by=publication"
-        private const val TAG = "ReviewsParserImpl"
     }
 
     override fun parseGameReviews(targetUrl: String): List<GameReviewDto> {
         val gameReviewsUrl = targetUrl + SORTING_PARAMETER
 
-        val result = try {
-            Jsoup.connect(gameReviewsUrl).get()
-        } catch (e: IllegalArgumentException) {
-            Log.e(TAG, "parseGameReviews: connection to page failed", e)
-            return emptyList()
-        }
-
+        val result = Jsoup.connect(gameReviewsUrl).get()
         val rawReviewsList = result.select("li.review.critic_review")
 
         return extractReviews(rawReviewsList)
