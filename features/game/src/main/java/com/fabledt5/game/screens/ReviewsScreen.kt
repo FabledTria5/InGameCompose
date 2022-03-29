@@ -23,19 +23,32 @@ import androidx.compose.ui.unit.sp
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Proxima
+import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.composables.GameReviewItem
 import com.fabledt5.game.items.RatingCounter
 import com.fabledt5.game.utils.toRatingsCounter
-import com.google.accompanist.insets.systemBarsPadding
 
 @Composable
 fun ReviewsScreen(gameViewModel: GameViewModel) {
     val gameItem by gameViewModel.gameData.collectAsState()
     val gameReviews by gameViewModel.gameReviews.collectAsState()
 
+    ShowReviewsScreen(gameItem, gameReviews)
+}
+
+@Composable
+fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<List<ReviewItem>>) {
+    if (gameItem is Resource.Success && gameReviews is Resource.Success) {
+        ShowGameReviewsSuccess(gameItem = gameItem.data, gameReviews = gameReviews.data)
+    }
+}
+
+@Composable
+fun ShowGameReviewsSuccess(gameItem: GameItem, gameReviews: List<ReviewItem>) {
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         topBar = {
@@ -68,7 +81,7 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
                         .fillMaxSize()
                 ) {
                     Text(
-                        text = (gameItem as Resource.Success).data.gameTitle,
+                        text = gameItem.gameTitle,
                         modifier = Modifier
                             .align(CenterHorizontally)
                             .padding(top = 5.dp),
@@ -92,7 +105,7 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
                             )
                             append(
                                 AnnotatedString(
-                                    text = " ${(gameItem as Resource.Success).data.gameRating}",
+                                    text = " ${gameItem.gameRating}",
                                     spanStyle = SpanStyle(
                                         color = Color.White,
                                         fontSize = 13.sp,

@@ -2,4 +2,5 @@
 <resources>
     <string name="application_icon">App icon</string>
     <string name="icon_arrow">Arrow Icon</string>
+    <string name="icon_loading_error">Loading Error Icon</string>
 </resources>

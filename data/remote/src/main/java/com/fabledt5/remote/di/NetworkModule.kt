@@ -3,7 +3,7 @@ package com.fabledt5.remote.di
 import com.fabledt5.remote.utils.ApiInterceptor
 import com.fabledt5.remote.BuildConfig
 import com.fabledt5.remote.api.GamesService
-import com.fabledt5.remote.utils.Constants.BASE_URL
+import com.fabledt5.remote.utils.Constants.API_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +35,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
+        .baseUrl(API_BASE_URL)
         .client(okHttpClient)
         .build()
 

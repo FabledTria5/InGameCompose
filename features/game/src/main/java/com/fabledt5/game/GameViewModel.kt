@@ -1,6 +1,8 @@
 package com.fabledt5.game
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
@@ -11,10 +13,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -66,12 +65,12 @@ class GameViewModel @AssistedInject constructor(
         _gameSnapshots.value = result
     }.launchIn(viewModelScope)
 
-    private fun loadGameReviews(gameReviewsUrl: String?) {
+    private fun loadGameReviews(gameReviewsUrl: String?) = viewModelScope.launch(Dispatchers.IO) {
         gameReviewsUrl?.let { url ->
             gameCases.getGameReviews(url).onEach { result ->
                 _gameReviews.value = result
                 if (result is Resource.Error) Timber.e(result.exception)
-            }.launchIn(viewModelScope)
+            }.collect()
         }
     }
 

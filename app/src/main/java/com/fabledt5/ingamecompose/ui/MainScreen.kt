@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -25,7 +26,6 @@ import com.fabledt5.navigation.Routes
 import com.fabledt5.navigation.directions.PrimaryAppDirections
 import com.fabledt5.navigation.directions.SplashDirections
 import com.fabledt5.splash.SplashScreen
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController

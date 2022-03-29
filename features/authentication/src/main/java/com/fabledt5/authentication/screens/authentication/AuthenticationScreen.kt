@@ -1,9 +1,6 @@
 package com.fabledt5.authentication.screens.authentication
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
@@ -21,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.fabledt5.authentication.AuthenticationViewModel
 import com.fabledt5.authentication.R
 import com.fabledt5.common.theme.Mark
-import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState

@@ -14,4 +14,5 @@
     <string name="game_snapshot">Game Snapshot</string>
     <string name="reviews">Reviews</string>
     <string name="estimate">Estimate</string>
+    <string name="game_loading_error_message">Sorry, we could not load this game</string>
 </resources>

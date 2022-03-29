@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -31,76 +32,75 @@ import androidx.core.text.HtmlCompat
 import com.fabledt5.common.components.CoilImage
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
+import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.R
 import com.fabledt5.game.composables.GameReviewItem
-import com.google.accompanist.pager.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
+import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @Composable
 fun AboutGamePage(
-    gameData: Resource<GameItem>,
+    gameItem: GameItem,
     gameSnapshots: Resource<List<String>>,
     gameReviews: Resource<List<ReviewItem>>,
     onShowReviewsClicked: () -> Unit
 ) {
-    val snapshotsPagerState = rememberPagerState()
-
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        when (gameData) {
-            is Resource.Success -> Text(
-                text = HtmlCompat.fromHtml(
-                    gameData.data.gameDescription,
-                    HtmlCompat.FROM_HTML_MODE_COMPACT
-                ).toString(),
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-                color = Color.White.copy(alpha = .7f),
-                fontFamily = Proxima,
-            )
-            else -> Unit
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = HtmlCompat.fromHtml(
+                gameItem.gameDescription,
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            ).toString(),
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+            color = Color.White.copy(alpha = .7f),
+            fontFamily = Proxima,
+        )
+        when (gameSnapshots) {
+            is Resource.Error -> Unit
+            is Resource.Success -> ShowGameSnapshotsSuccess(gameSnapshots.data)
+            else -> ShowGameSnapshotsLoading()
         }
-        if (gameSnapshots is Resource.Success) {
-            GameSnapshots(
-                gameSnapshots = gameSnapshots.data,
-                snapshotsPagerState = snapshotsPagerState
-            )
-        }
-        when (gameData) {
-            is Resource.Success -> GameReviews(
-                gameRating = gameData.data.gameRating,
-                gameReviews = gameReviews,
+        when (gameReviews) {
+            is Resource.Error -> Unit
+            is Resource.Success -> ShowGameReviewsSuccess(
+                gameRating = gameItem.gameRating,
+                gameReviews = gameReviews.data,
                 onShowAllClicked = onShowReviewsClicked
             )
-            is Resource.Error -> GameReviews(
-                gameRating = stringResource(R.string.unknown),
-                gameReviews = emptyList(),
-                onShowAllClicked = onShowReviewsClicked
-            )
-            else -> GameReviews(
-                gameRating = "",
-                gameReviews = emptyList(),
-                onShowAllClicked = onShowReviewsClicked
-            )
+            else -> ShowGameReviewsLoading()
         }
         GameFranchise()
     }
 }
 
+@Composable
+fun ShowGameSnapshotsLoading() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp), contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(modifier = Modifier.size(25.dp), color = Turquoise)
+    }
+}
+
 @ExperimentalPagerApi
 @Composable
-fun GameSnapshots(gameSnapshots: List<String>, snapshotsPagerState: PagerState) {
-
+fun ShowGameSnapshotsSuccess(gameSnapshots: List<String>) {
+    val snapshotsListState = rememberPagerState()
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
         scope.launch {
-            snapshotsPagerState.scrollToPage(gameSnapshots.size / 2)
+            snapshotsListState.scrollToPage(gameSnapshots.size / 2)
         }
     }
 
@@ -122,7 +122,7 @@ fun GameSnapshots(gameSnapshots: List<String>, snapshotsPagerState: PagerState) 
             modifier = Modifier
                 .padding(top = 15.dp)
                 .fillMaxWidth(),
-            state = snapshotsPagerState,
+            state = snapshotsListState,
             contentPadding = PaddingValues(horizontal = 50.dp)
         ) { page ->
             CoilImage(
@@ -150,7 +150,23 @@ fun GameSnapshots(gameSnapshots: List<String>, snapshotsPagerState: PagerState) 
 }
 
 @Composable
-fun GameReviews(gameRating: String, gameReviews: List<ReviewItem>, onShowAllClicked: () -> Unit) {
+fun ShowGameReviewsLoading() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(modifier = Modifier.size(25.dp), color = Turquoise)
+    }
+}
+
+@Composable
+fun ShowGameReviewsSuccess(
+    gameRating: String,
+    gameReviews: List<ReviewItem>,
+    onShowAllClicked: () -> Unit
+) {
     Row(
         modifier = Modifier
             .padding(horizontal = 10.dp)

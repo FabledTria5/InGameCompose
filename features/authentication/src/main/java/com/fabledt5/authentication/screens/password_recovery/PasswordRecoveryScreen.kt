@@ -22,7 +22,6 @@ import com.fabledt5.authentication.R
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
-import com.google.accompanist.insets.systemBarsPadding
 
 @Composable
 fun PasswordRecoveryScreen() {
