@@ -1,4 +1,4 @@
-package com.fabledt5.game.items
+package com.fabledt5.game.pages
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -19,9 +19,8 @@ import com.fabledt5.game.utils.createFromHtml
 
 @Composable
 fun RequirementsGamePage(gameRequirements: GameRequirements?) {
-    gameRequirements?.let { requirements ->
-        ShowGameRequirements(requirements = requirements)
-    } ?: ShowEmptyRequirements()
+    if (gameRequirements != null) ShowGameRequirements(requirements = gameRequirements)
+    else ShowEmptyRequirements()
 }
 
 @Composable
@@ -29,7 +28,8 @@ fun ShowEmptyRequirements() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp), contentAlignment = Alignment.Center
+            .height(100.dp),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = stringResource(R.string.game_requirements_error_message),

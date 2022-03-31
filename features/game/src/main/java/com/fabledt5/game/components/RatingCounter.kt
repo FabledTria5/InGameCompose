@@ -1,4 +1,4 @@
-package com.fabledt5.game.items
+package com.fabledt5.game.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

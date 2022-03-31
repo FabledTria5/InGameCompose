@@ -1,4 +1,4 @@
-package com.fabledt5.game.items
+package com.fabledt5.game.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -36,7 +36,7 @@ import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.R
-import com.fabledt5.game.composables.GameReviewItem
+import com.fabledt5.game.components.GameReviewItem
 import com.fabledt5.game.utils.createFromHtml
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager

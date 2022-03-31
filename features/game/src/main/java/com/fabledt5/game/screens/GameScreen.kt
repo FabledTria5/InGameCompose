@@ -28,10 +28,10 @@ import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
-import com.fabledt5.game.items.AboutGamePage
+import com.fabledt5.game.pages.AboutGamePage
 import com.fabledt5.game.items.GameHeader
-import com.fabledt5.game.items.InfoGamePage
-import com.fabledt5.game.items.RequirementsGamePage
+import com.fabledt5.game.pages.InfoGamePage
+import com.fabledt5.game.pages.RequirementsGamePage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState

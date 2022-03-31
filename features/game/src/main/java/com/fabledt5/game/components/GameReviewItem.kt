@@ -1,4 +1,4 @@
-package com.fabledt5.game.composables
+package com.fabledt5.game.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card

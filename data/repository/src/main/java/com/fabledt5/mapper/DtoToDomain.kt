@@ -9,6 +9,7 @@ import com.fabledt5.remote.api.dto.game_screenshots.Result
 import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
 import com.fabledt5.remote.parser.dto.GameReviewDto
+import kotlin.Exception
 
 fun GamesListResponse.toDomainShort() = results.map { result ->
     GameItem(
@@ -23,13 +24,25 @@ fun GamesListResponse.toDomainShort() = results.map { result ->
 
 fun List<Platform>.toDomain() = try {
     val targetPlatform = first { it.platform.slug == "pc" }
-    if (targetPlatform.requirements.minimum != null && targetPlatform.requirements.recommended != null) {
+    if (
+        !targetPlatform.requirements.minimum.isNullOrEmpty() &&
+        !targetPlatform.requirements.recommended.isNullOrEmpty()
+    ) {
         GameRequirements(
-            min = targetPlatform.requirements.minimum!!,
-            rec = targetPlatform.requirements.recommended!!
+            min = targetPlatform.requirements.minimum?.removePrefix("Minimum:")!!,
+            rec = targetPlatform.requirements.recommended?.removePrefix("Recommended:")!!
         )
+    } else if (
+        !targetPlatform.requirements.minimum.isNullOrEmpty() &&
+        targetPlatform.requirements.recommended.isNullOrEmpty()
+    ) {
+        val requirements = targetPlatform.requirements.minimum?.split("Minimum: ")!!
+        val minimumRequirements = requirements.first()
+        val recommendedRequirements = requirements.last()
+
+        GameRequirements(min = minimumRequirements, rec = recommendedRequirements)
     } else null
-} catch (e: NoSuchElementException) {
+} catch (e: Exception) {
     null
 }
 
