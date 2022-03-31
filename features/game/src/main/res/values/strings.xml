@@ -18,4 +18,6 @@
     <string name="game_requirements_error_message">Can not load game requirements</string>
     <string name="minimum">Minimum:</string>
     <string name="recommended">Recommended</string>
+    <string name="release_date">Release date:</string>
+    <string name="directors">Directors:</string>
 </resources>

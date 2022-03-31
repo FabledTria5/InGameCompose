@@ -72,7 +72,7 @@ dependencies {
     implementation(dependencyNotation = "com.google.android.material:material:1.5.0")
 
     // Compose
-    val composeVersion = "1.1.0-rc03"
+    val composeVersion = "1.1.1"
     implementation(dependencyNotation = "androidx.compose.ui:ui:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")
