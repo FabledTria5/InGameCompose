@@ -45,11 +45,19 @@ class GameRepositoryImpl @Inject constructor(
                 gameTrailersUrls = gameTrailerDto.toDomain(),
                 gameRequirements = gameDto.platforms.toDomain(),
                 gameDirectors = gameDevelopersTeamDto.results
-                    .filter { it.id == 2 }
+                    .filter {
+                        it.positions.any { position ->
+                            position.name.contains("director", ignoreCase = true)
+                        }
+                    }
                     .take(n = 3)
                     .joinToString { it.name },
                 gameWriters = gameDevelopersTeamDto.results
-                    .filter { it.id == 1 }
+                    .filter {
+                        it.positions.any { position ->
+                            position.name.contains("writer", ignoreCase = true)
+                        }
+                    }
                     .take(n = 3)
                     .joinToString { it.name },
                 gameReviewsUrl = gameDto.metacriticUrl

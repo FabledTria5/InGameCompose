@@ -213,7 +213,7 @@ fun ShowGameReviewsSuccess(
             )
         }
     }
-    if (gameReviews.isNotEmpty())
+    if (gameReviews.isNotEmpty() && gameReviews.size >= 2)
         gameReviews.subList(0, 2).forEach { reviewItem ->
             GameReviewItem(
                 reviewItem = reviewItem,

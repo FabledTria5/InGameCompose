@@ -2,7 +2,7 @@ package com.fabledt5.remote.api.dto.game_creators
 
 import com.google.gson.annotations.SerializedName
 
-data class GameCreatorsResponse(
+data class GameDevelopersResponse(
     @SerializedName("count")
     val count: Int,
     @SerializedName("next")

@@ -20,4 +20,6 @@
     <string name="recommended">Recommended</string>
     <string name="release_date">Release date:</string>
     <string name="directors">Directors:</string>
+    <string name="writers">Writer(\'s):</string>
+    <string name="developers">Developers:</string>
 </resources>

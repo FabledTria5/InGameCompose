@@ -13,6 +13,8 @@ data class Result(
     val imageBackground: String,
     @SerializedName("name")
     val name: String,
+    @SerializedName("positions")
+    val positions: List<Position>,
     @SerializedName("slug")
     val slug: String
 )

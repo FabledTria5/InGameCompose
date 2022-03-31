@@ -134,6 +134,7 @@ fun ShowGameLoadingSuccess(
             })
         HorizontalPager(
             count = gameDataTabs.size,
+            modifier = Modifier.wrapContentHeight(),
             state = gameDataPagerState,
             userScrollEnabled = false
         ) { page ->
