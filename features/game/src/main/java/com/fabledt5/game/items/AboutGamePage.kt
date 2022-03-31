@@ -28,7 +28,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import androidx.core.text.HtmlCompat
 import com.fabledt5.common.components.CoilImage
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
@@ -38,6 +37,7 @@ import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.R
 import com.fabledt5.game.composables.GameReviewItem
+import com.fabledt5.game.utils.createFromHtml
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
@@ -55,10 +55,7 @@ fun AboutGamePage(
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = HtmlCompat.fromHtml(
-                gameItem.gameDescription,
-                HtmlCompat.FROM_HTML_MODE_COMPACT
-            ).toString(),
+            text = gameItem.gameDescription.createFromHtml(),
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
             color = Color.White.copy(alpha = .7f),
             fontFamily = Proxima,

@@ -23,6 +23,7 @@ fun VideoPlayer(url: String, modifier: Modifier = Modifier) {
                 MediaItem.fromUri(url)
             )
             setMediaSource(source)
+            pauseAtEndOfMediaItems = true
             prepare()
         }
     }

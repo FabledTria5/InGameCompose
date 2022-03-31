@@ -15,4 +15,7 @@
     <string name="reviews">Reviews</string>
     <string name="estimate">Estimate</string>
     <string name="game_loading_error_message">Sorry, we could not load this game</string>
+    <string name="game_requirements_error_message">Can not load game requirements</string>
+    <string name="minimum">Minimum:</string>
+    <string name="recommended">Recommended</string>
 </resources>

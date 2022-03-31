@@ -30,6 +30,8 @@ import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.items.AboutGamePage
 import com.fabledt5.game.items.GameHeader
+import com.fabledt5.game.items.InfoGamePage
+import com.fabledt5.game.items.RequirementsGamePage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -142,6 +144,8 @@ fun ShowGameLoadingSuccess(
                     gameReviews = gameReviews,
                     onShowReviewsClicked = onShowReviewsClicked
                 )
+                1 -> InfoGamePage(gameItem = gameItem)
+                2 -> RequirementsGamePage(gameRequirements = gameItem.gameRequirements)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.fabledt5.game.utils
 
+import androidx.core.text.HtmlCompat
 import com.fabledt5.domain.model.ReviewItem
 
 fun List<ReviewItem>.toRatingsCounter(): Map<Int, Int> {
@@ -17,3 +18,8 @@ fun List<ReviewItem>.toRatingsCounter(): Map<Int, Int> {
             else it.value!!
         }
 }
+
+fun String.createFromHtml() = HtmlCompat.fromHtml(
+    this,
+    HtmlCompat.FROM_HTML_MODE_COMPACT
+).toString()
