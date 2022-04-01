@@ -9,7 +9,6 @@ import com.fabledt5.remote.api.dto.game_screenshots.Result
 import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
 import com.fabledt5.remote.parser.dto.GameReviewDto
-import kotlin.Exception
 
 fun GamesListResponse.toDomainShort() = results.map { result ->
     GameItem(

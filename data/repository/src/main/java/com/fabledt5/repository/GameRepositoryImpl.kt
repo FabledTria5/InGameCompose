@@ -4,6 +4,7 @@ import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.domain.repository.GameRepository
+import com.fabledt5.domain.utlis.getDateAsString
 import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.mapper.toDomain
@@ -38,7 +39,7 @@ class GameRepositoryImpl @Inject constructor(
                 gameTitle = gameDto.name,
                 gamePEGIRating = gameDto.esrbRating?.slug.toPEGI(),
                 gameRating = gameDto.rating.setScale(n = 1).toString(),
-                gameReleaseYear = gameDto.released.take(n = 4),
+                gameReleaseYear = gameDto.released.getDateAsString(),
                 gameGenres = gameDto.genres.take(n = 3).joinToString { it.name },
                 gameDeveloper = gameDto.developers.first().name,
                 gameDescription = gameDto.description,

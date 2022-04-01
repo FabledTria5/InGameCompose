@@ -16,3 +16,13 @@ fun String?.toPEGI() = when (this) {
 
 fun Double.setScale(n: Int): BigDecimal = BigDecimal(this).setScale(n, RoundingMode.HALF_DOWN)
 
+fun String.getDateAsString(): String {
+    val remoteDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    val resultDateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH)
+
+    val date = remoteDateFormat.parse(this)
+    return date?.let {
+        resultDateFormat.format(it)
+    } ?: "Unknown"
+}
+

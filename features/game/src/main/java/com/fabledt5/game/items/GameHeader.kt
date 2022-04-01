@@ -108,7 +108,7 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
                     fontFamily = Mark
                 )
                 Text(
-                    text = gameItem.gameReleaseYear,
+                    text = gameItem.gameReleaseYear.substringAfterLast(delimiter = " "),
                     modifier = Modifier.padding(end = 10.dp),
                     color = Color.White.copy(alpha = .4f),
                     fontSize = 11.sp,

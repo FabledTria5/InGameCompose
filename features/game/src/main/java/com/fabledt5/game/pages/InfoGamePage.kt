@@ -1,6 +1,9 @@
 package com.fabledt5.game.pages
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,7 +31,7 @@ fun InfoGamePage(gameItem: GameItem) {
                 text = stringResource(R.string.release_date),
                 modifier = Modifier
                     .weight(weight = .3f),
-                color = Color.White.copy(alpha = .5f),
+                color = Color.White.copy(alpha = .4f),
                 fontFamily = Proxima,
                 fontSize = 14.sp
             )
@@ -48,7 +51,7 @@ fun InfoGamePage(gameItem: GameItem) {
             Text(
                 text = stringResource(R.string.directors),
                 modifier = Modifier.weight(weight = .3f),
-                color = Color.White.copy(alpha = .5f),
+                color = Color.White.copy(alpha = .4f),
                 fontFamily = Proxima,
                 fontSize = 14.sp
             )
@@ -68,7 +71,7 @@ fun InfoGamePage(gameItem: GameItem) {
             Text(
                 text = stringResource(R.string.writers),
                 modifier = Modifier.weight(weight = .3f),
-                color = Color.White.copy(alpha = .5f),
+                color = Color.White.copy(alpha = .4f),
                 fontFamily = Proxima,
                 fontSize = 14.sp
             )
@@ -88,7 +91,7 @@ fun InfoGamePage(gameItem: GameItem) {
             Text(
                 text = stringResource(R.string.developers),
                 modifier = Modifier.weight(weight = .3f),
-                color = Color.White.copy(alpha = .5f),
+                color = Color.White.copy(alpha = .4f),
                 fontFamily = Proxima,
                 fontSize = 14.sp
             )
