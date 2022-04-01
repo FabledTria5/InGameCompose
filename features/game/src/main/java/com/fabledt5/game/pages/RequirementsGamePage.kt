@@ -46,7 +46,7 @@ fun ShowEmptyRequirements() {
 fun ShowGameRequirements(requirements: GameRequirements) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 15.dp, vertical = 10.dp)
+            .padding(10.dp)
             .fillMaxWidth()
     ) {
         Text(

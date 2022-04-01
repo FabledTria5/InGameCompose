@@ -53,10 +53,14 @@ fun AboutGamePage(
     gameReviews: Resource<List<ReviewItem>>,
     onShowReviewsClicked: () -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(
+        modifier = Modifier
+            .padding(vertical = 10.dp)
+            .fillMaxWidth()
+    ) {
         Text(
             text = gameItem.gameDescription.createFromHtml(),
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+            modifier = Modifier.padding(horizontal = 10.dp),
             color = Color.White.copy(alpha = .7f),
             fontFamily = Proxima,
         )

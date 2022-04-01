@@ -19,7 +19,7 @@ import com.fabledt5.game.R
 fun InfoGamePage(gameItem: GameItem) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 10.dp)
+            .padding(10.dp)
             .fillMaxWidth()
     ) {
         Row(

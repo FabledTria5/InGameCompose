@@ -28,8 +28,8 @@ import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
-import com.fabledt5.game.pages.AboutGamePage
 import com.fabledt5.game.items.GameHeader
+import com.fabledt5.game.pages.AboutGamePage
 import com.fabledt5.game.pages.InfoGamePage
 import com.fabledt5.game.pages.RequirementsGamePage
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -136,7 +136,8 @@ fun ShowGameLoadingSuccess(
             count = gameDataTabs.size,
             modifier = Modifier.wrapContentHeight(),
             state = gameDataPagerState,
-            userScrollEnabled = false
+            userScrollEnabled = false,
+            verticalAlignment = Alignment.Top
         ) { page ->
             when (page) {
                 0 -> AboutGamePage(
