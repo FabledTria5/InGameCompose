@@ -53,6 +53,8 @@ class GameViewModel @AssistedInject constructor(
 
     fun openReviewsScreen() = navigationManager.navigate(GameDirections.reviews(gameId = gameId))
 
+    fun onBackClicked() = navigationManager.navigateBack()
+
     private fun loadGameData() = gameCases.getGameDetails(gameId = gameId).onEach { result ->
         _gameData.value = result
         if (result is Resource.Success) {

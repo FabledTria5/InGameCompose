@@ -25,8 +25,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
-fun NavGraphBuilder.gameGraph(viewModelStoreOwner: ViewModelStoreOwner) {
-
+fun NavGraphBuilder.gameGraph(
+    viewModelStoreOwner: ViewModelStoreOwner,
+    onGamePageSelected: () -> Unit,
+    onGamePageUnselected: () -> Unit
+) {
     composable(
         route = GameDirections.gameScreenRoute,
         arguments = GameDirections.gameArguments
@@ -48,6 +51,7 @@ fun NavGraphBuilder.gameGraph(viewModelStoreOwner: ViewModelStoreOwner) {
             key = gameId.toString()
         )
 
+        onGamePageSelected()
         GameScreen(gameViewModel = model)
     }
 
@@ -60,6 +64,7 @@ fun NavGraphBuilder.gameGraph(viewModelStoreOwner: ViewModelStoreOwner) {
 
         CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
             val model = viewModel<GameViewModel>(key = gameId.toString())
+            onGamePageUnselected()
             ReviewsScreen(gameViewModel = model)
         }
     }

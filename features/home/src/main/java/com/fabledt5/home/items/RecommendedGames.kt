@@ -35,7 +35,8 @@ fun RecommendedGamesPager(
     HorizontalPager(
         count = 3,
         state = gamesPagerState,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Top
     ) { page ->
         when (page) {
             0 -> RecommendedGamesPage(

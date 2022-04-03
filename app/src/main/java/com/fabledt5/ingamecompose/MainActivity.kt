@@ -47,13 +47,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             InGameComposeTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    val systemUiController = rememberSystemUiController()
-                    SideEffect {
-                        systemUiController.setStatusBarColor(
-                            color = Color.Transparent,
-                            darkIcons = false
-                        )
-                    }
                     MainScreen(navigationManager = navigationManager)
                 }
             }

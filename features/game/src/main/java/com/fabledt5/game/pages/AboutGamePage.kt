@@ -1,9 +1,7 @@
 package com.fabledt5.game.pages
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -19,7 +17,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -78,7 +75,6 @@ fun AboutGamePage(
             )
             else -> ShowGameReviewsLoading()
         }
-        GameFranchise()
     }
 }
 
@@ -224,42 +220,4 @@ fun ShowGameReviewsSuccess(
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
             )
         }
-}
-
-@Composable
-fun GameFranchise() {
-    Column(
-        modifier = Modifier
-            .padding(top = 30.dp, bottom = 10.dp)
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(R.string.same_series).uppercase(),
-            modifier = Modifier.padding(start = 10.dp),
-            color = Color.White,
-            fontFamily = Mark,
-            fontWeight = FontWeight.Bold,
-            fontSize = 21.sp
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp),
-            contentPadding = PaddingValues(horizontal = 10.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            items(count = 5) {
-                Image(
-                    painter = painterResource(id = R.drawable.god_of_war_placeholder),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(shape = RoundedCornerShape(size = 10.dp))
-                )
-                if (it < 4)
-                    Spacer(modifier = Modifier.width(5.dp))
-            }
-        }
-    }
 }

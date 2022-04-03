@@ -1,4 +1,4 @@
-package com.fabledt5.home.composables
+package com.fabledt5.home.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator

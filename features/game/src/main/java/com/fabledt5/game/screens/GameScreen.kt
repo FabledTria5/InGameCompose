@@ -1,5 +1,6 @@
 package com.fabledt5.game.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -44,11 +45,14 @@ fun GameScreen(gameViewModel: GameViewModel) {
     val gameSnapshots by gameViewModel.gameSnapshots.collectAsState()
     val gameReviews by gameViewModel.gameReviews.collectAsState()
 
+    BackHandler { gameViewModel.onBackClicked() }
+
     ShowGameScreen(
         gameData = gameData,
         gameSnapshots = gameSnapshots,
         gameReviews = gameReviews,
-        onShowReviewsClicked = { gameViewModel.openReviewsScreen() }
+        onShowReviewsClicked = { gameViewModel.openReviewsScreen() },
+        onBackClicked = { gameViewModel.onBackClicked() }
     )
 }
 
@@ -58,7 +62,8 @@ fun ShowGameScreen(
     gameData: Resource<GameItem>,
     gameSnapshots: Resource<List<String>>,
     gameReviews: Resource<List<ReviewItem>>,
-    onShowReviewsClicked: () -> Unit
+    onShowReviewsClicked: () -> Unit,
+    onBackClicked: () -> Unit
 ) {
     when (gameData) {
         is Resource.Error -> ShowGameLoadingError()
@@ -66,7 +71,8 @@ fun ShowGameScreen(
             gameItem = gameData.data,
             gameSnapshots = gameSnapshots,
             gameReviews = gameReviews,
-            onShowReviewsClicked = onShowReviewsClicked
+            onShowReviewsClicked = onShowReviewsClicked,
+            onBackClicked = onBackClicked
         )
         else -> ShowGameLoading()
     }
@@ -111,7 +117,8 @@ fun ShowGameLoadingSuccess(
     gameItem: GameItem,
     gameSnapshots: Resource<List<String>>,
     gameReviews: Resource<List<ReviewItem>>,
-    onShowReviewsClicked: () -> Unit
+    onShowReviewsClicked: () -> Unit,
+    onBackClicked: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val screenScrollState = rememberScrollState()
@@ -124,7 +131,7 @@ fun ShowGameLoadingSuccess(
             .navigationBarsPadding()
             .verticalScroll(screenScrollState)
     ) {
-        GameHeader(gameItem = gameItem, onBackClicked = { })
+        GameHeader(gameItem = gameItem, onBackClicked = onBackClicked)
         OutlinedTabs(
             pagerState = gameDataPagerState,
             tabsTitles = gameDataTabs,
