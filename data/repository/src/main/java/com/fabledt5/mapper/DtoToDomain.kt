@@ -1,8 +1,10 @@
 package com.fabledt5.mapper
 
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.GameRequirements
 import com.fabledt5.domain.model.ReviewItem
+import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
 import com.fabledt5.remote.api.dto.game_screenshots.Result
@@ -50,17 +52,31 @@ fun List<Result>.toDomain() = map { result ->
 }
 
 @JvmName("toDomainGameReviewDto")
-fun List<GameReviewDto>.toDomain(): List<ReviewItem> = filter { it.criticScore.isNotEmpty() }
-    .shuffled()
-    .map { dto ->
-        ReviewItem(
-            reviewerName = dto.criticName,
-            reviewText = dto.reviewText,
-            reviewerRating = if (dto.criticScore.toInt() > 90) 5 else dto.criticScore.toInt() / 20,
-            reviewDate = dto.reviewDate
-        )
-    }
+fun List<GameReviewDto>.toDomain() = GameRating(
+    gameRating = getAverageRating(),
+    gameReviews = filter { it.criticScore.isNotEmpty() }
+        .shuffled()
+        .map { dto ->
+            ReviewItem(
+                reviewerName = dto.criticName,
+                reviewText = dto.reviewText,
+                reviewerRating = dto.criticScore.toRating(),
+                reviewDate = dto.reviewDate
+            )
+        }
+)
 
 fun GameTrailersResponse.toDomain(): List<String> = results
     .take(n = 2)
     .map { it.data.x480 }
+
+private fun List<GameReviewDto>.getAverageRating(): String {
+    var ratingsSum = 0
+    this.forEach {
+        if (it.criticScore.isNotEmpty())
+            ratingsSum += it.criticScore.toRating()
+    }
+    return (ratingsSum.toDouble() / this.size).setScale(n = 1).toString()
+}
+
+private fun String.toRating() = if (this.toInt() > 90) 5 else this.toInt() / 20

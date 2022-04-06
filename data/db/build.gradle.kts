@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
-    id("com.google.devtools.ksp") version "1.6.10-1.0.2"
+    id("com.google.devtools.ksp") version "1.6.10-1.0.4"
     id("dagger.hilt.android.plugin")
 }
 

@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
+import com.fabledt5.common.utils.createFromHtml
 import com.fabledt5.domain.model.GameRequirements
 import com.fabledt5.game.R
-import com.fabledt5.game.utils.createFromHtml
 
 @Composable
 fun RequirementsGamePage(gameRequirements: GameRequirements?) {

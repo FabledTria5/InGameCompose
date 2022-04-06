@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.domain.use_case.game.GameCases
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.directions.GameDirections
@@ -44,7 +44,7 @@ class GameViewModel @AssistedInject constructor(
     private val _gameSnapshots = MutableStateFlow<Resource<List<String>>>(Resource.Loading)
     val gameSnapshots = _gameSnapshots.asStateFlow()
 
-    private val _gameReviews = MutableStateFlow<Resource<List<ReviewItem>>>(Resource.Loading)
+    private val _gameReviews = MutableStateFlow<Resource<GameRating>>(Resource.Loading)
     val gameReviews = _gameReviews.asStateFlow()
 
     init {

@@ -11,8 +11,8 @@ class GetGameReviews @Inject constructor(
 ) {
 
     operator fun invoke(gameUrl: String) = flow {
-        val gameReviews = gameRepository.getGameReviews(gameUrl = gameUrl)
-        if (gameReviews.isNotEmpty()) emit(Resource.Success(data = gameReviews))
+        val gameRating = gameRepository.getGameReviews(gameUrl = gameUrl)
+        if (gameRating.gameReviews.isNotEmpty()) emit(Resource.Success(data = gameRating))
         else emit(Resource.Error(exception = Throwable("Empty list")))
     }.catch { exception ->
         emit(Resource.Error(exception = exception))

@@ -25,8 +25,8 @@ import com.fabledt5.common.components.OutlinedTabs
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.items.GameHeader
@@ -50,7 +50,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
     ShowGameScreen(
         gameData = gameData,
         gameSnapshots = gameSnapshots,
-        gameReviews = gameReviews,
+        gameRating = gameReviews,
         onShowReviewsClicked = { gameViewModel.openReviewsScreen() },
         onBackClicked = { gameViewModel.onBackClicked() }
     )
@@ -61,7 +61,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
 fun ShowGameScreen(
     gameData: Resource<GameItem>,
     gameSnapshots: Resource<List<String>>,
-    gameReviews: Resource<List<ReviewItem>>,
+    gameRating: Resource<GameRating>,
     onShowReviewsClicked: () -> Unit,
     onBackClicked: () -> Unit
 ) {
@@ -70,7 +70,7 @@ fun ShowGameScreen(
         is Resource.Success -> ShowGameLoadingSuccess(
             gameItem = gameData.data,
             gameSnapshots = gameSnapshots,
-            gameReviews = gameReviews,
+            gameRating = gameRating,
             onShowReviewsClicked = onShowReviewsClicked,
             onBackClicked = onBackClicked
         )
@@ -116,7 +116,7 @@ fun ShowGameLoadingError() {
 fun ShowGameLoadingSuccess(
     gameItem: GameItem,
     gameSnapshots: Resource<List<String>>,
-    gameReviews: Resource<List<ReviewItem>>,
+    gameRating: Resource<GameRating>,
     onShowReviewsClicked: () -> Unit,
     onBackClicked: () -> Unit
 ) {
@@ -150,7 +150,7 @@ fun ShowGameLoadingSuccess(
                 0 -> AboutGamePage(
                     gameItem = gameItem,
                     gameSnapshots = gameSnapshots,
-                    gameReviews = gameReviews,
+                    gameRating = gameRating,
                     onShowReviewsClicked = onShowReviewsClicked
                 )
                 1 -> InfoGamePage(gameItem = gameItem)

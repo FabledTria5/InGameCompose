@@ -1,8 +1,8 @@
 package com.fabledt5.domain.repository
 
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.model.ReviewItem
 import kotlinx.coroutines.flow.Flow
 
 interface GameRepository {
@@ -11,6 +11,6 @@ interface GameRepository {
 
     fun getGameSnapShots(gameId: Int): Flow<Resource<List<String>>>
 
-    fun getGameReviews(gameUrl: String): List<ReviewItem>
+    fun getGameReviews(gameUrl: String): GameRating
 
 }

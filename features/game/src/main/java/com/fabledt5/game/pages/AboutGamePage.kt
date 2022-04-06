@@ -29,12 +29,12 @@ import com.fabledt5.common.components.CoilImage
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
+import com.fabledt5.common.utils.createFromHtml
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.R
 import com.fabledt5.game.components.GameReviewItem
-import com.fabledt5.game.utils.createFromHtml
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
@@ -47,7 +47,7 @@ import kotlin.math.absoluteValue
 fun AboutGamePage(
     gameItem: GameItem,
     gameSnapshots: Resource<List<String>>,
-    gameReviews: Resource<List<ReviewItem>>,
+    gameRating: Resource<GameRating>,
     onShowReviewsClicked: () -> Unit
 ) {
     Column(
@@ -66,11 +66,10 @@ fun AboutGamePage(
             is Resource.Success -> ShowGameSnapshotsSuccess(gameSnapshots.data)
             else -> ShowGameSnapshotsLoading()
         }
-        when (gameReviews) {
+        when (gameRating) {
             is Resource.Error -> Unit
             is Resource.Success -> ShowGameReviewsSuccess(
-                gameRating = gameItem.gameRating,
-                gameReviews = gameReviews.data,
+                gameRating = gameRating.data,
                 onShowAllClicked = onShowReviewsClicked
             )
             else -> ShowGameReviewsLoading()
@@ -82,10 +81,24 @@ fun AboutGamePage(
 fun ShowGameSnapshotsLoading() {
     Box(
         modifier = Modifier
+            .padding(horizontal = 10.dp)
             .fillMaxWidth()
-            .height(200.dp), contentAlignment = Alignment.Center
+            .height(200.dp),
     ) {
-        CircularProgressIndicator(modifier = Modifier.size(25.dp), color = Turquoise)
+        Text(
+            text = stringResource(R.string.snapshots).uppercase(),
+            modifier = Modifier.padding(start = 10.dp),
+            color = Color.White,
+            fontFamily = Mark,
+            fontWeight = FontWeight.Bold,
+            fontSize = 21.sp
+        )
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(25.dp)
+                .align(Alignment.Center),
+            color = Turquoise
+        )
     }
 }
 
@@ -150,18 +163,28 @@ fun ShowGameSnapshotsSuccess(gameSnapshots: List<String>) {
 fun ShowGameReviewsLoading() {
     Box(
         modifier = Modifier
+            .padding(horizontal = 10.dp)
             .fillMaxWidth()
             .height(200.dp),
-        contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(modifier = Modifier.size(25.dp), color = Turquoise)
+        Text(
+            text = stringResource(id = R.string.rating),
+            color = Color.White,
+            fontFamily = Mark,
+            fontWeight = FontWeight.Bold
+        )
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(25.dp)
+                .align(Alignment.Center),
+            color = Turquoise
+        )
     }
 }
 
 @Composable
 fun ShowGameReviewsSuccess(
-    gameRating: String,
-    gameReviews: List<ReviewItem>,
+    gameRating: GameRating,
     onShowAllClicked: () -> Unit
 ) {
     Row(
@@ -186,7 +209,7 @@ fun ShowGameReviewsSuccess(
                 append(" ")
                 append(
                     AnnotatedString(
-                        text = gameRating,
+                        text = gameRating.gameRating,
                         spanStyle = SpanStyle(color = Color.White, fontWeight = FontWeight.Light)
                     )
                 )
@@ -213,8 +236,9 @@ fun ShowGameReviewsSuccess(
             )
         }
     }
-    if (gameReviews.isNotEmpty() && gameReviews.size >= 2)
-        gameReviews.subList(0, 2).forEach { reviewItem ->
+    Spacer(modifier = Modifier.height(10.dp))
+    if (gameRating.gameReviews.isNotEmpty() && gameRating.gameReviews.size >= 2)
+        gameRating.gameReviews.subList(0, 2).forEach { reviewItem ->
             GameReviewItem(
                 reviewItem = reviewItem,
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)

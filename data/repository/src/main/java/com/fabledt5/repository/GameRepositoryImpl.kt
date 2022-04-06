@@ -1,11 +1,10 @@
 package com.fabledt5.repository
 
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.domain.repository.GameRepository
 import com.fabledt5.domain.utlis.getDateAsString
-import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.remote.api.GamesService
@@ -38,7 +37,6 @@ class GameRepositoryImpl @Inject constructor(
                 gamePoster = gameDto.backgroundImage,
                 gameTitle = gameDto.name,
                 gamePEGIRating = gameDto.esrbRating?.slug.toPEGI(),
-                gameRating = gameDto.rating.setScale(n = 1).toString(),
                 gameReleaseYear = gameDto.released.getDateAsString(),
                 gameGenres = gameDto.genres.take(n = 3).joinToString { it.name },
                 gameDeveloper = gameDto.developers.first().name,
@@ -75,7 +73,7 @@ class GameRepositoryImpl @Inject constructor(
         emit(Resource.Success(data = gameSnapshotsResponse.results.toDomain()))
     }
 
-    override fun getGameReviews(gameUrl: String): List<ReviewItem> {
+    override fun getGameReviews(gameUrl: String): GameRating {
         val gameReviewsResponse = reviewsParser.parseGameReviews(targetUrl = gameUrl)
         return gameReviewsResponse.toDomain()
     }

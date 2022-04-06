@@ -24,8 +24,8 @@ import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.model.ReviewItem
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.components.GameReviewItem
@@ -41,14 +41,14 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
 }
 
 @Composable
-fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<List<ReviewItem>>) {
+fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<GameRating>) {
     if (gameItem is Resource.Success && gameReviews is Resource.Success) {
-        ShowGameReviewsSuccess(gameItem = gameItem.data, gameReviews = gameReviews.data)
+        ShowGameReviewsSuccess(gameItem = gameItem.data, gameRating = gameReviews.data)
     }
 }
 
 @Composable
-fun ShowGameReviewsSuccess(gameItem: GameItem, gameReviews: List<ReviewItem>) {
+fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         topBar = {
@@ -103,9 +103,10 @@ fun ShowGameReviewsSuccess(gameItem: GameItem, gameReviews: List<ReviewItem>) {
                                     )
                                 )
                             )
+                            append(" ")
                             append(
                                 AnnotatedString(
-                                    text = " ${gameItem.gameRating}",
+                                    text = gameRating.gameRating,
                                     spanStyle = SpanStyle(
                                         color = Color.White,
                                         fontSize = 13.sp,
@@ -118,12 +119,12 @@ fun ShowGameReviewsSuccess(gameItem: GameItem, gameReviews: List<ReviewItem>) {
                         modifier = Modifier.padding(bottom = 10.dp)
                     )
                     GameRatingsCounters(
-                        gameRatings = gameReviews.toRatingsCounter(),
-                        totalReviews = gameReviews.size
+                        gameRatings = gameRating.gameReviews.toRatingsCounter(),
+                        totalReviews = gameRating.gameReviews.size
                     )
                 }
             }
-            items(gameReviews, key = { it.reviewerName }) {
+            items(gameRating.gameReviews, key = { it.reviewerName }) {
                 GameReviewItem(
                     reviewItem = it,
                     modifier = Modifier.padding(vertical = 5.dp)
