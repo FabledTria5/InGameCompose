@@ -56,6 +56,9 @@ dependencies {
     implementation(dependencyNotation = "com.squareup.retrofit2:converter-gson:2.9.0")
     implementation(dependencyNotation = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
 
+    // Jsoup
+    implementation(dependencyNotation = "org.jsoup:jsoup:1.14.3")
+
     // Dagger Hilt
     implementation(dependencyNotation = "com.google.dagger:hilt-android:2.40.5")
     kapt(dependencyNotation = "com.google.dagger:hilt-android-compiler:2.40.5")

@@ -1,8 +1,16 @@
 package com.fabledt5.mapper
 
 import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.GameRating
+import com.fabledt5.domain.model.GameRequirements
+import com.fabledt5.domain.model.ReviewItem
+import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
-import com.fabledt5.remote.dto.list_of_games.GamesListResponse
+import com.fabledt5.remote.api.dto.game_details.Platform
+import com.fabledt5.remote.api.dto.game_screenshots.Result
+import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
+import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
+import com.fabledt5.remote.parser.dto.GameReviewDto
 
 fun GamesListResponse.toDomainShort() = results.map { result ->
     GameItem(
@@ -14,3 +22,61 @@ fun GamesListResponse.toDomainShort() = results.map { result ->
         gamePEGIRating = result.esrbRating?.slug.toPEGI()
     )
 }
+
+fun List<Platform>.toDomain() = try {
+    val targetPlatform = first { it.platform.slug == "pc" }
+    if (
+        !targetPlatform.requirements.minimum.isNullOrEmpty() &&
+        !targetPlatform.requirements.recommended.isNullOrEmpty()
+    ) {
+        GameRequirements(
+            min = targetPlatform.requirements.minimum?.removePrefix("Minimum:")!!,
+            rec = targetPlatform.requirements.recommended?.removePrefix("Recommended:")!!
+        )
+    } else if (
+        !targetPlatform.requirements.minimum.isNullOrEmpty() &&
+        targetPlatform.requirements.recommended.isNullOrEmpty()
+    ) {
+        val requirements = targetPlatform.requirements.minimum?.split("Minimum: ")!!
+        val minimumRequirements = requirements.first()
+        val recommendedRequirements = requirements.last()
+
+        GameRequirements(min = minimumRequirements, rec = recommendedRequirements)
+    } else null
+} catch (e: Exception) {
+    null
+}
+
+fun List<Result>.toDomain() = map { result ->
+    result.image
+}
+
+@JvmName("toDomainGameReviewDto")
+fun List<GameReviewDto>.toDomain() = GameRating(
+    gameRating = getAverageRating(),
+    gameReviews = filter { it.criticScore.isNotEmpty() }
+        .shuffled()
+        .map { dto ->
+            ReviewItem(
+                reviewerName = dto.criticName,
+                reviewText = dto.reviewText,
+                reviewerRating = dto.criticScore.toRating(),
+                reviewDate = dto.reviewDate
+            )
+        }
+)
+
+fun GameTrailersResponse.toDomain(): List<String> = results
+    .take(n = 2)
+    .map { it.data.x480 }
+
+private fun List<GameReviewDto>.getAverageRating(): String {
+    var ratingsSum = 0
+    this.forEach {
+        if (it.criticScore.isNotEmpty())
+            ratingsSum += it.criticScore.toRating()
+    }
+    return (ratingsSum.toDouble() / this.size).setScale(n = 1).toString()
+}
+
+private fun String.toRating() = if (this.toInt() > 90) 5 else this.toInt() / 20

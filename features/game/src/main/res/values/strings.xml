@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="game_data_tabs">
+        <item>About</item>
+        <item>Info</item>
+        <item>Requirements</item>
+    </array>
+    <string name="see_all">See all</string>
+    <string name="rating">Rating</string>
+    <string name="icon_star">Star Icon</string>
+    <string name="snapshots">Snapshots</string>
+    <string name="same_series">Same series</string>
+    <string name="unknown">Unknown</string>
+    <string name="game_snapshot">Game Snapshot</string>
+    <string name="reviews">Reviews</string>
+    <string name="estimate">Estimate</string>
+    <string name="game_loading_error_message">Sorry, we could not load this game</string>
+    <string name="game_requirements_error_message">Can not load game requirements</string>
+    <string name="minimum">Minimum:</string>
+    <string name="recommended">Recommended</string>
+    <string name="release_date">Release date:</string>
+    <string name="directors">Directors:</string>
+    <string name="writers">Writer(\'s):</string>
+    <string name="developers">Developers:</string>
+</resources>

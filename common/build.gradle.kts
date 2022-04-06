@@ -26,7 +26,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.0-rc03"
+        kotlinCompilerExtensionVersion = "1.1.1"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -46,17 +46,17 @@ dependencies {
     // Design
     implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
     implementation(dependencyNotation = "com.google.android.material:material:1.5.0")
+    implementation(dependencyNotation = "com.google.android.exoplayer:exoplayer:2.17.1")
 
     // Compose
-    val composeVersion = "1.1.0-rc03"
+    val composeVersion = "1.1.1"
     implementation(dependencyNotation = "androidx.compose.ui:ui:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling:$composeVersion")
 
     // Accompanist
-    val accompanistVersion = "0.24.1-alpha"
-    api(dependencyNotation = "com.google.accompanist:accompanist-insets:$accompanistVersion")
+    val accompanistVersion = "0.24.5-alpha"
     api(dependencyNotation = "com.google.accompanist:accompanist-pager:$accompanistVersion")
     api(dependencyNotation = "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion")
     api(dependencyNotation = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion")
@@ -68,4 +68,7 @@ dependencies {
 
     // Coil
     implementation(dependencyNotation = "io.coil-kt:coil-compose:1.4.0")
+
+    // Timber
+    api(dependencyNotation = "com.jakewharton.timber:timber:5.0.1")
 }

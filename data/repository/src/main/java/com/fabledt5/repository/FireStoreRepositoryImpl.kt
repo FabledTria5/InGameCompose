@@ -3,7 +3,6 @@ package com.fabledt5.repository
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.repository.FireStoreRepository
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class FireStoreRepositoryImpl @Inject constructor(private val firebase: Firebase
             documentReference.set(userData).await()
             emit(Resource.Success(data = true))
         } catch (e: Exception) {
-            emit(Resource.Error(message = "Can not save user data"))
+            emit(Resource.Error(exception = Throwable("Can not save user data")))
         }
     }
 

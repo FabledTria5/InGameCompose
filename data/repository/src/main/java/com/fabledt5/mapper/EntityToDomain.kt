@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 @JvmName("toDomainHotGameEntity")
 fun List<HotGameEntity>.toDomain(): List<GameItem> = map { entity ->
     GameItem(
-        gameId = entity.id,
+        gameId = entity.gameId,
         gamePoster = entity.gamePoster,
         gameTitle = entity.gameTitle,
         gameGenres = entity.gameGenres,

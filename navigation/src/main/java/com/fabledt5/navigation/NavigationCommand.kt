@@ -10,4 +10,14 @@ interface NavigationCommand {
 
     val inclusive: Boolean
 
+    companion object : NavigationCommand {
+
+        override val arguments = emptyList<NamedNavArgument>()
+
+        override val route = ""
+
+        override val inclusive = false
+
+    }
+
 }

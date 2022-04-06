@@ -43,8 +43,8 @@ dependencies {
 
     // Kotlin
     implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
-    implementation(dependencyNotation = "com.google.firebase:firebase-auth-ktx:21.0.1")
-    implementation(dependencyNotation = "com.google.firebase:firebase-firestore-ktx:24.0.1")
+    implementation(dependencyNotation = "com.google.firebase:firebase-auth-ktx:21.0.3")
+    implementation(dependencyNotation = "com.google.firebase:firebase-firestore-ktx:24.1.0")
     implementation(dependencyNotation = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0-native-mt")
 
     // Testing

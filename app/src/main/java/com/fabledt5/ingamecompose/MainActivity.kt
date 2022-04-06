@@ -15,7 +15,6 @@ import com.fabledt5.common.theme.InGameComposeTheme
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.ingamecompose.ui.MainScreen
 import com.fabledt5.navigation.NavigationManager
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.EntryPoint
@@ -48,16 +47,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             InGameComposeTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    ProvideWindowInsets {
-                        val systemUiController = rememberSystemUiController()
-                        SideEffect {
-                            systemUiController.setStatusBarColor(
-                                color = Color.Transparent,
-                                darkIcons = false
-                            )
-                        }
-                        MainScreen(navigationManager = navigationManager)
-                    }
+                    MainScreen(navigationManager = navigationManager)
                 }
             }
         }

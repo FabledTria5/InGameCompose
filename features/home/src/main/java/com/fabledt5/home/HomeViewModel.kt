@@ -7,7 +7,7 @@ import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.use_case.home.HomeCases
 import com.fabledt5.navigation.NavigationManager
-import com.fabledt5.navigation.directions.GameDirection
+import com.fabledt5.navigation.directions.GameDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadHotGamesList() = viewModelScope.launch(Dispatchers.IO) {
         val hotGamesResult = homeCases.getHotGames()
-        _hotGamesList.value = if (hotGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+        _hotGamesList.value = if (hotGamesResult.isEmpty()) Resource.Error()
         else Resource.Success(data = hotGamesResult)
     }
 
@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
         val platformsListResult = homeCases.getPlatformsList()
         _platformsList.value =
             if (platformsListResult.isNotEmpty()) Resource.Success(data = platformsListResult)
-            else Resource.Error(message = "Empty list")
+            else Resource.Error()
     }
 
     fun changePlatform(platformId: Int) = viewModelScope.launch(Dispatchers.IO) {
@@ -81,19 +81,19 @@ class HomeViewModel @Inject constructor(
         val newGamesResult = newGames.await()
 
         _upcomingGames.value =
-            if (upcomingGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+            if (upcomingGamesResult.isEmpty()) Resource.Error()
             else Resource.Success(data = upcomingGamesResult)
 
         _bestGames.value =
-            if (bestGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+            if (bestGamesResult.isEmpty()) Resource.Error()
             else Resource.Success(data = bestGamesResult)
 
         _newGames.value =
-            if (newGamesResult.isEmpty()) Resource.Error(message = "Empty list")
+            if (newGamesResult.isEmpty()) Resource.Error()
             else Resource.Success(data = newGamesResult)
     }
 
     fun openGameScreen(gameId: Int) =
-        navigationManager.navigate(GameDirection.game(gameId = gameId))
+        navigationManager.navigate(GameDirections.game(gameId = gameId))
 
 }

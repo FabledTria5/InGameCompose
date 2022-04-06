@@ -4,13 +4,14 @@ data class GameItem(
     val gameId: Int,
     val gamePoster: String? = null,
     val gameTitle: String = "",
-    val gameDevelopers: String = "",
+    val gameDeveloper: String = "",
     val gamePEGIRating: String = "",
     val gameReleaseYear: String = "",
     val gameGenres: String = "",
     val gameDescription: String = "",
-    val gameRating: String = "",
     val gameRequirements: GameRequirements? = null,
     val gameDirectors: String = "",
     val gameWriters: String = "",
+    val gameTrailersUrls: List<String> = emptyList(),
+    val gameReviewsUrl: String? = null
 )

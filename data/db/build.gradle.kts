@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
-    id("com.google.devtools.ksp") version "1.6.10-1.0.2"
+    id("com.google.devtools.ksp") version "1.6.10-1.0.4"
     id("dagger.hilt.android.plugin")
 }
 
@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
 
     // Room
-    val roomVersion = "2.4.1"
+    val roomVersion = "2.4.2"
     implementation(dependencyNotation = "androidx.room:room-runtime:$roomVersion")
     implementation(dependencyNotation = "androidx.room:room-ktx:$roomVersion")
     implementation(dependencyNotation = "androidx.room:room-paging:$roomVersion")
@@ -55,7 +55,7 @@ dependencies {
     kapt(dependencyNotation = "com.google.dagger:hilt-android-compiler:2.40.5")
 
     // Pagination
-    val pagingVersion = "3.1.0"
+    val pagingVersion = "3.1.1"
     implementation(dependencyNotation = "androidx.paging:paging-runtime:$pagingVersion")
 
 }

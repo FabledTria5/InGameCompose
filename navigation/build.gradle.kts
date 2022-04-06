@@ -26,7 +26,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.0-rc03"
+        kotlinCompilerExtensionVersion = "1.1.1"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -43,7 +43,7 @@ dependencies {
     implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
 
     // Compose Navigation
-    val navigationVersion = "0.24.1-alpha"
+    val navigationVersion = "0.24.5-alpha"
     implementation(dependencyNotation = "com.google.accompanist:accompanist-navigation-animation:$navigationVersion")
 
     // Testing

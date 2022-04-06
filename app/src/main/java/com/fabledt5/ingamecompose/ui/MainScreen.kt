@@ -1,34 +1,44 @@
 package com.fabledt5.ingamecompose.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
-import com.fabledt5.common.theme.DarkLateGray
+import com.fabledt5.common.theme.DimGray
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.ingamecompose.navigation.authenticationGraph
-import com.fabledt5.ingamecompose.navigation.gameComposable
+import com.fabledt5.ingamecompose.navigation.gameGraph
 import com.fabledt5.ingamecompose.navigation.primaryGraph
-import com.fabledt5.navigation.BottomBarItem
-import com.fabledt5.navigation.NavigationCommand
+import com.fabledt5.ingamecompose.utils.BottomBarItem
+import com.fabledt5.ingamecompose.utils.setPrimaryColor
+import com.fabledt5.ingamecompose.utils.setTransparentStatusBar
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.Routes
+import com.fabledt5.navigation.directions.BackDirection
+import com.fabledt5.navigation.directions.GameDirections
 import com.fabledt5.navigation.directions.PrimaryAppDirections
 import com.fabledt5.navigation.directions.SplashDirections
 import com.fabledt5.splash.SplashScreen
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
@@ -39,30 +49,50 @@ import kotlinx.coroutines.flow.collectLatest
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen(navigationManager: NavigationManager) {
+    val systemUiController = rememberSystemUiController()
+    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    }
     val navHostController = rememberAnimatedNavController()
-    var currentDestination by remember { mutableStateOf(SplashDirections.splash) }
-
-    val bottomNavigationDestinations = listOf(
-        PrimaryAppDirections.home,
-        PrimaryAppDirections.catalogue,
-        PrimaryAppDirections.collections,
-        PrimaryAppDirections.profile
-    )
+    var currentDestination by remember { mutableStateOf(navHostController.currentDestination) }
+    var inclusiveScreen by remember { mutableStateOf(true) }
 
     LaunchedEffect(key1 = navigationManager.commands) {
         navigationManager.commands.collectLatest { command ->
-            require(command.route.isNotEmpty())
             navHostController.navigate(command.route) {
-                if (currentDestination.inclusive)
-                    popUpTo(currentDestination.route) { inclusive = true }
-                currentDestination = command
+                if (inclusiveScreen)
+                    navHostController.currentDestination?.route?.let { route ->
+                        popUpTo(route = route) { inclusive = true }
+                    }
+            }
+            inclusiveScreen = command.inclusive
+            currentDestination = navHostController.currentDestination
+        }
+    }
+
+    LaunchedEffect(key1 = navigationManager.backNavigation) {
+        navigationManager.backNavigation.collectLatest { command ->
+            if (command == BackDirection.back) {
+                navHostController.popBackStack()
+                currentDestination = navHostController.currentDestination
             }
         }
     }
 
+    LaunchedEffect(key1 = currentDestination) {
+        when (currentDestination?.route) {
+            SplashDirections.splash.route -> systemUiController.setTransparentStatusBar()
+            GameDirections.gameScreenRoute -> systemUiController.setTransparentStatusBar()
+            PrimaryAppDirections.home.route -> systemUiController.setTransparentStatusBar()
+            else -> systemUiController.setPrimaryColor()
+        }
+    }
+
     Scaffold(bottomBar = {
-        if (currentDestination in bottomNavigationDestinations)
-            BottomBar(navHostController, currentDestination)
+        BottomBar(
+            navHostController = navHostController,
+            currentDestination = navHostController.currentDestination?.route
+        )
     }) {
         AnimatedNavHost(
             navController = navHostController,
@@ -75,13 +105,17 @@ fun MainScreen(navigationManager: NavigationManager) {
             }
             authenticationGraph()
             primaryGraph()
-            gameComposable()
+            gameGraph(
+                viewModelStoreOwner = viewModelStoreOwner,
+                onGamePageSelected = { systemUiController.setTransparentStatusBar() },
+                onGamePageUnselected = { systemUiController.setPrimaryColor() }
+            )
         }
     }
 }
 
 @Composable
-fun BottomBar(navHostController: NavHostController, currentDestination: NavigationCommand) {
+fun BottomBar(navHostController: NavHostController, currentDestination: String?) {
     val screens = listOf(
         BottomBarItem.Home,
         BottomBarItem.Catalogue,
@@ -89,11 +123,23 @@ fun BottomBar(navHostController: NavHostController, currentDestination: Navigati
         BottomBarItem.Profile
     )
 
-    BottomNavigation(backgroundColor = Color.Black, modifier = Modifier.navigationBarsPadding()) {
+    val isBottomNavigationVisible = !currentDestination.isNullOrEmpty() && screens.any { screen ->
+        screen.destination.route == currentDestination
+    }
+    val bottomNavigationHeight by animateDpAsState(
+        targetValue = if (isBottomNavigationVisible) 56.dp else 0.dp,
+        animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
+    )
+
+    BottomNavigation(
+        backgroundColor = Color.Black,
+        modifier = Modifier
+            .navigationBarsPadding()
+            .height(bottomNavigationHeight)
+    ) {
         screens.forEach { screen ->
             AddNavigationItem(
                 screen = screen,
-                currentDestination = currentDestination,
                 navHostController = navHostController
             )
         }
@@ -103,13 +149,12 @@ fun BottomBar(navHostController: NavHostController, currentDestination: Navigati
 @Composable
 fun RowScope.AddNavigationItem(
     screen: BottomBarItem,
-    currentDestination: NavigationCommand,
     navHostController: NavHostController
 ) {
     BottomNavigationItem(
-        selected = currentDestination == screen.destination,
+        selected = navHostController.currentDestination?.route == screen.destination.route,
         onClick = { navHostController.navigate(screen.destination.route) },
-        label = { Text(text = screen.title, fontFamily = Mark, color = DarkLateGray) },
+        label = { Text(text = screen.title, fontFamily = Mark) },
         icon = {
             Icon(
                 painter = painterResource(id = screen.icon),
@@ -117,6 +162,6 @@ fun RowScope.AddNavigationItem(
             )
         },
         selectedContentColor = Turquoise,
-        unselectedContentColor = Color.Unspecified
+        unselectedContentColor = DimGray,
     )
 }

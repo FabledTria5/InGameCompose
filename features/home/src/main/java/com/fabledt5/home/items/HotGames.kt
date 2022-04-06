@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.items.CoilImage
+import com.fabledt5.common.components.CoilImage
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MediumLateBlue
 import com.fabledt5.common.theme.Proxima

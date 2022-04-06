@@ -7,8 +7,8 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
-import com.fabledt5.authentication.screens.authentication.AuthenticationScreen
-import com.fabledt5.authentication.screens.password_recovery.PasswordRecoveryScreen
+import com.fabledt5.authentication.screens.AuthenticationScreen
+import com.fabledt5.authentication.screens.PasswordRecoveryScreen
 import com.fabledt5.navigation.Routes
 import com.fabledt5.navigation.directions.AuthorizationDirections
 import com.google.accompanist.navigation.animation.composable
