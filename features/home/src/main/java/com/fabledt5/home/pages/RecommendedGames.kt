@@ -1,4 +1,4 @@
-package com.fabledt5.home.items
+package com.fabledt5.home.pages
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

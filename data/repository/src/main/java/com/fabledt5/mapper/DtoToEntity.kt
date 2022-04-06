@@ -9,6 +9,7 @@ import java.util.*
 
 fun GamesListResponse.toEntity(): List<HotGameEntity> = results.map { result ->
     HotGameEntity(
+        gameId = result.id,
         createdAt = Date().time,
         gameTitle = result.name,
         gamePoster = if (result.shortScreenshots.isNotEmpty())

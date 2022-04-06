@@ -9,7 +9,7 @@ import com.fabledt5.db.entities.PlatformEntity
 
 @Database(
     entities = [HotGameEntity::class, PlatformEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class GamesDataBase : RoomDatabase() {

@@ -17,7 +17,7 @@ import com.fabledt5.home.HomeViewModel
 import com.fabledt5.home.R
 import com.fabledt5.home.items.HotGames
 import com.fabledt5.home.components.PlatformsList
-import com.fabledt5.home.items.RecommendedGamesPager
+import com.fabledt5.home.pages.RecommendedGamesPager
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.ExperimentalCoroutinesApi

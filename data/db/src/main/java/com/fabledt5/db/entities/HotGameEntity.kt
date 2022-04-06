@@ -9,6 +9,8 @@ data class HotGameEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int = 0,
+    @ColumnInfo(name = "game_id")
+    val gameId: Int,
     @ColumnInfo(name = "created_at")
     val createdAt: Long,
     @ColumnInfo(name = "game_title")

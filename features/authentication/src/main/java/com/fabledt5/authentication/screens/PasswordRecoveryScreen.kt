@@ -1,4 +1,4 @@
-package com.fabledt5.authentication.screens.password_recovery
+package com.fabledt5.authentication.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*

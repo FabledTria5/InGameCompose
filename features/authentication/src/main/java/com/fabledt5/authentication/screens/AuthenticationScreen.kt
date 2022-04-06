@@ -1,4 +1,4 @@
-package com.fabledt5.authentication.screens.authentication
+package com.fabledt5.authentication.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Tab
@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fabledt5.authentication.AuthenticationViewModel
 import com.fabledt5.authentication.R
+import com.fabledt5.authentication.pages.SignInPage
+import com.fabledt5.authentication.pages.SignUpPage
 import com.fabledt5.common.theme.Mark
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
