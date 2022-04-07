@@ -143,7 +143,6 @@ fun ShowGameLoadingSuccess(
             count = gameDataTabs.size,
             modifier = Modifier.wrapContentHeight(),
             state = gameDataPagerState,
-            userScrollEnabled = false,
             verticalAlignment = Alignment.Top
         ) { page ->
             when (page) {

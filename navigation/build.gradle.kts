@@ -38,12 +38,13 @@ android {
 }
 
 dependencies {
+
     // Kotlin
     implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
     implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
 
     // Compose Navigation
-    val navigationVersion = "0.24.5-alpha"
+    val navigationVersion = "0.23.1"
     implementation(dependencyNotation = "com.google.accompanist:accompanist-navigation-animation:$navigationVersion")
 
     // Testing

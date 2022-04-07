@@ -66,8 +66,7 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
         HorizontalPager(
             count = authenticationTabs.size,
             modifier = Modifier.fillMaxSize(),
-            state = pagerState,
-            userScrollEnabled = false
+            state = pagerState
         ) { page ->
             when (page) {
                 0 -> SignInPage(
