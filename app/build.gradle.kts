@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = "1.2.0-alpha07"
     }
     packagingOptions {
         resources {
@@ -61,6 +61,7 @@ dependencies {
     implementation(project(":features:authentication"))
     implementation(project(":features:home"))
     implementation(project(":features:game"))
+    implementation(project(":features:catalogue"))
 
     // Kotlin
     implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
@@ -72,7 +73,7 @@ dependencies {
     implementation(dependencyNotation = "com.google.android.material:material:1.5.0")
 
     // Compose
-    val composeVersion = "1.1.1"
+    val composeVersion = "1.2.0-alpha07"
     implementation(dependencyNotation = "androidx.compose.ui:ui:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")

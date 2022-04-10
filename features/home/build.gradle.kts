@@ -28,7 +28,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = "1.2.0-alpha07"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -51,7 +51,7 @@ dependencies {
     implementation(dependencyNotation = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 
     // Compose
-    val composeVersion = "1.1.1"
+    val composeVersion = "1.2.0-alpha07"
     implementation(dependencyNotation = "androidx.compose.ui:ui:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")

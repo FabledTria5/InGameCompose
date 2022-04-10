@@ -2,4 +2,10 @@
 <resources>
     <string name="catalogue">Catalogue</string>
     <string name="save">Save</string>
+    <string name="icon_search">Search Icon</string>
+    <string name="icon_voice">Voice Icon</string>
+    <string name="icon_edit">Edit Icon</string>
+    <string name="by_developer">By developer</string>
+    <string name="by_platform">By platform</string>
+    <string name="by_genre">By genre</string>
 </resources>

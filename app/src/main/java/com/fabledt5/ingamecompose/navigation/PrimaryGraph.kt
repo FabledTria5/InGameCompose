@@ -6,6 +6,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
+import com.fabledt5.catalogue.screens.CatalogueScreen
 import com.fabledt5.home.screens.HomeScreen
 import com.fabledt5.navigation.Routes
 import com.fabledt5.navigation.directions.PrimaryAppDirections
@@ -25,6 +26,9 @@ fun NavGraphBuilder.primaryGraph() {
     ) {
         composable(route = PrimaryAppDirections.home.route) {
             HomeScreen(homeViewModel = hiltViewModel())
+        }
+        composable(PrimaryAppDirections.catalogue.route) {
+            CatalogueScreen()
         }
     }
 }
