@@ -20,7 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.theme.Turquoise
+import com.fabledt5.common.theme.DefaultHorizontalGradient
+import com.fabledt5.common.utils.gradient
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 
@@ -72,11 +73,15 @@ fun OutlinedTabs(
                     text = {
                         Text(
                             text = tabName.uppercase(),
+                            modifier = Modifier.then(
+                                if (pagerState.currentPage == index) Modifier.gradient(
+                                    DefaultHorizontalGradient
+                                ) else Modifier
+                            ),
                             fontSize = textSize,
                             fontWeight = FontWeight.Bold
                         )
                     },
-                    selectedContentColor = Turquoise,
                     unselectedContentColor = Color.White.copy(alpha = .5f)
                 )
             }

@@ -1,5 +1,6 @@
 package com.fabledt5.ingamecompose.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -18,9 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
+import com.fabledt5.common.theme.DefaultHorizontalGradient
 import com.fabledt5.common.theme.DimGray
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.theme.Turquoise
+import com.fabledt5.common.utils.gradient
 import com.fabledt5.ingamecompose.navigation.authenticationGraph
 import com.fabledt5.ingamecompose.navigation.gameGraph
 import com.fabledt5.ingamecompose.navigation.primaryGraph
@@ -42,6 +44,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
@@ -151,17 +154,28 @@ fun RowScope.AddNavigationItem(
     screen: BottomBarItem,
     navHostController: NavHostController
 ) {
+    val selected = navHostController.currentDestination?.route == screen.destination.route
     BottomNavigationItem(
-        selected = navHostController.currentDestination?.route == screen.destination.route,
+        selected = selected,
         onClick = { navHostController.navigate(screen.destination.route) },
-        label = { Text(text = screen.title, fontFamily = Mark) },
+        label = {
+            Text(
+                text = screen.title,
+                modifier = Modifier.then(
+                    if (selected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
+                ),
+                fontFamily = Mark
+            )
+        },
         icon = {
             Icon(
                 painter = painterResource(id = screen.icon),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.then(
+                    if (selected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
+                )
             )
         },
-        selectedContentColor = Turquoise,
         unselectedContentColor = DimGray,
     )
 }
