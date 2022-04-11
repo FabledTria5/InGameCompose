@@ -58,7 +58,8 @@ fun MainScreen(navigationManager: NavigationManager) {
         "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
     }
     val navHostController = rememberAnimatedNavController()
-    var currentDestination by remember { mutableStateOf(navHostController.currentDestination?.route) }
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination?.route
     var inclusiveScreen by remember { mutableStateOf(true) }
 
     LaunchedEffect(key1 = navigationManager.commands) {
@@ -70,7 +71,6 @@ fun MainScreen(navigationManager: NavigationManager) {
                     }
             }
             inclusiveScreen = command.inclusive
-            currentDestination = navHostController.currentDestination?.route
         }
     }
 
@@ -78,7 +78,6 @@ fun MainScreen(navigationManager: NavigationManager) {
         navigationManager.backNavigation.collectLatest { command ->
             if (command == BackDirection.back) {
                 navHostController.popBackStack()
-                currentDestination = navHostController.currentDestination?.route
             }
         }
     }
@@ -120,9 +119,6 @@ fun MainScreen(navigationManager: NavigationManager) {
 
 @Composable
 fun BottomBar(navHostController: NavHostController, currentDestination: String?) {
-    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
     val screens = listOf(
         BottomBarItem.Home,
         BottomBarItem.Catalogue,
@@ -148,7 +144,7 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
             AddNavigationItem(
                 screen = screen,
                 navHostController = navHostController,
-                currentDestination = currentRoute
+                currentDestination = currentDestination
             )
         }
     }
