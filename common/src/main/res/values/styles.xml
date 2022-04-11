@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ExoStyledControls.Button.Center.PlayPause.CustomButton">
+        <item name="android:src">@drawable/ic_play</item>
+        <item name="contentDescription">@string/watch_trailer</item>
+    </style>
+</resources>
