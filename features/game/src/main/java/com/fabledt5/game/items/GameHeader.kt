@@ -45,7 +45,7 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
                 },
             scaleType = ContentScale.Crop
         )
-        if (gameItem.gameTrailersUrls.isEmpty()) CoilImage(
+        if (gameItem.gameTrailersUrl.isEmpty()) CoilImage(
             imagePath = gameItem.gamePoster,
             contentDescription = "${gameItem.gameTitle} game poster",
             modifier = Modifier
@@ -133,7 +133,7 @@ fun BoxScope.ShowHeaderPager(gameItem: GameItem) {
     val configuration = LocalConfiguration.current
 
     HorizontalPager(
-        count = gameItem.gameTrailersUrls.size + 1,
+        count = 2,
         state = pagerState,
         modifier = Modifier
             .fillMaxWidth()
@@ -143,8 +143,8 @@ fun BoxScope.ShowHeaderPager(gameItem: GameItem) {
                 drawImageForeground()
             }
     ) { page ->
-        if (page == 0)
-            CoilImage(
+        when (page) {
+            0 -> CoilImage(
                 imagePath = gameItem.gamePoster,
                 contentDescription = "${gameItem.gameTitle} game poster",
                 modifier = Modifier
@@ -152,13 +152,14 @@ fun BoxScope.ShowHeaderPager(gameItem: GameItem) {
                     .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp),
                 scaleType = ContentScale.Crop
             )
-        else {
-            VideoPlayer(
-                url = gameItem.gameTrailersUrls[page - 1], modifier = Modifier
+            1 -> VideoPlayer(
+                url = gameItem.gameTrailersUrl,
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
             )
         }
+
     }
 
     HorizontalPagerIndicator(

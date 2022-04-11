@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.fabledt5.common.databinding.CustomExoPlayerBinding
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
@@ -17,6 +18,8 @@ fun VideoPlayer(url: String, modifier: Modifier = Modifier) {
 
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
+            videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
+
             val mediaItem = MediaItem.Builder().setUri(url).build()
             setMediaItem(mediaItem)
             prepare()
@@ -28,7 +31,7 @@ fun VideoPlayer(url: String, modifier: Modifier = Modifier) {
             this.exoPlayer.apply {
                 hideController()
                 useController = true
-                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
                 player = exoPlayer
             }
         }
