@@ -66,9 +66,8 @@ fun List<GameReviewDto>.toDomain() = GameRating(
         }
 )
 
-fun GameTrailersResponse.toDomain(): List<String> = results
-    .take(n = 2)
-    .map { it.data.x480 }
+fun GameTrailersResponse.toDomain(): String =
+    results.lastOrNull { it.data.x480.isNotEmpty() }?.data?.x480 ?: ""
 
 private fun List<GameReviewDto>.getAverageRating(): String {
     var ratingsSum = 0

@@ -4,4 +4,6 @@
     <string name="icon_arrow">Arrow Icon</string>
     <string name="icon_loading_error">Loading Error Icon</string>
     <string name="unknown">Unknown</string>
+    <string name="ic_watch_trailer">Watch Trailer Icon</string>
+    <string name="watch_trailer">Watch Trailer</string>
 </resources>

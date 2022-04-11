@@ -24,6 +24,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.1.1"
@@ -54,6 +55,7 @@ dependencies {
     implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation(dependencyNotation = "androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation(dependencyNotation = "androidx.compose.ui:ui-viewbinding:$composeVersion")
 
     // Accompanist
     val accompanistVersion = "0.23.1"
