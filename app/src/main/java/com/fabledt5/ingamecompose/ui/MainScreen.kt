@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.fabledt5.common.theme.DefaultHorizontalGradient
 import com.fabledt5.common.theme.DimGray
 import com.fabledt5.common.theme.Mark
@@ -57,7 +58,7 @@ fun MainScreen(navigationManager: NavigationManager) {
         "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
     }
     val navHostController = rememberAnimatedNavController()
-    var currentDestination by remember { mutableStateOf(navHostController.currentDestination) }
+    var currentDestination by remember { mutableStateOf(navHostController.currentDestination?.route) }
     var inclusiveScreen by remember { mutableStateOf(true) }
 
     LaunchedEffect(key1 = navigationManager.commands) {
@@ -69,7 +70,7 @@ fun MainScreen(navigationManager: NavigationManager) {
                     }
             }
             inclusiveScreen = command.inclusive
-            currentDestination = navHostController.currentDestination
+            currentDestination = navHostController.currentDestination?.route
         }
     }
 
@@ -77,13 +78,13 @@ fun MainScreen(navigationManager: NavigationManager) {
         navigationManager.backNavigation.collectLatest { command ->
             if (command == BackDirection.back) {
                 navHostController.popBackStack()
-                currentDestination = navHostController.currentDestination
+                currentDestination = navHostController.currentDestination?.route
             }
         }
     }
 
     LaunchedEffect(key1 = currentDestination) {
-        when (currentDestination?.route) {
+        when (currentDestination) {
             SplashDirections.splash.route -> systemUiController.setTransparentStatusBar()
             GameDirections.gameScreenRoute -> systemUiController.setTransparentStatusBar()
             PrimaryAppDirections.home.route -> systemUiController.setTransparentStatusBar()
@@ -94,7 +95,7 @@ fun MainScreen(navigationManager: NavigationManager) {
     Scaffold(bottomBar = {
         BottomBar(
             navHostController = navHostController,
-            currentDestination = navHostController.currentDestination?.route
+            currentDestination = currentDestination
         )
     }) {
         AnimatedNavHost(
@@ -119,6 +120,9 @@ fun MainScreen(navigationManager: NavigationManager) {
 
 @Composable
 fun BottomBar(navHostController: NavHostController, currentDestination: String?) {
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     val screens = listOf(
         BottomBarItem.Home,
         BottomBarItem.Catalogue,
@@ -143,7 +147,8 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
         screens.forEach { screen ->
             AddNavigationItem(
                 screen = screen,
-                navHostController = navHostController
+                navHostController = navHostController,
+                currentDestination = currentRoute
             )
         }
     }
@@ -152,9 +157,10 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
 @Composable
 fun RowScope.AddNavigationItem(
     screen: BottomBarItem,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    currentDestination: String?
 ) {
-    val selected = navHostController.currentDestination?.route == screen.destination.route
+    val selected = currentDestination == screen.destination.route
     BottomNavigationItem(
         selected = selected,
         onClick = { navHostController.navigate(screen.destination.route) },
@@ -177,5 +183,6 @@ fun RowScope.AddNavigationItem(
             )
         },
         unselectedContentColor = DimGray,
+        selectedContentColor = DimGray
     )
 }
