@@ -1,6 +1,11 @@
 package com.fabledt5.catalogue.screens
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.speech.RecognizerIntent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -102,6 +107,17 @@ fun CatalogueTopBar(
 @Composable
 fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String) -> Unit) {
     var searchQuery by remember { mutableStateOf("") }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            val spokenText = data?.getStringArrayExtra(RecognizerIntent.EXTRA_RESULTS)?.let {
+                it[0]
+            }
+            if (!spokenText.isNullOrEmpty()) searchQuery = spokenText
+        }
+    }
 
     OutlinedTextField(
         value = searchQuery,
@@ -116,7 +132,14 @@ fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String
             }
         },
         trailingIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                    putExtra(
+                        RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                    )
+                }.let(launcher::launch)
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_voice),
                     contentDescription = stringResource(R.string.icon_voice)
