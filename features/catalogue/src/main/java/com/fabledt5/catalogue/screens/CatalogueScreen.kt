@@ -31,7 +31,7 @@ import com.fabledt5.common.theme.*
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CatalogueScreen() {
-    var isFiltersListOpen by remember { mutableStateOf(true) }
+    var isFiltersListOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
