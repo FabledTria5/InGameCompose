@@ -4,21 +4,21 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testRunner
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -26,29 +26,30 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = Config.composeCompilerExtensionVersion
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Config.jvmTargetVersion
     }
 }
 
 dependencies {
 
     // Kotlin
-    implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
-    implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
+    implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
+
+    // Design
+    implementation(dependencyNotation = Dependencies.appcompat)
 
     // Compose Navigation
-    val navigationVersion = "0.23.1"
-    implementation(dependencyNotation = "com.google.accompanist:accompanist-navigation-animation:$navigationVersion")
+    implementation(dependencyNotation = Dependencies.composeNavigation)
 
     // Testing
-    testImplementation(dependencyNotation = "junit:junit:4.13.2")
-    androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
-    androidTestImplementation(dependencyNotation = "androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(dependencyNotation = Dependencies.junit)
+    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
+    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
 }

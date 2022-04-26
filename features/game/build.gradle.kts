@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testRunner
     }
 
     buildTypes {
@@ -28,14 +28,14 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0-alpha07"
+        kotlinCompilerExtensionVersion = Config.composeCompilerExtensionVersion
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Config.jvmTargetVersion
     }
 }
 
@@ -46,29 +46,28 @@ dependencies {
     implementation(project(":navigation"))
 
     // Kotlin
-    implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
-    implementation(dependencyNotation = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation(dependencyNotation = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
+    implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
+    implementation(dependencyNotation = Dependencies.lifecycleRuntime)
+    implementation(dependencyNotation = Dependencies.lifecycleViewModel)
 
     // Compose
-    val composeVersion = "1.2.0-alpha07"
-    implementation(dependencyNotation = "androidx.compose.ui:ui:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.ui:ui-tooling:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.ui:ui-util:$composeVersion")
-    implementation(dependencyNotation = "androidx.activity:activity-compose:1.4.0")
+    implementation(dependencyNotation = Dependencies.composeUiLatest)
+    implementation(dependencyNotation = Dependencies.composeMaterialLatest)
+    implementation(dependencyNotation = Dependencies.composeToolingPreviewLatest)
+    implementation(dependencyNotation = Dependencies.composeToolingLatest)
+    implementation(dependencyNotation = Dependencies.composeUiUtil)
+    implementation(dependencyNotation = Dependencies.activityCompose)
 
     // Design
-    implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
-    implementation(dependencyNotation = "com.google.android.material:material:1.5.0")
+    implementation(dependencyNotation = Dependencies.appcompat)
+    implementation(dependencyNotation = Dependencies.material)
 
     // Dagger Hilt
-    implementation(dependencyNotation = "com.google.dagger:hilt-android:2.40.5")
-    kapt(dependencyNotation = "com.google.dagger:hilt-android-compiler:2.40.5")
+    implementation(dependencyNotation = Dependencies.hiltAndroid)
+    kapt(dependencyNotation = Dependencies.hiltCompiler)
 
     // Testing
-    testImplementation(dependencyNotation = "junit:junit:4.13.2")
-    androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
-    androidTestImplementation(dependencyNotation = "androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(dependencyNotation = Dependencies.junit)
+    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
+    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
 }
