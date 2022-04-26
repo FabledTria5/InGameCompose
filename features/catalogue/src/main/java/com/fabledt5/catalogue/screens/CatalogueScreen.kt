@@ -1,6 +1,5 @@
 package com.fabledt5.catalogue.screens
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.speech.RecognizerIntent
@@ -28,10 +27,9 @@ import com.fabledt5.catalogue.items.CatalogueFiltersSection
 import com.fabledt5.catalogue.items.CatalogueSearchSection
 import com.fabledt5.common.theme.*
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CatalogueScreen() {
-    var isFiltersListOpen by remember { mutableStateOf(false) }
+    var isFiltersListOpen by remember { mutableStateOf(true) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -112,7 +110,7 @@ fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
-            val spokenText = data?.getStringArrayExtra(RecognizerIntent.EXTRA_RESULTS)?.let {
+            val spokenText = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.let {
                 it[0]
             }
             if (!spokenText.isNullOrEmpty()) searchQuery = spokenText
@@ -138,6 +136,7 @@ fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String
                         RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                         RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
                     )
+                    putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
                 }.let(launcher::launch)
             }) {
                 Icon(

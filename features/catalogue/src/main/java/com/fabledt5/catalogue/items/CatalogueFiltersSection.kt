@@ -89,6 +89,20 @@ fun PlatformsFilter(modifier: Modifier = Modifier) {
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp
         )
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 10.dp)
+        ) {
+            items(5) {
+                var isSelected by remember { mutableStateOf(false) }
+                FilterItem(
+                    modifier = Modifier.fillMaxWidth(fraction = .3f),
+                    isActive = isSelected,
+                    onItemClick = { isSelected = !isSelected }
+                )
+                if (it < 5) Spacer(modifier = Modifier.width(10.dp))
+            }
+        }
     }
 }
 

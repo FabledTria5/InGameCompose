@@ -1,5 +1,6 @@
 package com.fabledt5.game.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,6 +48,7 @@ fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<GameRa
     }
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
     Scaffold(

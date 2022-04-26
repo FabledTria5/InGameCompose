@@ -39,7 +39,7 @@ fun ShowSearchSuggestions() {
                     color = Color.White.copy(alpha = .2f),
                     fontFamily = Mark,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 21.sp
+                    fontSize = 18.sp
                 )
             }
         }
