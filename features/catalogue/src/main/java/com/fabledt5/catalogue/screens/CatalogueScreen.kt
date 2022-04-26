@@ -5,6 +5,7 @@ import android.content.Intent
 import android.speech.RecognizerIntent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -27,6 +28,7 @@ import com.fabledt5.catalogue.items.CatalogueFiltersSection
 import com.fabledt5.catalogue.items.CatalogueSearchSection
 import com.fabledt5.common.theme.*
 
+@ExperimentalFoundationApi
 @Composable
 fun CatalogueScreen() {
     var isFiltersListOpen by remember { mutableStateOf(true) }
@@ -158,6 +160,7 @@ fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String
     )
 }
 
+@ExperimentalFoundationApi
 @Preview
 @Composable
 fun CatalogueScreenPreview() {
