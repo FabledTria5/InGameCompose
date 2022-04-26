@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
+    id(Plugins.application)
+    kotlin(Plugins.android)
+    kotlin(Plugins.kapt)
+    id(Plugins.hilt)
+    id(Plugins.googleServices)
 }
 
 android {

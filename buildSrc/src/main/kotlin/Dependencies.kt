@@ -9,12 +9,19 @@ object Config {
 
     const val applicationId = "com.fabledt5.ingamecompose"
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
-    val javaVersion = JavaVersion.VERSION_11
     const val jvmTargetVersion = "11"
     const val composeCompilerExtensionVersion = "1.2.0-alpha08"
+
+    val javaVersion = JavaVersion.VERSION_11
 }
 
 object Versions {
+
+    // Core
+    const val gradle = "7.1.3"
+    const val kotlinGradleVersion = "1.6.20"
+    const val googleServices = "4.3.10"
+    const val kspVersion = "1.6.20-1.0.5"
 
     // Kotlin
     const val kotlinVersion = "1.7.0"
@@ -67,6 +74,14 @@ object Versions {
 }
 
 object Dependencies {
+
+    // Core
+    const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+    const val kotlinGradlePlugin =
+        "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinGradleVersion}"
+    const val hiltAndroidPlugin =
+        "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltAndroid}"
+    const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
 
     // Kotlin
     const val kotlinCoreKtx = "androidx.core:core-ktx:${Versions.kotlinVersion}"
@@ -152,4 +167,15 @@ object Dependencies {
 
     // Logging
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
+}
+
+object Plugins {
+    const val application = "com.android.application"
+    const val library = "com.android.library"
+    const val android = "android"
+    const val kotlin = "kotlin"
+    const val kapt = "kapt"
+    const val ksp = "com.google.devtools.ksp"
+    const val hilt = "dagger.hilt.android.plugin"
+    const val googleServices = "com.google.gms.google-services"
 }

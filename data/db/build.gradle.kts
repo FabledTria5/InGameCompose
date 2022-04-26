@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("com.google.devtools.ksp") version "1.6.20-1.0.5"
-    id("dagger.hilt.android.plugin")
+    id(Plugins.library)
+    kotlin(Plugins.android)
+    kotlin(Plugins.kapt)
+    id(Plugins.ksp) version Versions.kspVersion
+    id(Plugins.hilt)
 }
 
 android {
