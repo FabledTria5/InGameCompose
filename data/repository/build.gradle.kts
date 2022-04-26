@@ -1,36 +1,36 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
+    id(Plugins.library)
+    id(Plugins.hilt)
+    kotlin(Plugins.android)
+    kotlin(Plugins.kapt)
+    id(Plugins.googleServices)
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testRunner
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Config.jvmTargetVersion
     }
 }
 
@@ -42,21 +42,20 @@ dependencies {
     implementation(project(":data:remote"))
 
     // Kotlin
-    implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
-    implementation(dependencyNotation = "com.google.firebase:firebase-auth-ktx:21.0.3")
-    implementation(dependencyNotation = "com.google.firebase:firebase-firestore-ktx:24.1.0")
-    implementation(dependencyNotation = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0-native-mt")
+    implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
+    implementation(dependencyNotation = Dependencies.firebaseAuth)
+    implementation(dependencyNotation = Dependencies.fireStore)
+    implementation(dependencyNotation = Dependencies.firebaseCoroutines)
 
     // Testing
-    testImplementation(dependencyNotation = "junit:junit:4.13.2")
-    androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
+    testImplementation(dependencyNotation = Dependencies.junit)
+    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
 
     // Dagger Hilt
-    implementation(dependencyNotation = "com.google.dagger:hilt-android:2.40.5")
-    kapt(dependencyNotation = "com.google.dagger:hilt-android-compiler:2.40.5")
+    implementation(dependencyNotation = Dependencies.hiltAndroid)
+    kapt(dependencyNotation = Dependencies.hiltCompiler)
 
     // Pagination
-    val pagingVersion = "3.1.0"
-    implementation(dependencyNotation = "androidx.paging:paging-runtime:$pagingVersion")
+    implementation(dependencyNotation = Dependencies.pagingRuntime)
 
 }

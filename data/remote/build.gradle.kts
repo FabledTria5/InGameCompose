@@ -1,18 +1,18 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id(Plugins.library)
+    id(Plugins.hilt)
+    kotlin(Plugins.android)
+    kotlin(Plugins.kapt)
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testRunner
     }
 
     buildTypes {
@@ -34,32 +34,32 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Config.jvmTargetVersion
     }
 }
 
 dependencies {
 
     // Kotlin
-    implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
+    implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
 
     // Testing
-    testImplementation(dependencyNotation = "junit:junit:4.13.2")
-    androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
+    testImplementation(dependencyNotation = Dependencies.junit)
+    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
 
     // Retrofit
-    implementation(dependencyNotation = "com.squareup.retrofit2:retrofit:2.9.0")
-    implementation(dependencyNotation = "com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation(dependencyNotation = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+    implementation(dependencyNotation = Dependencies.retrofit)
+    implementation(dependencyNotation = Dependencies.gsonConverter)
+    implementation(dependencyNotation = Dependencies.loggingInterceptor)
 
     // Jsoup
-    implementation(dependencyNotation = "org.jsoup:jsoup:1.14.3")
+    implementation(dependencyNotation = Dependencies.jsoup)
 
     // Dagger Hilt
-    implementation(dependencyNotation = "com.google.dagger:hilt-android:2.40.5")
-    kapt(dependencyNotation = "com.google.dagger:hilt-android-compiler:2.40.5")
+    implementation(dependencyNotation = Dependencies.hiltAndroid)
+    kapt(dependencyNotation = Dependencies.hiltCompiler)
 }
