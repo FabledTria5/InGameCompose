@@ -77,54 +77,7 @@ fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
             contentPadding = PaddingValues(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 10.dp),
         ) {
             item {
-                Column(
-                    modifier = Modifier
-                        .padding(bottom = 15.dp)
-                        .fillMaxSize()
-                ) {
-                    Text(
-                        text = gameItem.gameTitle,
-                        modifier = Modifier
-                            .align(CenterHorizontally)
-                            .padding(top = 5.dp),
-                        color = Color.White,
-                        fontFamily = Mark,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = buildAnnotatedString {
-                            append(
-                                AnnotatedString(
-                                    text = stringResource(R.string.estimate),
-                                    spanStyle = SpanStyle(
-                                        color = Color.White,
-                                        fontSize = 13.sp,
-                                        fontFamily = Proxima
-                                    )
-                                )
-                            )
-                            append(" ")
-                            append(
-                                AnnotatedString(
-                                    text = gameRating.gameRating,
-                                    spanStyle = SpanStyle(
-                                        color = Color.White,
-                                        fontSize = 13.sp,
-                                        fontFamily = Mark,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                )
-                            )
-                        },
-                        modifier = Modifier.padding(bottom = 10.dp)
-                    )
-                    GameRatingsCounters(
-                        gameRatings = gameRating.gameReviews.toRatingsCounter(),
-                        totalReviews = gameRating.gameReviews.size
-                    )
-                }
+                GameReviewsHeader(gameItem = gameItem, gameRating = gameRating)
             }
             items(gameRating.gameReviews, key = { it.reviewerName }) {
                 GameReviewItem(
@@ -137,13 +90,63 @@ fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
 }
 
 @Composable
-fun GameRatingsCounters(gameRatings: Map<Int, Int>, totalReviews: Int) {
-    gameRatings.keys.forEach { key ->
-        val percent = gameRatings[key]?.toFloat()?.div(totalReviews)?.times(100)?.toInt() ?: 0
-        RatingCounter(
-            rating = key,
-            ratingsCount = gameRatings[key],
-            ratingsPercent = percent
+fun GameReviewsHeader(gameItem: GameItem, gameRating: GameRating) {
+    Column(
+        modifier = Modifier
+            .padding(bottom = 15.dp)
+            .fillMaxSize()
+    ) {
+        Text(
+            text = gameItem.gameTitle,
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(top = 5.dp),
+            color = Color.White,
+            fontFamily = Mark,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
         )
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            text = buildAnnotatedString {
+                append(
+                    AnnotatedString(
+                        text = stringResource(R.string.estimate),
+                        spanStyle = SpanStyle(
+                            color = Color.White,
+                            fontSize = 13.sp,
+                            fontFamily = Proxima
+                        )
+                    )
+                )
+                append(" ")
+                append(
+                    AnnotatedString(
+                        text = gameRating.gameRating,
+                        spanStyle = SpanStyle(
+                            color = Color.White,
+                            fontSize = 13.sp,
+                            fontFamily = Mark,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                )
+            },
+            modifier = Modifier.padding(bottom = 10.dp)
+        )
+        gameRating.gameReviews.toRatingsCounter().let { gameRatingsMap ->
+            gameRatingsMap.keys.forEach { key ->
+                val ratingPercent = gameRatingsMap[key]
+                    ?.toFloat()
+                    ?.div(gameRating.gameReviews.size)
+                    ?.times(100)
+                    ?.toInt() ?: 0
+                RatingCounter(
+                    rating = key,
+                    ratingsCount = gameRatingsMap[key],
+                    ratingsPercent = ratingPercent
+                )
+            }
+        }
     }
 }
