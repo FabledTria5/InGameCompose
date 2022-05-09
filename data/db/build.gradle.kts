@@ -14,6 +14,10 @@ android {
         targetSdk = Config.targetSdk
 
         testInstrumentationRunner = Config.testRunner
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     buildTypes {

@@ -153,7 +153,7 @@ fun ShowGameSnapshotsSuccess(gameSnapshots: List<String>) {
                     .fillMaxWidth()
                     .aspectRatio(ratio = .9f)
                     .clip(shape = RoundedCornerShape(size = 10.dp)),
-                scaleType = ContentScale.Crop
+                contentScale = ContentScale.Crop
             )
         }
     }

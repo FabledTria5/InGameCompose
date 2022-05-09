@@ -1,16 +1,17 @@
 package com.fabledt5.catalogue.items
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,18 +20,25 @@ import com.fabledt5.catalogue.R
 import com.fabledt5.catalogue.components.FilterImageItem
 import com.fabledt5.catalogue.components.FilterTextItem
 import com.fabledt5.common.theme.Mark
+import com.fabledt5.domain.model.DeveloperItem
+import com.fabledt5.domain.model.Resource
 
 @ExperimentalFoundationApi
 @Composable
-fun CatalogueFiltersSection() {
+fun CatalogueFiltersSection(developersFilters: Resource<List<DeveloperItem>>) {
     Column(
         modifier = Modifier
             .padding(vertical = 20.dp)
             .fillMaxSize()
     ) {
-        DevelopersFilter(
-            modifier = Modifier.fillMaxWidth()
-        )
+        when (developersFilters) {
+//            is Resource.Error -> showDevelopersError()
+            is Resource.Success -> ShowDevelopersFilters(
+                developersFilters.data,
+                modifier = Modifier.fillMaxWidth()
+            )
+//            else -> showDevelopersLoading()
+        }
         Spacer(modifier = Modifier.height(30.dp))
         PlatformsFilter(
             modifier = Modifier.fillMaxWidth()
@@ -43,7 +51,7 @@ fun CatalogueFiltersSection() {
 }
 
 @Composable
-fun DevelopersFilter(modifier: Modifier = Modifier) {
+fun ShowDevelopersFilters(developersFilter: List<DeveloperItem>, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.by_developer).uppercase(),
@@ -58,15 +66,25 @@ fun DevelopersFilter(modifier: Modifier = Modifier) {
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 10.dp)
     ) {
-        items(5) {
+        itemsIndexed(
+            items = developersFilter,
+            key = { _, developer -> developer.developerId })
+        { index, developer ->
             var isSelected by remember { mutableStateOf(false) }
-            FilterImageItem(
-                filterImage = painterResource(id = R.drawable.logo_ubi),
-                isActive = isSelected,
-                onItemSelected = { isSelected = !isSelected },
-                modifier = Modifier.size(90.dp),
+            val iconTint by animateColorAsState(
+                targetValue = if (isSelected) Color.White else Color.White.copy(
+                    alpha = .6f
+                )
             )
-            if (it < 5) Spacer(modifier = Modifier.width(10.dp))
+
+            FilterImageItem(
+                filterImage = developer.icon,
+                isActive = isSelected,
+                iconTint = iconTint,
+                onItemSelected = { isSelected = !isSelected },
+                modifier = Modifier.size(90.dp)
+            )
+            if (index != developersFilter.lastIndex) Spacer(modifier = Modifier.width(10.dp))
         }
     }
 }
@@ -88,12 +106,12 @@ fun PlatformsFilter(modifier: Modifier = Modifier) {
         ) {
             items(5) {
                 var isSelected by remember { mutableStateOf(false) }
-                FilterImageItem(
-                    filterImage = painterResource(id = R.drawable.logo_play),
-                    isActive = isSelected,
-                    onItemSelected = { isSelected = !isSelected },
-                    modifier = Modifier.size(90.dp),
-                )
+//                FilterImageItem(
+//                    filterImage = painterResource(id = R.drawable.logo_play),
+//                    isActive = isSelected,
+//                    onItemSelected = { isSelected = !isSelected },
+//                    modifier = Modifier.size(90.dp),
+//                )
                 if (it < 5) Spacer(modifier = Modifier.width(10.dp))
             }
         }
@@ -124,7 +142,7 @@ fun GenresFilter(modifier: Modifier = Modifier) {
             fontSize = 18.sp
         )
         LazyVerticalGrid(
-            cells = GridCells.Fixed(count = 3),
+            columns = GridCells.Fixed(count = 3),
             contentPadding = PaddingValues(horizontal = 10.dp),
         ) {
             itemsIndexed(genresList) { index, item ->

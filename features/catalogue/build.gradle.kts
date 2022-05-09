@@ -51,10 +51,10 @@ dependencies {
     implementation(dependencyNotation = Dependencies.lifecycleViewModel)
 
     // Compose
-    implementation(dependencyNotation = Dependencies.composeUiStable)
-    implementation(dependencyNotation = Dependencies.composeMaterialStable)
-    implementation(dependencyNotation = Dependencies.composeToolingPreviewStable)
-    implementation(dependencyNotation = Dependencies.composeToolingStable)
+    implementation(dependencyNotation = Dependencies.composeUiLatest)
+    implementation(dependencyNotation = Dependencies.composeMaterialLatest)
+    implementation(dependencyNotation = Dependencies.composeToolingPreviewLatest)
+    implementation(dependencyNotation = Dependencies.composeToolingLatest)
     implementation(dependencyNotation = Dependencies.activityCompose)
 
     // Design

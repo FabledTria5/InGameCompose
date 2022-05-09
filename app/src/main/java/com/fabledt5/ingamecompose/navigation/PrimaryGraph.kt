@@ -28,7 +28,7 @@ fun NavGraphBuilder.primaryGraph() {
             HomeScreen(homeViewModel = hiltViewModel())
         }
         composable(PrimaryAppDirections.catalogue.route) {
-            CatalogueScreen()
+            CatalogueScreen(catalogueViewModel = hiltViewModel())
         }
     }
 }

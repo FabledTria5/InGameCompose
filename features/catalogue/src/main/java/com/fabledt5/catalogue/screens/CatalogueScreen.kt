@@ -1,5 +1,6 @@
 package com.fabledt5.catalogue.screens
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.speech.RecognizerIntent
@@ -20,28 +21,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fabledt5.catalogue.CatalogueViewModel
 import com.fabledt5.catalogue.R
 import com.fabledt5.catalogue.items.CatalogueFiltersSection
 import com.fabledt5.catalogue.items.CatalogueSearchSection
-import com.fabledt5.common.theme.*
+import com.fabledt5.common.theme.DarkLateBlack
+import com.fabledt5.common.theme.Mark
+import com.fabledt5.common.theme.MidNightBlack
+import com.fabledt5.common.theme.Turquoise
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @Composable
-fun CatalogueScreen() {
+fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
+    val developersFilters by catalogueViewModel.developersFilters.collectAsState()
+
     var isFiltersListOpen by remember { mutableStateOf(true) }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .systemBarsPadding()
+            .fillMaxSize(),
         topBar = {
             CatalogueTopBar(
                 isFiltersOpen = isFiltersListOpen,
                 onOpenFiltersClicked = { isFiltersListOpen = true },
                 onSaveFiltersClicked = { isFiltersListOpen = false })
         },
-        backgroundColor = Background
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             CatalogueSearchField(
@@ -50,7 +58,7 @@ fun CatalogueScreen() {
                     .padding(start = 10.dp, top = 15.dp, end = 10.dp)
                     .fillMaxWidth()
             )
-            if (isFiltersListOpen) CatalogueFiltersSection() else CatalogueSearchSection()
+            if (isFiltersListOpen) CatalogueFiltersSection(developersFilters) else CatalogueSearchSection()
         }
     }
 }
@@ -158,11 +166,4 @@ fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String
             trailingIconColor = Color.White.copy(alpha = .4f),
         )
     )
-}
-
-@ExperimentalFoundationApi
-@Preview
-@Composable
-fun CatalogueScreenPreview() {
-    CatalogueScreen()
 }

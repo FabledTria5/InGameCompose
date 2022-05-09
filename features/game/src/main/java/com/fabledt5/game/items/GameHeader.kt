@@ -43,7 +43,7 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
                     drawContent()
                     drawImageForeground()
                 },
-            scaleType = ContentScale.Crop
+            contentScale = ContentScale.Crop
         )
         if (gameItem.gameTrailersUrl.isEmpty()) CoilImage(
             imagePath = gameItem.gamePoster,
@@ -55,7 +55,7 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
                     drawContent()
                     drawImageForeground()
                 },
-            scaleType = ContentScale.Crop
+            contentScale = ContentScale.Crop
         ) else ShowHeaderPager(gameItem = gameItem)
         IconButton(
             onClick = onBackClicked,
@@ -150,7 +150,7 @@ fun BoxScope.ShowHeaderPager(gameItem: GameItem) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp),
-                scaleType = ContentScale.Crop
+                contentScale = ContentScale.Crop
             )
             1 -> VideoPlayer(
                 url = gameItem.gameTrailersUrl,

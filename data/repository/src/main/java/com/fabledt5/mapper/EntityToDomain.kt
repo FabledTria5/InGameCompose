@@ -1,7 +1,9 @@
 package com.fabledt5.mapper
 
+import com.fabledt5.db.entities.DeveloperEntity
 import com.fabledt5.db.entities.HotGameEntity
 import com.fabledt5.db.entities.PlatformEntity
+import com.fabledt5.domain.model.DeveloperItem
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.PlatformItem
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +26,23 @@ fun List<PlatformEntity>.toDomain(): List<PlatformItem> = map { entity ->
     PlatformItem(platformId = entity.platformId, platformName = entity.platformName)
 }
 
+@JvmName("toDomainPlatformEntity")
 fun Flow<PlatformEntity>.toDomain(): Flow<PlatformItem> = map { entity ->
     PlatformItem(platformId = entity.platformId, platformName = entity.platformName)
+}
+
+@JvmName("toDomainDeveloperEntity")
+fun Flow<List<DeveloperEntity>>.toDomain(): Flow<List<DeveloperItem>> = map { list ->
+    list.map { entity ->
+        DeveloperItem(
+            developerId = entity.developerId,
+            foundation = entity.foundation,
+            icon = entity.icon,
+            keyPeople = entity.keyPeople,
+            headquarters = entity.headquarters,
+            developerName = entity.developerName,
+            preview = entity.preview,
+            website = entity.website
+        )
+    }
 }

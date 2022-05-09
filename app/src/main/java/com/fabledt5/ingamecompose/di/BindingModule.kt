@@ -26,4 +26,7 @@ interface BindingModule {
     @Binds
     fun bindGameRepository(gameRepositoryImpl: GameRepositoryImpl): GameRepository
 
+    @Binds
+    fun bindFiltersRepository(filtersRepositoryImpl: FiltersRepositoryImpl): FiltersRepository
+
 }

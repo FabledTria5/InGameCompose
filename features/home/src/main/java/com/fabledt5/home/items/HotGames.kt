@@ -130,7 +130,7 @@ fun HotGame(hotGame: GameItem, onGameClicked: (Int) -> Unit) {
                     drawContent()
                     drawImageForeground()
                 },
-            scaleType = ContentScale.Crop
+            contentScale = ContentScale.Crop
         )
         Column(
             modifier = Modifier
