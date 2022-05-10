@@ -4,10 +4,9 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -22,6 +21,8 @@ import com.fabledt5.catalogue.components.FilterTextItem
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.domain.model.DeveloperItem
 import com.fabledt5.domain.model.Resource
+import com.google.accompanist.flowlayout.FlowMainAxisAlignment
+import com.google.accompanist.flowlayout.FlowRow
 
 @ExperimentalFoundationApi
 @Composable
@@ -30,6 +31,7 @@ fun CatalogueFiltersSection(developersFilters: Resource<List<DeveloperItem>>) {
         modifier = Modifier
             .padding(vertical = 20.dp)
             .fillMaxSize()
+            .verticalScroll(state = rememberScrollState())
     ) {
         when (developersFilters) {
 //            is Resource.Error -> showDevelopersError()
@@ -141,22 +143,20 @@ fun GenresFilter(modifier: Modifier = Modifier) {
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp
         )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(count = 3),
-            contentPadding = PaddingValues(horizontal = 10.dp),
+        FlowRow(
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .fillMaxWidth(),
+            mainAxisAlignment = FlowMainAxisAlignment.SpaceBetween
         ) {
-            itemsIndexed(genresList) { index, item ->
-                var isSelected by remember { mutableStateOf(false) }
+            genresList.forEach { item ->
+                var isItemSelected by remember { mutableStateOf(false) }
                 FilterTextItem(
                     filterName = item,
-                    onItemClick = { isSelected = !isSelected },
-                    isActive = isSelected,
+                    onItemClick = { isItemSelected = !isItemSelected },
+                    isActive = isItemSelected,
                     modifier = Modifier
-                        .padding(
-                            end = if (index.mod(3) == 0) 5.dp else 0.dp,
-                            start = if ((index + 1).mod(3) == 0) 5.dp else 0.dp,
-                            bottom = 10.dp
-                        )
+                        .padding(bottom = 10.dp)
                         .fillMaxWidth(fraction = .3f)
                 )
             }

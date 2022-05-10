@@ -58,7 +58,8 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                     .padding(start = 10.dp, top = 15.dp, end = 10.dp)
                     .fillMaxWidth()
             )
-            if (isFiltersListOpen) CatalogueFiltersSection(developersFilters) else CatalogueSearchSection()
+            if (isFiltersListOpen) CatalogueFiltersSection(developersFilters)
+            else CatalogueSearchSection()
         }
     }
 }
