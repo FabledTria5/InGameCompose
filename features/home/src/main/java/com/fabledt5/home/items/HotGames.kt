@@ -24,6 +24,7 @@ import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MediumLateBlue
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
+import com.fabledt5.common.utils.autoScroll
 import com.fabledt5.common.utils.drawImageForeground
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
@@ -32,8 +33,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.launch
-import kotlin.concurrent.fixedRateTimer
 
 @ExperimentalPagerApi
 @Composable
@@ -73,38 +72,27 @@ fun ShowHotGamesError() {
 @Composable
 fun ShowHotGames(hotGames: List<GameItem>, onGameClicked: (Int) -> Unit) {
     val pagerState = rememberPagerState()
-    val scope = rememberCoroutineScope()
-
     var screenSize by remember { mutableStateOf(IntSize.Zero) }
 
-    LaunchedEffect(key1 = true) {
-        fixedRateTimer(initialDelay = 5000L, period = 5000L) {
-            scope.launch {
-                pagerState.animateScrollToPage(
-                    if (pagerState.currentPage == hotGames.lastIndex) 0
-                    else pagerState.currentPage + 1
-                )
-            }
-        }.purge()
-    }
-
-    HorizontalPager(
-        count = hotGames.size,
-        modifier = Modifier.fillMaxWidth(),
-        state = pagerState
-    ) {
-        HotGame(hotGame = hotGames[it], onGameClicked = onGameClicked)
-    }
-
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(all = 10.dp)
             .onGloballyPositioned { screenSize = it.size },
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        HorizontalPager(
+            count = hotGames.size,
+            modifier = Modifier
+                .fillMaxWidth()
+                .autoScroll(pagerState),
+            state = pagerState
+        ) {
+            HotGame(hotGame = hotGames[it], onGameClicked = onGameClicked)
+        }
+
         HorizontalPagerIndicator(
             pagerState = pagerState,
+            modifier = Modifier.padding(10.dp),
             activeColor = Turquoise,
             inactiveColor = Color.DarkGray.copy(alpha = .3f),
             indicatorWidth = with(LocalDensity.current) {
@@ -112,7 +100,7 @@ fun ShowHotGames(hotGames: List<GameItem>, onGameClicked: (Int) -> Unit) {
             },
             indicatorHeight = 3.dp,
             indicatorShape = RoundedCornerShape(5.dp),
-            spacing = 10.dp
+            spacing = 10.dp,
         )
     }
 }

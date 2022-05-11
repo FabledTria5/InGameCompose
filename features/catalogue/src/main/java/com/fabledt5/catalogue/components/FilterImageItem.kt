@@ -54,7 +54,7 @@ fun FilterImageItem(
             contentDescription = stringResource(R.string.image_filter_item),
             modifier = Modifier.matchParentSize(),
             contentScale = ContentScale.None,
-            colorFilter = ColorFilter.tint(iconTint)
+            ColorFilter.tint(iconTint)
         )
     }
 }
