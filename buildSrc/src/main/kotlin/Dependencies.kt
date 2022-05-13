@@ -10,7 +10,7 @@ object Config {
     const val applicationId = "com.fabledt5.ingamecompose"
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
     const val jvmTargetVersion = "11"
-    const val composeCompilerExtensionVersion = "1.2.0-alpha08"
+    const val composeCompilerExtensionVersion = "1.2.0-beta01"
 
     val javaVersion = JavaVersion.VERSION_11
 }
@@ -18,10 +18,10 @@ object Config {
 object Versions {
 
     // Core
-    const val gradle = "7.1.3"
-    const val kotlinGradleVersion = "1.6.20"
+    const val gradle = "7.2.0"
+    const val kotlinGradleVersion = "1.6.21"
     const val googleServices = "4.3.10"
-    const val kspVersion = "1.6.20-1.0.5"
+    const val kspVersion = "1.6.21-1.0.5"
 
     // Kotlin
     const val kotlinVersion = "1.7.0"
