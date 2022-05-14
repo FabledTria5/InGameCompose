@@ -52,7 +52,15 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                 onSaveFiltersClicked = { isFiltersListOpen = false })
         },
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .padding(
+                    start = 10.dp,
+                    top = it.calculateTopPadding(),
+                    end = 10.dp
+                )
+                .fillMaxSize()
+        ) {
             CatalogueSearchField(
                 onSearchClicked = {},
                 modifier = Modifier

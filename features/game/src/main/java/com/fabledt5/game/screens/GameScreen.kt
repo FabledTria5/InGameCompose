@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,9 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.components.OutlinedTabs
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
@@ -81,7 +80,7 @@ fun ShowGameScreen(
 @Composable
 fun ShowGameLoading() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(modifier = Modifier.size(25.dp), color = Turquoise)
+        ColorfulProgressIndicator(modifier = Modifier.size(35.dp))
     }
 }
 

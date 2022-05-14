@@ -42,13 +42,15 @@ fun Modifier.gradient(brush: Brush) = graphicsLayer(alpha = .99f)
 
 @ExperimentalPagerApi
 fun Modifier.autoScroll(pagerState: PagerState, scrollRate: Long = 5000) = composed {
-    LaunchedEffect(key1 = pagerState.currentPage) {
-        yield()
-        delay(timeMillis = scrollRate)
-        pagerState.animateScrollToPage(
-            if (pagerState.currentPage == pagerState.pageCount - 1) 0
-            else pagerState.currentPage + 1
-        )
+    LaunchedEffect(Unit) {
+        while (true) {
+            yield()
+            delay(timeMillis = scrollRate)
+            pagerState.animateScrollToPage(
+                if (pagerState.currentPage == pagerState.pageCount - 1) 0
+                else pagerState.currentPage + 1
+            )
+        }
     }
     this
 }

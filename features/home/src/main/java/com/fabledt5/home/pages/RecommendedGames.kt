@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,8 +14,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fabledt5.common.components.CoilImage
+import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.theme.DimGray
-import com.fabledt5.common.theme.MediumLateBlue
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
 import com.google.accompanist.flowlayout.FlowRow
@@ -90,7 +89,7 @@ fun ShowRecommendedGamesLoading() {
             .height(200.dp),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MediumLateBlue)
+        ColorfulProgressIndicator(modifier = Modifier.size(35.dp))
     }
 }
 

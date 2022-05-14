@@ -3,7 +3,6 @@ package com.fabledt5.home.items
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,8 +19,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.components.CoilImage
+import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.theme.MediumLateBlue
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.common.utils.autoScroll
@@ -52,7 +51,7 @@ fun ShowHotGamesLoading() {
             .height(250.dp),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MediumLateBlue)
+        ColorfulProgressIndicator(modifier = Modifier.size(35.dp))
     }
 }
 
