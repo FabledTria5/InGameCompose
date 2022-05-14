@@ -1,10 +1,10 @@
 package com.fabledt5.authentication.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -48,7 +48,7 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
         TabRow(
             selectedTabIndex = pagerState.currentPage,
             modifier = Modifier.width(200.dp),
-            backgroundColor = Color.Transparent,
+            containerColor = Color.Transparent,
             indicator = { TabRowDefaults.Indicator(height = 0.dp, color = Color.Transparent) },
             divider = { TabRowDefaults.Divider(color = Color.Transparent) }
         ) {
@@ -66,7 +66,8 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
         HorizontalPager(
             count = authenticationTabs.size,
             modifier = Modifier.fillMaxSize(),
-            state = pagerState
+            state = pagerState,
+            userScrollEnabled = false
         ) { page ->
             when (page) {
                 0 -> SignInPage(

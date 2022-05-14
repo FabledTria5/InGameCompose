@@ -2,7 +2,6 @@ package com.fabledt5.home.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +18,6 @@ import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.home.R
 
-@ExperimentalMaterialApi
 @Composable
 fun PlatformsList(
     platformsList: Resource<List<PlatformItem>>,

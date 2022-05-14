@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +47,7 @@ fun OutlinedTabs(
         TabRow(
             selectedTabIndex = pagerState.currentPage,
             modifier = Modifier.height(50.dp),
-            backgroundColor = Color.Transparent,
+            containerColor = Color.Transparent,
             indicator = { TabRowDefaults.Indicator(color = Color.Transparent) },
             divider = { TabRowDefaults.Divider(color = Color.Transparent) }
         ) {

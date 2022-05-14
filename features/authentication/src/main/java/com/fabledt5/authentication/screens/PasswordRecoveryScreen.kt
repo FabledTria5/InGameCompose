@@ -4,7 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,7 +83,7 @@ fun PasswordRecoveryScreen() {
                 shape = RoundedCornerShape(size = 3.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.White,
-                    backgroundColor = Color(0xFF111113),
+                    containerColor = Color(0xFF111113),
                     cursorColor = Color.White,
                     focusedBorderColor = Color.Transparent,
                     unfocusedBorderColor = Color.Transparent,
@@ -98,7 +98,7 @@ fun PasswordRecoveryScreen() {
                 shape = RoundedCornerShape(5.dp),
                 border = BorderStroke(width = 1.dp, color = Color.White),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    backgroundColor = Color(0xFF0e0e0f)
+                    containerColor = Color(0xFF0e0e0f)
                 )
             ) {
                 Text(

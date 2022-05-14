@@ -51,10 +51,13 @@ dependencies {
     implementation(dependencyNotation = Dependencies.lifecycleViewModel)
 
     // Compose
-    implementation(dependencyNotation = Dependencies.composeUiLatest)
-    implementation(dependencyNotation = Dependencies.composeMaterialLatest)
-    implementation(dependencyNotation = Dependencies.composeToolingPreviewLatest)
-    implementation(dependencyNotation = Dependencies.composeToolingLatest)
+    implementation(dependencyNotation = Dependencies.composeUi)
+    implementation(dependencyNotation = Dependencies.composeMaterial)
+    implementation(dependencyNotation = Dependencies.composeToolingPreview)
+    implementation(dependencyNotation = Dependencies.composeTooling)
+
+    // Accompanist
+    implementation(dependencyNotation = Dependencies.pager)
 
     // Design
     implementation(dependencyNotation = Dependencies.appcompat)

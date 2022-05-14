@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,11 +45,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@ExperimentalCoroutinesApi
+@ExperimentalMaterial3Api
 @ExperimentalPagerApi
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@ExperimentalFoundationApi
+@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen(navigationManager: NavigationManager) {
@@ -117,6 +117,7 @@ fun MainScreen(navigationManager: NavigationManager) {
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun BottomBar(navHostController: NavHostController, currentDestination: String?) {
     val screens = listOf(
@@ -130,12 +131,12 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
         screen.destination.route == currentDestination
     }
     val bottomNavigationHeight by animateDpAsState(
-        targetValue = if (isBottomNavigationVisible) 56.dp else 0.dp,
+        targetValue = if (isBottomNavigationVisible) 70.dp else 0.dp,
         animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
     )
 
-    BottomNavigation(
-        backgroundColor = Color.Black,
+    NavigationBar(
+        containerColor = Color.Black,
         modifier = Modifier
             .navigationBarsPadding()
             .height(bottomNavigationHeight)
@@ -150,6 +151,7 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun RowScope.AddNavigationItem(
     screen: BottomBarItem,
@@ -157,7 +159,7 @@ fun RowScope.AddNavigationItem(
     currentDestination: String?
 ) {
     val selected = currentDestination == screen.destination.route
-    BottomNavigationItem(
+    NavigationBarItem(
         selected = selected,
         onClick = { navHostController.navigate(screen.destination.route) },
         label = {
@@ -178,7 +180,12 @@ fun RowScope.AddNavigationItem(
                 )
             )
         },
-        unselectedContentColor = DimGray,
-        selectedContentColor = DimGray
+        colors = NavigationBarItemDefaults.colors(
+            selectedIconColor = DimGray,
+            unselectedIconColor = DimGray,
+            selectedTextColor = DimGray,
+            unselectedTextColor = DimGray,
+            indicatorColor = Color.Transparent
+        )
     )
 }

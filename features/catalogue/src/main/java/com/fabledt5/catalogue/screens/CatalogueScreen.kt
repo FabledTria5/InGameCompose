@@ -9,10 +9,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +32,8 @@ import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Turquoise
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@ExperimentalMaterial3Api
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @Composable
 fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
@@ -158,13 +159,15 @@ fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = Color.White,
-            backgroundColor = DarkLateBlack,
+            containerColor = DarkLateBlack,
             cursorColor = Turquoise,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
-            leadingIconColor = Color.White.copy(alpha = .2f),
-            trailingIconColor = Color.White.copy(alpha = .4f),
+            focusedLeadingIconColor = Color.White.copy(alpha = .2f),
+            unfocusedLeadingIconColor = Color.White.copy(alpha = .2f),
+            focusedTrailingIconColor = Color.White.copy(alpha = .4f),
+            unfocusedTrailingIconColor = Color.White.copy(alpha = .4f)
         )
     )
 }

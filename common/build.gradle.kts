@@ -50,16 +50,14 @@ dependencies {
     implementation(dependencyNotation = Dependencies.exoPlayer)
 
     // Compose
-    implementation(dependencyNotation = Dependencies.composeUiStable)
-    implementation(dependencyNotation = Dependencies.composeMaterialStable)
-    implementation(dependencyNotation = Dependencies.composeToolingPreviewStable)
-    implementation(dependencyNotation = Dependencies.composeToolingStable)
-    implementation(dependencyNotation = Dependencies.composeViewBindingStable)
+    implementation(dependencyNotation = Dependencies.composeUi)
+    implementation(dependencyNotation = Dependencies.composeMaterial)
+    implementation(dependencyNotation = Dependencies.composeToolingPreview)
+    implementation(dependencyNotation = Dependencies.composeTooling)
+    implementation(dependencyNotation = Dependencies.composeViewBinding)
 
     // Accompanist
-    api(dependencyNotation = Dependencies.pager)
-    api(dependencyNotation = Dependencies.pagerIndicators)
-    api(dependencyNotation = Dependencies.flowLayout)
+    implementation(dependencyNotation = Dependencies.pager)
 
     // Testing
     testImplementation(dependencyNotation = Dependencies.junit)

@@ -4,10 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.toSize
 import com.fabledt5.common.R
 import com.fabledt5.common.theme.Background
 
-@ExperimentalMaterialApi
 @Composable
 fun OutlinedDropDown(
     modifier: Modifier = Modifier,
@@ -54,7 +53,7 @@ fun OutlinedDropDown(
                 }
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                backgroundColor = Color.Transparent,
+                containerColor = Color.Transparent,
                 focusedBorderColor = Color.White.copy(alpha = .7f),
                 unfocusedBorderColor = Color.White.copy(alpha = .4f),
                 disabledBorderColor = Color.White.copy(alpha = .4f),
@@ -79,10 +78,9 @@ fun OutlinedDropDown(
                     },
                     modifier = Modifier.onGloballyPositioned {
                         platformsItemSize = it.size
-                    }
-                ) {
-                    Text(text = platform, color = Color.White)
-                }
+                    },
+                    text = { Text(text = platform, color = Color.White) }
+                )
             }
         }
     }

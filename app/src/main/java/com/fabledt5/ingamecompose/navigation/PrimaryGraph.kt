@@ -2,7 +2,7 @@ package com.fabledt5.ingamecompose.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
@@ -14,9 +14,9 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
+@ExperimentalMaterial3Api
 @ExperimentalPagerApi
+@ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.primaryGraph() {

@@ -34,14 +34,14 @@ object Versions {
 
     // Design
     const val appCompat = "1.4.1"
-    const val material = "1.5.0"
+    const val material = "1.6.0"
     const val exoPlayer = "2.17.1"
 
     // Compose
-    const val composeStable = "1.1.1"
-    const val composeLatest = "1.2.0-alpha07"
+    const val compose = "1.2.0-beta01"
+    const val composeMaterial = "1.0.0-alpha11"
     const val activityCompose = "1.4.0"
-    const val accompanist = "0.23.1"
+    const val accompanist = "0.24.8-beta"
     const val coil = "1.4.0"
     const val hiltCompose = "1.0.0"
 
@@ -105,24 +105,16 @@ object Dependencies {
     const val exoPlayer = "com.google.android.exoplayer:exoplayer:${Versions.exoPlayer}"
     const val coil = "io.coil-kt:coil-compose:${Versions.coil}"
 
-    // Compose Latest
-    const val composeUiLatest = "androidx.compose.ui:ui:${Versions.composeLatest}"
-    const val composeMaterialLatest = "androidx.compose.material:material:${Versions.composeLatest}"
-    const val composeToolingPreviewLatest =
-        "androidx.compose.ui:ui-tooling-preview:${Versions.composeLatest}"
-    const val composeToolingLatest = "androidx.compose.ui:ui-tooling:${Versions.composeLatest}"
+    // Compose
+    const val composeUi = "androidx.compose.ui:ui:${Versions.compose}"
+    const val composeMaterial = "androidx.compose.material3:material3:${Versions.composeMaterial}"
+    const val composeToolingPreview =
+        "androidx.compose.ui:ui-tooling-preview:${Versions.compose}"
+    const val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
-    const val junitComposeLatest = "androidx.compose.ui:ui-test-junit4:${Versions.composeLatest}"
-    const val composeUiUtil = "androidx.compose.ui:ui-util:${Versions.composeLatest}"
-
-    // Compose Stable
-    const val composeUiStable = "androidx.compose.ui:ui:${Versions.composeStable}"
-    const val composeMaterialStable = "androidx.compose.material:material:${Versions.composeStable}"
-    const val composeToolingPreviewStable =
-        "androidx.compose.ui:ui-tooling-preview:${Versions.composeStable}"
-    const val composeToolingStable = "androidx.compose.ui:ui-tooling:${Versions.composeStable}"
-    const val composeViewBindingStable =
-        "androidx.compose.ui:ui-viewbinding:${Versions.composeStable}"
+    const val composeUiUtil = "androidx.compose.ui:ui-util:${Versions.compose}"
+    const val composeViewBinding = "androidx.compose.ui:ui-viewbinding:${Versions.compose}"
+    const val junitCompose = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
 
     // Accompanist
     const val systemUiController =
