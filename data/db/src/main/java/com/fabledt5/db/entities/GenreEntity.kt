@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "genre_entity")
+@Entity(tableName = "genres_table")
 data class GenreEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

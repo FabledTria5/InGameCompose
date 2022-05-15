@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetDevelopersFilters @Inject constructor(private val filtersRepository: FiltersRepository) {
+class GetGenresFilters @Inject constructor(private val filtersRepository: FiltersRepository) {
 
-    operator fun invoke() = filtersRepository.getDevelopersList().map {
-        if (it.isNotEmpty()) Resource.Success(it)
+    operator fun invoke() = filtersRepository.getGenresList().map {
+        if (it.isNotEmpty()) Resource.Success(data = it)
         else Resource.Error(exception = Throwable("Empty array"))
     }.catch {
         emit(Resource.Error(exception = it))

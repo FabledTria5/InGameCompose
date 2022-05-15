@@ -1,6 +1,5 @@
 package com.fabledt5.catalogue.screens
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.speech.RecognizerIntent
@@ -33,11 +32,11 @@ import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Turquoise
 
 @ExperimentalMaterial3Api
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @Composable
 fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
-    val developersFilters by catalogueViewModel.developersFilters.collectAsState()
+    val developersFilters by catalogueViewModel.developersList.collectAsState()
+    val genresFilters by catalogueViewModel.genresList.collectAsState()
 
     var isFiltersListOpen by remember { mutableStateOf(true) }
 
@@ -51,14 +50,10 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                 onOpenFiltersClicked = { isFiltersListOpen = true },
                 onSaveFiltersClicked = { isFiltersListOpen = false })
         },
-    ) {
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(
-                    start = 10.dp,
-                    top = it.calculateTopPadding(),
-                    end = 10.dp
-                )
+                .padding(padding)
                 .fillMaxSize()
         ) {
             CatalogueSearchField(
@@ -67,7 +62,7 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                     .padding(start = 10.dp, top = 15.dp, end = 10.dp)
                     .fillMaxWidth()
             )
-            if (isFiltersListOpen) CatalogueFiltersSection(developersFilters)
+            if (isFiltersListOpen) CatalogueFiltersSection(developersFilters, genresFilters)
             else CatalogueSearchSection()
         }
     }

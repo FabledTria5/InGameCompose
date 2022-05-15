@@ -9,6 +9,8 @@
     <string name="by_platform">By platform</string>
     <string name="by_genre">By genre</string>
     <string name="image_filter_item">Filter Item Image</string>
+    <string name="ic_open_genres_list">Open genres list icon</string>
+    <string name="see_all">See all</string>
 
     <string-array name="search_suggestions">
         <item>Monster hunter: world</item>

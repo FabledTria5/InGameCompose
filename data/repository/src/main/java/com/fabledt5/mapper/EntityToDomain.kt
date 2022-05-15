@@ -1,9 +1,11 @@
 package com.fabledt5.mapper
 
 import com.fabledt5.db.entities.DeveloperEntity
+import com.fabledt5.db.entities.GenreEntity
 import com.fabledt5.db.entities.HotGameEntity
 import com.fabledt5.db.entities.PlatformEntity
 import com.fabledt5.domain.model.DeveloperItem
+import com.fabledt5.domain.model.GameGenre
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.PlatformItem
 import kotlinx.coroutines.flow.Flow
@@ -44,5 +46,11 @@ fun Flow<List<DeveloperEntity>>.toDomain(): Flow<List<DeveloperItem>> = map { li
             preview = entity.preview,
             website = entity.website
         )
+    }
+}
+
+fun Flow<List<GenreEntity>>.toDomain(): Flow<List<GameGenre>> = map { list ->
+    list.map { entity ->
+        GameGenre(id = entity.genreId, genreTitle = entity.genreName)
     }
 }

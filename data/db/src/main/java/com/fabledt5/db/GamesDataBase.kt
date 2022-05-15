@@ -12,8 +12,8 @@ import com.fabledt5.db.entities.PlatformEntity
 
 @Database(
     entities = [HotGameEntity::class, PlatformEntity::class, DeveloperEntity::class, GenreEntity::class],
-    version = 4,
-    exportSchema = true
+    version = 6,
+    exportSchema = true,
 )
 abstract class GamesDataBase : RoomDatabase() {
     abstract fun hotGamesDao(): HotGamesDao

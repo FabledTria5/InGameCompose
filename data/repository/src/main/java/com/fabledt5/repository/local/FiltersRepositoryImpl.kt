@@ -10,4 +10,7 @@ class FiltersRepositoryImpl @Inject constructor(private val filtersDao: FiltersD
 
     override fun getDevelopersList() = filtersDao.getDevelopers().toDomain()
 
+    override fun getGenresList() = filtersDao.getGenres().toDomain()
+
+
 }
