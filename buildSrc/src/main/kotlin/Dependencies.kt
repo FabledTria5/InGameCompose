@@ -30,6 +30,7 @@ object Versions {
     // Firebase
     const val firebaseAuth = "21.0.3"
     const val fireStore = "24.1.1"
+    const val firebaseDatabase = "20.0.5"
     const val coroutinesNative = "1.6.0-native-mt"
 
     // Design
@@ -96,6 +97,8 @@ object Dependencies {
     // Firebase
     const val firebaseAuth = "com.google.firebase:firebase-auth-ktx:${Versions.firebaseAuth}"
     const val fireStore = "com.google.firebase:firebase-firestore-ktx:${Versions.fireStore}"
+    const val firebaseDatabase =
+        "com.google.firebase:firebase-database-ktx:${Versions.firebaseDatabase}"
     const val firebaseCoroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutinesNative}"
 

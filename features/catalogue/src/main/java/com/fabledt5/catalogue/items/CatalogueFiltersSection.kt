@@ -1,6 +1,5 @@
 package com.fabledt5.catalogue.items
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -73,16 +72,9 @@ fun ShowDevelopersFilters(developersFilter: List<DeveloperItem>, modifier: Modif
             key = { _, developer -> developer.developerId })
         { index, developer ->
             var isSelected by remember { mutableStateOf(false) }
-            val iconTint by animateColorAsState(
-                targetValue = if (isSelected) Color.White else Color.White.copy(
-                    alpha = .6f
-                )
-            )
-
             FilterImageItem(
                 filterImage = developer.icon,
                 isActive = isSelected,
-                iconTint = iconTint,
                 onItemSelected = { isSelected = !isSelected },
                 modifier = Modifier.size(90.dp)
             )

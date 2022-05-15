@@ -1,4 +1,4 @@
-package com.fabledt5.repository
+package com.fabledt5.repository.remote
 
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.GameRating

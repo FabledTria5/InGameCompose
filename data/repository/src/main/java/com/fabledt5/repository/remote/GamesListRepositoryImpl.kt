@@ -1,4 +1,4 @@
-package com.fabledt5.repository
+package com.fabledt5.repository.remote
 
 import android.util.Log
 import com.fabledt5.db.dao.HotGamesDao

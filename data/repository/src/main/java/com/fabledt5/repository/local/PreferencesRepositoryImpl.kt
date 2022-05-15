@@ -1,10 +1,9 @@
-package com.fabledt5.repository
+package com.fabledt5.repository.local
 
 import com.fabledt5.db.dao.PlatformsDao
 import com.fabledt5.domain.repository.PreferencesRepository
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.preferences.AppPreferences
-import com.fabledt5.preferences.AppPreferencesImpl
 import javax.inject.Inject
 
 class PreferencesRepositoryImpl @Inject constructor(

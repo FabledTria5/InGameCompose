@@ -1,4 +1,4 @@
-package com.fabledt5.repository
+package com.fabledt5.repository.local
 
 import com.fabledt5.db.dao.FiltersDao
 import com.fabledt5.domain.repository.FiltersRepository

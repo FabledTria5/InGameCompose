@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.components.CoilImage
 import com.fabledt5.common.components.ColorfulProgressIndicator
+import com.fabledt5.common.components.GradientPagerIndicators
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
-import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.common.utils.autoScroll
 import com.fabledt5.common.utils.drawImageForeground
 import com.fabledt5.domain.model.GameItem
@@ -30,7 +30,6 @@ import com.fabledt5.domain.model.Resource
 import com.fabledt5.home.R
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 
 @ExperimentalPagerApi
@@ -89,17 +88,16 @@ fun ShowHotGames(hotGames: List<GameItem>, onGameClicked: (Int) -> Unit) {
             HotGame(hotGame = hotGames[it], onGameClicked = onGameClicked)
         }
 
-        HorizontalPagerIndicator(
+        GradientPagerIndicators(
             pagerState = pagerState,
             modifier = Modifier.padding(10.dp),
-            activeColor = Turquoise,
             inactiveColor = Color.DarkGray.copy(alpha = .3f),
             indicatorWidth = with(LocalDensity.current) {
                 screenSize.width.toDp() / (hotGames.size + 2)
             },
             indicatorHeight = 3.dp,
             indicatorShape = RoundedCornerShape(5.dp),
-            spacing = 10.dp,
+            spacing = 10.dp
         )
     }
 }

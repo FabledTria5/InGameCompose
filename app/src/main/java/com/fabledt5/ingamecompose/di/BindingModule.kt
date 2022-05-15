@@ -1,7 +1,12 @@
 package com.fabledt5.ingamecompose.di
 
 import com.fabledt5.domain.repository.*
-import com.fabledt5.repository.*
+import com.fabledt5.repository.firebase.AuthRepositoryImpl
+import com.fabledt5.repository.firebase.FireStoreRepositoryImpl
+import com.fabledt5.repository.local.FiltersRepositoryImpl
+import com.fabledt5.repository.local.PreferencesRepositoryImpl
+import com.fabledt5.repository.remote.GameRepositoryImpl
+import com.fabledt5.repository.remote.GamesListRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

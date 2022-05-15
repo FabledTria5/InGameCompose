@@ -45,6 +45,7 @@ dependencies {
     implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
     implementation(dependencyNotation = Dependencies.firebaseAuth)
     implementation(dependencyNotation = Dependencies.fireStore)
+    implementation(dependencyNotation = Dependencies.firebaseDatabase)
     implementation(dependencyNotation = Dependencies.firebaseCoroutines)
 
     // Testing
