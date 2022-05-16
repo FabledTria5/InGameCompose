@@ -2,6 +2,7 @@ package com.fabledt5.common.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
@@ -13,7 +14,8 @@ fun RemoteImage(
     imagePath: String?,
     contentDescription: String,
     modifier: Modifier = Modifier,
-    contentScale: ContentScale
+    contentScale: ContentScale,
+    colorFilter: ColorFilter? = null
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
@@ -23,6 +25,7 @@ fun RemoteImage(
             .build(),
         contentDescription = contentDescription,
         modifier = modifier,
-        contentScale = contentScale
+        contentScale = contentScale,
+        colorFilter = colorFilter
     )
 }
