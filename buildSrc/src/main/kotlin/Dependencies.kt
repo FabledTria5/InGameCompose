@@ -43,7 +43,7 @@ object Versions {
     const val composeMaterial = "1.0.0-alpha11"
     const val activityCompose = "1.4.0"
     const val accompanist = "0.24.8-beta"
-    const val coil = "1.4.0"
+    const val coil = "2.0.0"
     const val hiltCompose = "1.0.0"
 
     // Dagger Hilt

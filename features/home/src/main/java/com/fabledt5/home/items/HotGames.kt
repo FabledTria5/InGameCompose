@@ -18,9 +18,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.components.CoilImage
 import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.components.GradientPagerIndicators
+import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.utils.autoScroll
@@ -105,7 +105,7 @@ fun ShowHotGames(hotGames: List<GameItem>, onGameClicked: (Int) -> Unit) {
 @Composable
 fun HotGame(hotGame: GameItem, onGameClicked: (Int) -> Unit) {
     Box(modifier = Modifier.clickable { onGameClicked(hotGame.gameId) }) {
-        CoilImage(
+        RemoteImage(
             imagePath = hotGame.gamePoster,
             contentDescription = "${hotGame.gameTitle} game poster",
             modifier = Modifier

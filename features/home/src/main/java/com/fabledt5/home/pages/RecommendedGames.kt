@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.fabledt5.common.components.CoilImage
 import com.fabledt5.common.components.ColorfulProgressIndicator
+import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.DimGray
 import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
@@ -121,7 +121,7 @@ fun GameCard(game: GameItem, modifier: Modifier = Modifier, onGameClick: (Int) -
         shape = RoundedCornerShape(size = 10.dp),
         backgroundColor = DimGray
     ) {
-        CoilImage(
+        RemoteImage(
             imagePath = game.gamePoster,
             contentDescription = "${game.gameTitle} game title",
             contentScale = ContentScale.Crop

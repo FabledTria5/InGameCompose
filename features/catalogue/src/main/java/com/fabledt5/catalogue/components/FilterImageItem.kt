@@ -17,7 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fabledt5.catalogue.R
-import com.fabledt5.common.components.CoilImage
+import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.DarkLateBlack
 import com.fabledt5.common.theme.DefaultHorizontalGradient
 
@@ -47,7 +47,7 @@ fun FilterImageItem(
             .clickable { onItemSelected() },
         contentAlignment = Alignment.Center
     ) {
-        CoilImage(
+        RemoteImage(
             imagePath = filterImage,
             contentDescription = stringResource(R.string.image_filter_item),
             modifier = Modifier.matchParentSize(),

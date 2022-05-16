@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.components.CoilImage
+import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.components.VideoPlayer
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.utils.drawImageForeground
@@ -33,7 +33,7 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
     val configuration = LocalConfiguration.current
 
     Box(modifier = Modifier.fillMaxWidth()) {
-        CoilImage(
+        RemoteImage(
             imagePath = gameItem.gamePoster,
             contentDescription = "${gameItem.gameTitle} game poster",
             modifier = Modifier
@@ -45,7 +45,7 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
                 },
             contentScale = ContentScale.Crop
         )
-        if (gameItem.gameTrailersUrl.isEmpty()) CoilImage(
+        if (gameItem.gameTrailersUrl.isEmpty()) RemoteImage(
             imagePath = gameItem.gamePoster,
             contentDescription = "${gameItem.gameTitle} game poster",
             modifier = Modifier
@@ -144,7 +144,7 @@ fun BoxScope.ShowHeaderPager(gameItem: GameItem) {
             }
     ) { page ->
         when (page) {
-            0 -> CoilImage(
+            0 -> RemoteImage(
                 imagePath = gameItem.gamePoster,
                 contentDescription = "${gameItem.gameTitle} game poster",
                 modifier = Modifier

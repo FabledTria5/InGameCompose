@@ -1,30 +1,28 @@
 package com.fabledt5.common.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import coil.compose.rememberImagePainter
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.fabledt5.common.R
 
 @Composable
-fun CoilImage(
+fun RemoteImage(
     imagePath: String?,
     contentDescription: String,
     modifier: Modifier = Modifier,
     contentScale: ContentScale
 ) {
-    val coilPainter = rememberImagePainter(
-        data = imagePath,
-        builder = {
-            error(R.drawable.error_placeholder)
-            crossfade(durationMillis = 500)
-        }
-    )
-    Image(
-        painter = coilPainter,
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imagePath)
+            .crossfade(durationMillis = 500)
+            .error(R.drawable.error_placeholder)
+            .build(),
         contentDescription = contentDescription,
         modifier = modifier,
-        contentScale = contentScale,
+        contentScale = contentScale
     )
 }

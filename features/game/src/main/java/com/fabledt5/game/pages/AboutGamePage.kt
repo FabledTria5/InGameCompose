@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import com.fabledt5.common.components.CoilImage
+import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
@@ -135,7 +135,7 @@ fun ShowGameSnapshotsSuccess(gameSnapshots: List<String>) {
             state = snapshotsListState,
             contentPadding = PaddingValues(horizontal = 50.dp)
         ) { page ->
-            CoilImage(
+            RemoteImage(
                 imagePath = gameSnapshots[page],
                 contentDescription = stringResource(R.string.game_snapshot),
                 modifier = Modifier
