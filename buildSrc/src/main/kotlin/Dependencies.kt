@@ -10,7 +10,7 @@ object Config {
     const val applicationId = "com.fabledt5.ingamecompose"
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
     const val jvmTargetVersion = "11"
-    const val composeCompilerExtensionVersion = "1.2.0-beta01"
+    const val composeCompilerExtensionVersion = "1.2.0-beta02"
 
     val javaVersion = JavaVersion.VERSION_11
 }
@@ -39,8 +39,8 @@ object Versions {
     const val exoPlayer = "2.17.1"
 
     // Compose
-    const val compose = "1.2.0-beta01"
-    const val composeMaterial = "1.0.0-alpha11"
+    const val compose = "1.2.0-beta02"
+    const val composeMaterial = "1.0.0-alpha12"
     const val activityCompose = "1.4.0"
     const val accompanist = "0.24.8-beta"
     const val coil = "2.0.0"

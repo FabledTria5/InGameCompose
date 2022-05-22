@@ -38,7 +38,7 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
     val developersFilters by catalogueViewModel.developersList.collectAsState()
     val genresFilters by catalogueViewModel.genresList.collectAsState()
 
-    var isFiltersListOpen by remember { mutableStateOf(true) }
+    var isFiltersListOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier
