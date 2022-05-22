@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class GetGenresFilters @Inject constructor(private val filtersRepository: FiltersRepository) {
 
-    operator fun invoke() = filtersRepository.getGenresList().map {
+    operator fun invoke() = filtersRepository.getGameGenres().map {
         if (it.isNotEmpty()) Resource.Success(data = it)
         else Resource.Error(exception = Throwable("Empty array"))
     }.catch {

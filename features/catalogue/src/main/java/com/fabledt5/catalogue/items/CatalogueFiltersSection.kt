@@ -99,7 +99,7 @@ fun ShowDevelopersFilters(developersFilter: List<DeveloperItem>, modifier: Modif
     ) {
         itemsIndexed(
             items = developersFilter,
-            key = { _, developer -> developer.developerId })
+            key = { _, developer -> developer.developerName })
         { index, developer ->
             var isSelected by remember { mutableStateOf(false) }
             FilterImageItem(
@@ -129,7 +129,7 @@ fun PlatformsFilter(modifier: Modifier = Modifier) {
             contentPadding = PaddingValues(horizontal = 10.dp)
         ) {
             items(5) {
-                var isSelected by remember { mutableStateOf(false) }
+//                var isSelected by remember { mutableStateOf(false) }
 //                FilterImageItem(
 //                    filterImage = painterResource(id = R.drawable.logo_play),
 //                    isActive = isSelected,

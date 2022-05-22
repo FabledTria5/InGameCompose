@@ -26,6 +26,7 @@ object Versions {
     // Kotlin
     const val kotlinVersion = "1.7.0"
     const val lifecycleRuntime = "2.4.1"
+    const val kotlinSerialization = "1.3.2"
 
     // Firebase
     const val firebaseAuth = "21.0.3"
@@ -63,8 +64,9 @@ object Versions {
     // Preferences
     const val datastorePreferences = "1.0.0"
 
-    // Retrofit
+    // Network
     const val retrofitVersion = "2.9.0"
+    const val kotlinSerializationConverter = "0.8.0"
     const val loggingInterceptor = "5.0.0-alpha.3"
 
     // Jsoup
@@ -93,6 +95,8 @@ object Dependencies {
     const val javaInject = "javax.inject:javax.inject:1"
     const val coroutinesNative =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}"
+    const val kotlinSerialization =
+        "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
 
     // Firebase
     const val firebaseAuth = "com.google.firebase:firebase-auth-ktx:${Versions.firebaseAuth}"
@@ -150,6 +154,8 @@ object Dependencies {
 
     // Network
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
+    const val kotlinSerializationConverter =
+        "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinSerializationConverter}"
     const val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofitVersion}"
     const val loggingInterceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.loggingInterceptor}"
@@ -173,4 +179,5 @@ object Plugins {
     const val ksp = "com.google.devtools.ksp"
     const val hilt = "dagger.hilt.android.plugin"
     const val googleServices = "com.google.gms.google-services"
+    const val serialization = "plugin.serialization"
 }

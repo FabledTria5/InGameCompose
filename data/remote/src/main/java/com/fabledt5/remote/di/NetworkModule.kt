@@ -1,26 +1,34 @@
 package com.fabledt5.remote.di
 
-import com.fabledt5.remote.utils.ApiInterceptor
 import com.fabledt5.remote.BuildConfig
-import com.fabledt5.remote.api.GamesService
+import com.fabledt5.remote.api.ApiService
+import com.fabledt5.remote.api.InGameService
+import com.fabledt5.remote.utils.ApiInterceptor
 import com.fabledt5.remote.utils.Constants.API_BASE_URL
+import com.fabledt5.remote.utils.Constants.INGAME_SERVER_BASE_URL
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
+@ExperimentalSerializationApi
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideClient(): OkHttpClient = if (BuildConfig.DEBUG) {
+    fun provideApiClient(): OkHttpClient = if (BuildConfig.DEBUG) {
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -33,15 +41,30 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(API_BASE_URL)
+    @Named("RemoteServer")
+    fun provideRemoteServerRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(INGAME_SERVER_BASE_URL)
+        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .client(okHttpClient)
         .build()
 
     @Singleton
     @Provides
-    fun provideGamesService(retrofit: Retrofit): GamesService =
-        retrofit.create(GamesService::class.java)
+    @Named("Api")
+    fun provideApiRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(API_BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideRemoteServerService(@Named("RemoteServer") retrofit: Retrofit): InGameService =
+        retrofit.create(InGameService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideGamesService(@Named("Api") retrofit: Retrofit): ApiService =
+        retrofit.create(ApiService::class.java)
 
 }

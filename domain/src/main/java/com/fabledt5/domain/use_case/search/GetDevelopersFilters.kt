@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class GetDevelopersFilters @Inject constructor(private val filtersRepository: FiltersRepository) {
 
-    operator fun invoke() = filtersRepository.getDevelopersList().map {
+    operator fun invoke() = filtersRepository.getGameDevelopers().map {
         if (it.isNotEmpty()) Resource.Success(it)
         else Resource.Error(exception = Throwable("Empty array"))
     }.catch {

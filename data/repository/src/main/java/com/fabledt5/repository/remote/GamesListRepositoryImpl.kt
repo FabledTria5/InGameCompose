@@ -1,24 +1,18 @@
 package com.fabledt5.repository.remote
 
-import android.util.Log
 import com.fabledt5.db.dao.HotGamesDao
-import com.fabledt5.db.dao.PlatformsDao
 import com.fabledt5.domain.model.GameItem
-import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.repository.GamesListRepository
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.mapper.toDomainShort
 import com.fabledt5.mapper.toEntity
-import com.fabledt5.preferences.AppPreferences
-import com.fabledt5.remote.api.GamesService
+import com.fabledt5.remote.api.ApiService
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GamesListRepositoryImpl @Inject constructor(
-    private val gamesService: GamesService,
+    private val apiService: ApiService,
     private val hotGamesDao: HotGamesDao,
-    private val platformsDao: PlatformsDao,
-    private val appPreferences: AppPreferences
 ) : GamesListRepository {
 
     companion object {
@@ -46,7 +40,7 @@ class GamesListRepositoryImpl @Inject constructor(
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        gamesService.getGamesByDates(pageSize = gamesCount, dates = dates, platforms = platformId)
+        apiService.getGamesByDates(pageSize = gamesCount, dates = dates, platforms = platformId)
             .toDomainShort()
 
     override suspend fun getBestGames(
@@ -54,7 +48,7 @@ class GamesListRepositoryImpl @Inject constructor(
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        gamesService.getBestGames(
+        apiService.getBestGames(
             pageSize = gamesCount,
             metacriticRatings = ratings,
             platforms = platformId
@@ -65,28 +59,11 @@ class GamesListRepositoryImpl @Inject constructor(
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        gamesService.getGamesByDates(pageSize = gamesCount, dates = dates, platforms = platformId)
+        apiService.getGamesByDates(pageSize = gamesCount, dates = dates, platforms = platformId)
             .toDomainShort()
 
-    override suspend fun getPlatformsList(): List<PlatformItem> {
-        val localPlatformsList = platformsDao.getPlatformsList()
-        return if (!localPlatformsList.isNullOrEmpty()) localPlatformsList.toDomain()
-        else {
-            try {
-                val remotePlatformsList = gamesService.getGamePlatforms()
-                platformsDao.insertPlatforms(platforms = remotePlatformsList.toEntity())
-                val firstPlatformId = remotePlatformsList.results.first().id
-                appPreferences.persistFavoritePlatform(firstPlatformId)
-                platformsDao.getPlatformsList().toDomain()
-            } catch (e: Exception) {
-                Log.e(TAG, "getPlatformsList:", e)
-                emptyList()
-            }
-        }
-    }
-
     private suspend fun loadHotGamesFromRemote(gamesCount: Int): List<GameItem> {
-        val hotGamesResponse = gamesService.getHotGamesList(pageSize = gamesCount)
+        val hotGamesResponse = apiService.getHotGamesList(pageSize = gamesCount)
         hotGamesDao.insertHotGames(hotGamesResponse.toEntity())
         return hotGamesDao.getHotGames().toDomain()
     }

@@ -8,9 +8,7 @@ import androidx.room.PrimaryKey
 data class DeveloperEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int,
-    @ColumnInfo(name = "developer_id")
-    val developerId: Int,
+    val id: Int = 0,
     @ColumnInfo(name = "developer_foundation")
     val foundation: Int,
     @ColumnInfo(name = "developer_icon")

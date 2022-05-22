@@ -1,7 +1,6 @@
 package com.fabledt5.domain.model
 
 data class DeveloperItem(
-    val developerId: Int,
     val foundation: Int,
     val icon: String,
     val keyPeople: String,

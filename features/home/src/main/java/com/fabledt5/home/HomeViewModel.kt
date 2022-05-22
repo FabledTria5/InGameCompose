@@ -14,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -59,12 +60,10 @@ class HomeViewModel @Inject constructor(
         else Resource.Success(data = hotGamesResult)
     }
 
-    private fun loadPlatformsList() = viewModelScope.launch(Dispatchers.IO) {
-        val platformsListResult = homeCases.getPlatformsList()
-        _platformsList.value =
-            if (platformsListResult.isNotEmpty()) Resource.Success(data = platformsListResult)
-            else Resource.Error()
-    }
+    private fun loadPlatformsList() = homeCases.getPlatformsList().onEach { result ->
+        _platformsList.value = result
+        if (result is Resource.Error) Timber.e(result.exception)
+    }.launchIn(viewModelScope)
 
     fun changePlatform(platformId: Int) = viewModelScope.launch(Dispatchers.IO) {
         homeCases.setFavoritePlatform(platformId = platformId)

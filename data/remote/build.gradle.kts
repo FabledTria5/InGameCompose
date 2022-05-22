@@ -3,6 +3,7 @@ plugins {
     id(Plugins.hilt)
     kotlin(Plugins.android)
     kotlin(Plugins.kapt)
+    kotlin(Plugins.serialization) version Versions.kotlinGradleVersion
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
 
     // Kotlin
     implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
+    implementation(dependencyNotation = Dependencies.kotlinSerialization)
 
     // Testing
     testImplementation(dependencyNotation = Dependencies.junit)
@@ -54,6 +56,7 @@ dependencies {
     // Retrofit
     implementation(dependencyNotation = Dependencies.retrofit)
     implementation(dependencyNotation = Dependencies.gsonConverter)
+    implementation(dependencyNotation = Dependencies.kotlinSerializationConverter)
     implementation(dependencyNotation = Dependencies.loggingInterceptor)
 
     // Jsoup
