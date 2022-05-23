@@ -23,14 +23,22 @@ fun List<HotGameEntity>.toDomain(): List<GameItem> = map { entity ->
     )
 }
 
-fun Flow<PlatformEntity>.toDomain(): Flow<PlatformItem> = map { entity ->
-    PlatformItem(platformId = entity.platformId, platformName = entity.platformName)
+fun Flow<PlatformEntity?>.toDomain(): Flow<PlatformItem> = map { entity ->
+    PlatformItem(
+        platformId = entity?.platformId ?: 0,
+        platformName = entity?.platformName ?: "",
+        platformImage = entity?.platformImage ?: ""
+    )
 }
 
 @JvmName("toDomainPlatformEntity")
 fun Flow<List<PlatformEntity>>.toDomain(): Flow<List<PlatformItem>> = map { list ->
     list.map { entity ->
-        PlatformItem(platformId = entity.platformId, platformName = entity.platformName)
+        PlatformItem(
+            platformId = entity.platformId,
+            platformName = entity.platformName,
+            platformImage = entity.platformImage
+        )
     }
 }
 

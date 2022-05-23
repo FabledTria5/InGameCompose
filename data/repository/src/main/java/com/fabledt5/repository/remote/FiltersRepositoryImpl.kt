@@ -32,4 +32,9 @@ class FiltersRepositoryImpl @Inject constructor(
     override fun getGameDevelopers() = filtersDao.getDevelopers().toDomain()
 
     override fun getGamePlatforms() = filtersDao.getPlatforms().toDomain()
+
+    override fun getFavoritePlatform() = filtersDao.observeFavoritePlatform().toDomain()
+
+    override suspend fun setFavoritePlatform(platformId: Int) =
+        filtersDao.setFavoritePlatform(platformId = platformId)
 }

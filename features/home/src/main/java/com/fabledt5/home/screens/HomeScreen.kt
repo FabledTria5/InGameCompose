@@ -58,8 +58,9 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
             platformsList = platformsList,
             favoritePlatform = favoritePlatform,
             onPlatformSelected = { platformId ->
-                homeViewModel.changePlatform(platformId = platformId)
-            })
+                homeViewModel.changeFavoritePlatformPlatform(platformId = platformId)
+            }
+        )
         RecommendedGamesPager(
             gamesPagerState = gamesPagerState,
             upcomingGames = upcomingGames,

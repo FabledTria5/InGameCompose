@@ -19,4 +19,8 @@ interface FiltersRepository {
 
     fun getGamePlatforms(): Flow<List<PlatformItem>>
 
+    fun getFavoritePlatform(): Flow<PlatformItem?>
+
+    suspend fun setFavoritePlatform(platformId: Int)
+
 }

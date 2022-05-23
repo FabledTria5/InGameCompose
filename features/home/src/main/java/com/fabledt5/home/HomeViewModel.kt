@@ -24,21 +24,14 @@ class HomeViewModel @Inject constructor(
     private val homeCases: HomeCases
 ) : ViewModel() {
 
-    private val selectedPlatform = homeCases.getFavoritePlatformId()
+    private val _favoritePlatform = MutableStateFlow<Resource<PlatformItem>>(Resource.Idle)
+    val favoritePlatform = _favoritePlatform.asStateFlow()
 
     private val _hotGamesList = MutableStateFlow<Resource<List<GameItem>>>(Resource.Loading)
     val hotGamesList = _hotGamesList.asStateFlow()
 
     private val _platformsList = MutableStateFlow<Resource<List<PlatformItem>>>(Resource.Idle)
     val platformsList = _platformsList.asStateFlow()
-
-    val favoritePlatform = selectedPlatform
-        .filter { it != -1 }
-        .flatMapLatest { platformId ->
-            homeCases.getFavoritePlatform(platformId = platformId)
-        }.onEach { platformItem ->
-            loadGamesLists(gamesPlatformId = platformItem.platformId)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, PlatformItem())
 
     private val _upcomingGames = MutableStateFlow<Resource<List<GameItem>>>(Resource.Loading)
     val upcomingGames = _upcomingGames.asStateFlow()
@@ -60,16 +53,34 @@ class HomeViewModel @Inject constructor(
         else Resource.Success(data = hotGamesResult)
     }
 
-    private fun loadPlatformsList() = homeCases.getPlatformsList().onEach { result ->
-        _platformsList.value = result
-        if (result is Resource.Error) Timber.e(result.exception)
-    }.launchIn(viewModelScope)
+    private fun loadPlatformsList() = homeCases.getPlatformsList()
+        .flowOn(Dispatchers.IO)
+        .onEach { result ->
+            _platformsList.value = result
+            if (result is Resource.Error) Timber.e(result.exception)
+            else loadSelectedPlatform()
+        }.launchIn(viewModelScope)
 
-    fun changePlatform(platformId: Int) = viewModelScope.launch(Dispatchers.IO) {
+    private fun loadSelectedPlatform() = homeCases.getFavoritePlatform()
+        .onEach { result ->
+            _favoritePlatform.value = when (result) {
+                null -> Resource.Error(exception = Throwable("No favorite platform"))
+                else -> {
+                    loadGamesLists(result.platformId)
+                    Resource.Success(data = result)
+                }
+            }
+        }.launchIn(viewModelScope)
+
+    fun changeFavoritePlatformPlatform(platformId: Int) = viewModelScope.launch(Dispatchers.IO) {
         homeCases.setFavoritePlatform(platformId = platformId)
     }
 
     private fun loadGamesLists(gamesPlatformId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        _upcomingGames.value = Resource.Loading
+        _bestGames.value = Resource.Loading
+        _newGames.value = Resource.Loading
+
         val upcomingGames = async { homeCases.getUpcomingGames(gamesPlatformId) }
         val upcomingGamesResult = upcomingGames.await()
 

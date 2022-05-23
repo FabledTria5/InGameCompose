@@ -12,5 +12,9 @@ data class PlatformEntity(
     @ColumnInfo(name = "platform_id")
     val platformId: Int,
     @ColumnInfo(name = "platform_name")
-    val platformName: String
+    val platformName: String,
+    @ColumnInfo(name = "platform_image")
+    val platformImage: String,
+    @ColumnInfo(name = "isFavorite")
+    val isFavorite: Boolean = false
 )

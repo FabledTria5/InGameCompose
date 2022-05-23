@@ -19,13 +19,15 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
 import com.fabledt5.common.R
 import com.fabledt5.common.theme.Background
+import com.fabledt5.domain.model.PlatformItem
+import com.fabledt5.domain.model.Resource
 
 @Composable
 fun OutlinedDropDown(
     modifier: Modifier = Modifier,
-    itemsList: List<String>,
-    selectedItem: String,
-    onItemSelected: (String) -> Unit
+    itemsList: List<PlatformItem>,
+    selectedItem: Resource<PlatformItem>,
+    onItemSelected: (Int) -> Unit
 ) {
     var platformsItemSize by remember { mutableStateOf(IntSize.Zero) }
 
@@ -36,30 +38,35 @@ fun OutlinedDropDown(
     else Icons.Default.KeyboardArrowDown
 
     Column(modifier = modifier) {
-        OutlinedTextField(
-            value = selectedItem,
-            onValueChange = {},
-            modifier = modifier.onGloballyPositioned { coordinates ->
-                textFieldSize = coordinates.size.toSize()
-            },
-            readOnly = true,
-            trailingIcon = {
-                IconButton(onClick = { isExpanded = !isExpanded }) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = stringResource(id = R.string.icon_arrow),
-                        tint = Color.White
-                    )
-                }
-            },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                containerColor = Color.Transparent,
-                focusedBorderColor = Color.White.copy(alpha = .7f),
-                unfocusedBorderColor = Color.White.copy(alpha = .4f),
-                disabledBorderColor = Color.White.copy(alpha = .4f),
-                textColor = Color.White
+        when (selectedItem) {
+            is Resource.Error -> onItemSelected(itemsList.first().platformId)
+            is Resource.Success -> OutlinedTextField(
+                value = selectedItem.data.platformName,
+                onValueChange = {},
+                modifier = modifier.onGloballyPositioned { coordinates ->
+                    textFieldSize = coordinates.size.toSize()
+                },
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { isExpanded = !isExpanded }) {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = stringResource(id = R.string.icon_arrow),
+                            tint = Color.White
+                        )
+                    }
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedBorderColor = Color.White.copy(alpha = .7f),
+                    unfocusedBorderColor = Color.White.copy(alpha = .4f),
+                    disabledBorderColor = Color.White.copy(alpha = .4f),
+                    textColor = Color.White
+                )
             )
-        )
+            else -> Unit
+        }
+
         DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
@@ -73,13 +80,13 @@ fun OutlinedDropDown(
             itemsList.forEach { platform ->
                 DropdownMenuItem(
                     onClick = {
-                        onItemSelected(platform)
+                        onItemSelected(platform.platformId)
                         isExpanded = false
                     },
                     modifier = Modifier.onGloballyPositioned {
                         platformsItemSize = it.size
                     },
-                    text = { Text(text = platform, color = Color.White) }
+                    text = { Text(text = platform.platformName, color = Color.White) }
                 )
             }
         }

@@ -37,6 +37,7 @@ import com.fabledt5.common.theme.Turquoise
 fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
     val developersFilters by catalogueViewModel.developersList.collectAsState()
     val genresFilters by catalogueViewModel.genresList.collectAsState()
+    val platformsFilters by catalogueViewModel.platformsList.collectAsState()
 
     var isFiltersListOpen by remember { mutableStateOf(false) }
 
@@ -62,7 +63,11 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                     .padding(start = 10.dp, top = 15.dp, end = 10.dp)
                     .fillMaxWidth()
             )
-            if (isFiltersListOpen) CatalogueFiltersSection(developersFilters, genresFilters)
+            if (isFiltersListOpen) CatalogueFiltersSection(
+                developersFilters,
+                genresFilters,
+                platformsFilters
+            )
             else CatalogueSearchSection()
         }
     }

@@ -9,7 +9,6 @@ import com.fabledt5.remote.api.dto.filters.DevelopersResponseItem
 import com.fabledt5.remote.api.dto.filters.GenresResponseItem
 import com.fabledt5.remote.api.dto.filters.PlatformsResponseItem
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
-import com.fabledt5.remote.api.dto.platforms_list.PlatformsListResponse
 import java.util.*
 
 fun GamesListResponse.toEntity(): List<HotGameEntity> = results.map { dto ->
@@ -25,10 +24,6 @@ fun GamesListResponse.toEntity(): List<HotGameEntity> = results.map { dto ->
         gameGenres = dto.genres.take(n = 2).joinToString { it.name },
         releaseYear = dto.released.take(n = 4)
     )
-}
-
-fun PlatformsListResponse.toEntity(): List<PlatformEntity> = results.map { dto ->
-    PlatformEntity(platformId = dto.id, platformName = dto.name)
 }
 
 @JvmName("toEntityDevelopersResponseItem")
@@ -51,5 +46,9 @@ fun List<GenresResponseItem>.toEntity(): List<GenreEntity> = map { dto ->
 
 @JvmName("toEntityPlatformsResponseItem")
 fun List<PlatformsResponseItem>.toEntity(): List<PlatformEntity> = map { dto ->
-    PlatformEntity(platformId = dto.platformId, platformName = dto.platformName)
+    PlatformEntity(
+        platformId = dto.platformId,
+        platformName = dto.platformName,
+        platformImage = dto.platformImage
+    )
 }

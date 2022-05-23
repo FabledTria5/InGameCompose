@@ -27,6 +27,7 @@ import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.domain.model.DeveloperItem
 import com.fabledt5.domain.model.GameGenre
+import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
@@ -35,54 +36,77 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 fun CatalogueFiltersSection(
     developersFilters: Resource<List<DeveloperItem>>,
-    genresFilters: Resource<List<GameGenre>>
+    genresFilters: Resource<List<GameGenre>>,
+    platformsFilters: Resource<List<PlatformItem>>
 ) {
-    Column(
-        modifier = Modifier
-            .padding(top = 20.dp, bottom = 75.dp)
-            .fillMaxSize()
-            .verticalScroll(state = rememberScrollState())
-    ) {
-        when (developersFilters) {
-            is Resource.Error -> ShowDevelopersError()
-            is Resource.Success -> ShowDevelopersFilters(
-                developersFilters.data,
-                modifier = Modifier.fillMaxWidth()
-            )
-            else -> ShowDevelopersLoading()
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        PlatformsFilter(
-            modifier = Modifier.fillMaxWidth()
+    when {
+        (platformsFilters is Resource.Error
+                || genresFilters is Resource.Error
+                || developersFilters is Resource.Error
+                ) -> ShowFiltersError()
+        (platformsFilters is Resource.Success
+                && genresFilters is Resource.Success
+                && developersFilters is Resource.Success
+                ) -> ShowFiltersSuccess(
+            developersFilters.data,
+            genresFilters.data,
+            platformsFilters.data
         )
-        Spacer(modifier = Modifier.height(30.dp))
-        when (genresFilters) {
-            is Resource.Error -> ShowGenresError()
-            is Resource.Success -> ShowGenresFilter(
-                genresFilters.data,
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .fillMaxWidth(),
-                onFilterClicked = {
-
-                })
-            else -> ShowGenresLoading()
-        }
+        else -> ShowFiltersLoading()
     }
 }
 
 @Composable
-fun ShowDevelopersError() {
+fun ShowFiltersLoading() {
 
 }
 
 @Composable
-fun ShowDevelopersLoading() {
+fun ShowFiltersError() {
 
 }
 
+@ExperimentalFoundationApi
 @Composable
-fun ShowDevelopersFilters(developersFilter: List<DeveloperItem>, modifier: Modifier = Modifier) {
+fun ShowFiltersSuccess(
+    developersList: List<DeveloperItem>,
+    genresList: List<GameGenre>,
+    platformsList: List<PlatformItem>
+) {
+    Column(
+        modifier = Modifier
+            .padding(top = 20.dp, bottom = 70.dp)
+            .fillMaxSize()
+            .verticalScroll(state = rememberScrollState())
+    ) {
+        ShowDevelopersFilters(
+            developersList = developersList,
+            onFilterClicked = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        ShowPlatformsFilter(
+            platformsList = platformsList,
+            onFilterClicked = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        ShowGenresFilter(
+            genresList = genresList,
+            onFilterClicked = {},
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun ShowDevelopersFilters(
+    developersList: List<DeveloperItem>,
+    modifier: Modifier = Modifier,
+    onFilterClicked: (String) -> Unit
+) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.by_developer).uppercase(),
@@ -98,7 +122,7 @@ fun ShowDevelopersFilters(developersFilter: List<DeveloperItem>, modifier: Modif
         contentPadding = PaddingValues(horizontal = 10.dp)
     ) {
         itemsIndexed(
-            items = developersFilter,
+            items = developersList,
             key = { _, developer -> developer.developerName })
         { index, developer ->
             var isSelected by remember { mutableStateOf(false) }
@@ -108,13 +132,17 @@ fun ShowDevelopersFilters(developersFilter: List<DeveloperItem>, modifier: Modif
                 onItemSelected = { isSelected = !isSelected },
                 modifier = Modifier.size(90.dp)
             )
-            if (index != developersFilter.lastIndex) Spacer(modifier = Modifier.width(10.dp))
+            if (index != developersList.lastIndex) Spacer(modifier = Modifier.width(10.dp))
         }
     }
 }
 
 @Composable
-fun PlatformsFilter(modifier: Modifier = Modifier) {
+fun ShowPlatformsFilter(
+    platformsList: List<PlatformItem>,
+    modifier: Modifier = Modifier,
+    onFilterClicked: (Int) -> Unit
+) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.by_platform).uppercase(),
@@ -128,28 +156,20 @@ fun PlatformsFilter(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(horizontal = 10.dp)
         ) {
-            items(5) {
-//                var isSelected by remember { mutableStateOf(false) }
-//                FilterImageItem(
-//                    filterImage = painterResource(id = R.drawable.logo_play),
-//                    isActive = isSelected,
-//                    onItemSelected = { isSelected = !isSelected },
-//                    modifier = Modifier.size(90.dp),
-//                )
-                if (it < 5) Spacer(modifier = Modifier.width(10.dp))
+            itemsIndexed(
+                items = platformsList,
+                key = { _, platform -> platform.platformId }) { index, platform ->
+                var isSelected by remember { mutableStateOf(false) }
+                FilterImageItem(
+                    filterImage = platform.platformImage,
+                    isActive = isSelected,
+                    onItemSelected = { isSelected = !isSelected },
+                    modifier = Modifier.size(90.dp)
+                )
+                if (index != platformsList.lastIndex) Spacer(modifier = Modifier.width(10.dp))
             }
         }
     }
-}
-
-@Composable
-fun ShowGenresError() {
-
-}
-
-@Composable
-fun ShowGenresLoading() {
-
 }
 
 @ExperimentalFoundationApi
@@ -204,8 +224,10 @@ fun ShowGenresFilter(
         }
         FlowRow(
             modifier = Modifier
+                .padding(bottom = 5.dp)
                 .fillMaxWidth()
-                .animateContentSize(),
+                .animateContentSize()
+                .padding(),
             mainAxisAlignment = FlowMainAxisAlignment.SpaceBetween
         ) {
             genresList.take(listMaxSize).forEach { item ->
