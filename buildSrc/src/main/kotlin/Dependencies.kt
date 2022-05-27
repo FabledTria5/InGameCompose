@@ -43,7 +43,7 @@ object Versions {
     const val compose = "1.2.0-beta02"
     const val composeMaterial = "1.0.0-alpha12"
     const val activityCompose = "1.4.0"
-    const val accompanist = "0.24.8-beta"
+    const val accompanist = "0.24.9-beta"
     const val coil = "2.0.0"
     const val hiltCompose = "1.0.0"
 

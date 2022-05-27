@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -74,12 +73,10 @@ fun RatingBar(ratingsPercent: Int, animationDelay: Int, animationDuration: Int) 
     val density = LocalDensity.current
 
     var backgroundBoxWidth by remember { mutableStateOf(IntSize.Zero) }
-    var activeBoxWidth by rememberSaveable { mutableStateOf(0.dp) }
+    var activeBoxWidth by remember { mutableStateOf(0.dp) }
 
-    LaunchedEffect(key1 = true) {
-        with(density) {
-            activeBoxWidth = backgroundBoxWidth.width.toDp() / 100 * ratingsPercent
-        }
+    with(density) {
+        activeBoxWidth = backgroundBoxWidth.width.toDp() / 100 * ratingsPercent
     }
 
     Box {
