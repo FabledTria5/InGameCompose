@@ -55,7 +55,6 @@ dependencies {
 
     // Retrofit
     implementation(dependencyNotation = Dependencies.retrofit)
-    implementation(dependencyNotation = Dependencies.gsonConverter)
     implementation(dependencyNotation = Dependencies.kotlinSerializationConverter)
     implementation(dependencyNotation = Dependencies.loggingInterceptor)
 

@@ -1,14 +1,16 @@
 package com.fabledt5.remote.api.dto.game_trailers
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Result(
-    @SerializedName("data")
+    @SerialName("data")
     val `data`: Data,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("preview")
+    @SerialName("preview")
     val preview: String
 )

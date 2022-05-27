@@ -1,10 +1,12 @@
 package com.fabledt5.remote.api.dto.list_of_games
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ShortScreenshot(
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("image")
+    @SerialName("image")
     val image: String
 )

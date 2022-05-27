@@ -16,11 +16,12 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
+@Suppress("JSON_FORMAT_REDUNDANT")
 @ExperimentalSerializationApi
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,21 +42,32 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    fun provideJson(): Converter.Factory = Json {
+        ignoreUnknownKeys = true
+        explicitNulls = false
+    }.asConverterFactory("application/json".toMediaType())
+
+    @Singleton
+    @Provides
     @Named("RemoteServer")
-    fun provideRemoteServerRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRemoteServerRetrofit(
+        okHttpClient: OkHttpClient,
+        jsonConverter: Converter.Factory
+    ): Retrofit = Retrofit.Builder()
         .baseUrl(INGAME_SERVER_BASE_URL)
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(jsonConverter)
         .client(okHttpClient)
         .build()
 
     @Singleton
     @Provides
     @Named("Api")
-    fun provideApiRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(API_BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)
-        .build()
+    fun provideApiRetrofit(okHttpClient: OkHttpClient, jsonConverter: Converter.Factory): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(API_BASE_URL)
+            .addConverterFactory(jsonConverter)
+            .client(okHttpClient)
+            .build()
 
     @Singleton
     @Provides

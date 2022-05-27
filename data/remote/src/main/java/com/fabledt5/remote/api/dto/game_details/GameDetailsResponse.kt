@@ -1,106 +1,92 @@
 package com.fabledt5.remote.api.dto.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GameDetailsResponse(
-    @SerializedName("achievements_count")
+    @SerialName("achievements_count")
     val achievementsCount: Int,
-    @SerializedName("added")
+    @SerialName("added")
     val added: Int,
-    @SerializedName("added_by_status")
+    @SerialName("added_by_status")
     val addedByStatus: AddedByStatus,
-    @SerializedName("additions_count")
+    @SerialName("additions_count")
     val additionsCount: Int,
-    @SerializedName("alternative_names")
+    @SerialName("alternative_names")
     val alternativeNames: List<String>,
-    @SerializedName("background_image")
+    @SerialName("background_image")
     val backgroundImage: String,
-    @SerializedName("background_image_additional")
+    @SerialName("background_image_additional")
     val backgroundImageAdditional: String,
-    @SerializedName("clip")
-    val clip: Any?,
-    @SerializedName("creators_count")
+    @SerialName("creators_count")
     val creatorsCount: Int,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String,
-    @SerializedName("description_raw")
+    @SerialName("description_raw")
     val descriptionRaw: String,
-    @SerializedName("developers")
+    @SerialName("developers")
     val developers: List<Developer>,
-    @SerializedName("dominant_color")
+    @SerialName("dominant_color")
     val dominantColor: String,
-    @SerializedName("esrb_rating")
+    @SerialName("esrb_rating")
     val esrbRating: EsrbRating?,
-    @SerializedName("game_series_count")
+    @SerialName("game_series_count")
     val gameSeriesCount: Int,
-    @SerializedName("genres")
+    @SerialName("genres")
     val genres: List<Genre>,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("metacritic")
+    @SerialName("metacritic")
     val metacritic: Int,
-    @SerializedName("metacritic_url")
+    @SerialName("metacritic_url")
     val metacriticUrl: String,
-    @SerializedName("movies_count")
+    @SerialName("movies_count")
     val moviesCount: Int,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("name_original")
+    @SerialName("name_original")
     val nameOriginal: String,
-    @SerializedName("parent_achievements_count")
+    @SerialName("parent_achievements_count")
     val parentAchievementsCount: Int,
-    @SerializedName("parents_count")
+    @SerialName("parents_count")
     val parentsCount: Int,
-    @SerializedName("platforms")
+    @SerialName("platforms")
     val platforms: List<Platform>,
-    @SerializedName("playtime")
+    @SerialName("playtime")
     val playtime: Int,
-    @SerializedName("publishers")
+    @SerialName("publishers")
     val publishers: List<Publisher>,
-    @SerializedName("rating")
+    @SerialName("rating")
     val rating: Double,
-    @SerializedName("rating_top")
+    @SerialName("rating_top")
     val ratingTop: Int,
-    @SerializedName("ratings")
+    @SerialName("ratings")
     val ratings: List<Rating>,
-    @SerializedName("ratings_count")
+    @SerialName("ratings_count")
     val ratingsCount: Int,
-    @SerializedName("reactions")
-    val reactions: Reactions,
-    @SerializedName("reddit_count")
+    @SerialName("reddit_count")
     val redditCount: Int,
-    @SerializedName("reddit_description")
+    @SerialName("reddit_description")
     val redditDescription: String,
-    @SerializedName("reddit_logo")
+    @SerialName("reddit_logo")
     val redditLogo: String,
-    @SerializedName("reddit_name")
+    @SerialName("reddit_name")
     val redditName: String,
-    @SerializedName("reddit_url")
+    @SerialName("reddit_url")
     val redditUrl: String,
-    @SerializedName("released")
+    @SerialName("released")
     val released: String,
-    @SerializedName("reviews_count")
+    @SerialName("reviews_count")
     val reviewsCount: Int,
-    @SerializedName("reviews_text_count")
+    @SerialName("reviews_text_count")
     val reviewsTextCount: Int,
-    @SerializedName("saturated_color")
+    @SerialName("saturated_color")
     val saturatedColor: String,
-    @SerializedName("screenshots_count")
+    @SerialName("screenshots_count")
     val screenshotsCount: Int,
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String,
-    @SerializedName("suggestions_count")
+    @SerialName("suggestions_count")
     val suggestionsCount: Int,
-    @SerializedName("tags")
-    val tags: List<Tag>,
-    @SerializedName("tba")
-    val tba: Boolean,
-    @SerializedName("twitch_count")
-    val twitchCount: Int,
-    @SerializedName("updated")
-    val updated: String,
-    @SerializedName("website")
-    val website: String,
-    @SerializedName("youtube_count")
-    val youtubeCount: Int
 )

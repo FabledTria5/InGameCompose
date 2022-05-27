@@ -1,12 +1,14 @@
 package com.fabledt5.remote.api.dto.game_creators
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Position(
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String
 )

@@ -1,10 +1,12 @@
 package com.fabledt5.remote.api.dto.game_screenshots
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Result(
-    @SerializedName("hidden")
-    val hidden: Boolean,
-    @SerializedName("image")
+    @SerialName("hidden")
+    val hidden: Boolean?,
+    @SerialName("image")
     val image: String
 )

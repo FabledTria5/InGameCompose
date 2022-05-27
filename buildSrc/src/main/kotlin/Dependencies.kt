@@ -18,7 +18,7 @@ object Config {
 object Versions {
 
     // Core
-    const val gradle = "7.2.0"
+    const val gradle = "7.2.1"
     const val kotlinGradleVersion = "1.6.21"
     const val googleServices = "4.3.10"
     const val kspVersion = "1.6.21-1.0.5"
@@ -156,7 +156,6 @@ object Dependencies {
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
     const val kotlinSerializationConverter =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinSerializationConverter}"
-    const val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofitVersion}"
     const val loggingInterceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.loggingInterceptor}"
     const val jsoup = "org.jsoup:jsoup:${Versions.jsoup}"

@@ -1,22 +1,18 @@
 package com.fabledt5.remote.api.dto.list_of_games
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class PlatformItem(
-    @SerializedName("games_count")
-    val gamesCount: Int,
-    @SerializedName("id")
+    @SerialName("games_count")
+    val gamesCount: Int?,
+    @SerialName("id")
     val id: Int,
-    @SerializedName("image")
-    val image: Any?,
-    @SerializedName("image_background")
-    val imageBackground: String,
-    @SerializedName("name")
+    @SerialName("image_background")
+    val imageBackground: String?,
+    @SerialName("name")
     val name: String,
-    @SerializedName("slug")
-    val slug: String,
-    @SerializedName("year_end")
-    val yearEnd: Any?,
-    @SerializedName("year_start")
-    val yearStart: Any?
+    @SerialName("slug")
+    val slug: String
 )

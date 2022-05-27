@@ -5,7 +5,6 @@ import com.fabledt5.remote.api.dto.game_details.GameDetailsResponse
 import com.fabledt5.remote.api.dto.game_screenshots.GameScreenshotsResult
 import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
-import com.fabledt5.remote.api.dto.platforms_list.PlatformsListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -30,9 +29,6 @@ interface ApiService {
         @Query(value = "metacritic") metacriticRatings: String,
         @Query(value = "platforms") platforms: Int
     ): GamesListResponse
-
-    @GET(value = "api/platforms")
-    suspend fun getGamePlatforms(): PlatformsListResponse
 
     @GET(value = "api/games")
     suspend fun searchGames(

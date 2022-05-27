@@ -1,18 +1,20 @@
 package com.fabledt5.remote.api.dto.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AddedByStatus(
-    @SerializedName("beaten")
+    @SerialName("beaten")
     val beaten: Int,
-    @SerializedName("dropped")
+    @SerialName("dropped")
     val dropped: Int,
-    @SerializedName("owned")
+    @SerialName("owned")
     val owned: Int,
-    @SerializedName("playing")
+    @SerialName("playing")
     val playing: Int,
-    @SerializedName("toplay")
+    @SerialName("toplay")
     val toplay: Int,
-    @SerializedName("yet")
+    @SerialName("yet")
     val yet: Int
 )

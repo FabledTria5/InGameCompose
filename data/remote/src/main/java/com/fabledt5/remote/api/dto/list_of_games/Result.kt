@@ -1,54 +1,54 @@
 package com.fabledt5.remote.api.dto.list_of_games
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Result(
-    @SerializedName("added")
+    @SerialName("added")
     val added: Int,
-    @SerializedName("background_image")
+    @SerialName("background_image")
     val backgroundImage: String,
-    @SerializedName("dominant_color")
+    @SerialName("dominant_color")
     val dominantColor: String,
-    @SerializedName("esrb_rating")
+    @SerialName("esrb_rating")
     val esrbRating: EsrbRating?,
-    @SerializedName("genres")
+    @SerialName("genres")
     val genres: List<Genre>,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("metacritic")
-    val metacritic: Int,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("parent_platforms")
+    @SerialName("parent_platforms")
     val parentPlatforms: List<ParentPlatform>,
-    @SerializedName("platforms")
+    @SerialName("platforms")
     val platforms: List<Platform>,
-    @SerializedName("playtime")
+    @SerialName("playtime")
     val playtime: Int,
-    @SerializedName("rating")
+    @SerialName("rating")
     val rating: Double,
-    @SerializedName("rating_top")
+    @SerialName("rating_top")
     val ratingTop: Int,
-    @SerializedName("ratings")
+    @SerialName("ratings")
     val ratings: List<Rating>,
-    @SerializedName("ratings_count")
+    @SerialName("ratings_count")
     val ratingsCount: Int,
-    @SerializedName("released")
+    @SerialName("released")
     val released: String,
-    @SerializedName("reviews_count")
+    @SerialName("reviews_count")
     val reviewsCount: Int,
-    @SerializedName("reviews_text_count")
+    @SerialName("reviews_text_count")
     val reviewsTextCount: Int,
-    @SerializedName("saturated_color")
+    @SerialName("saturated_color")
     val saturatedColor: String,
-    @SerializedName("short_screenshots")
+    @SerialName("short_screenshots")
     val shortScreenshots: List<ShortScreenshot>,
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String,
-    @SerializedName("suggestions_count")
+    @SerialName("suggestions_count")
     val suggestionsCount: Int,
-    @SerializedName("tba")
+    @SerialName("tba")
     val tba: Boolean,
-    @SerializedName("updated")
+    @SerialName("updated")
     val updated: String,
 )
