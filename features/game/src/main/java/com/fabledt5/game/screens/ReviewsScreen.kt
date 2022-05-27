@@ -1,6 +1,5 @@
 package com.fabledt5.game.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +20,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fabledt5.common.theme.Background
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Proxima
@@ -48,7 +48,6 @@ fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<GameRa
     }
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
     Scaffold(
@@ -70,18 +69,21 @@ fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
                     fontSize = 18.sp
                 )
             }
-        }
+        },
+        backgroundColor = Background
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .padding(it.calculateTopPadding())
+                .fillMaxWidth(),
             contentPadding = PaddingValues(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 10.dp),
         ) {
             item {
                 GameReviewsHeader(gameItem = gameItem, gameRating = gameRating)
             }
-            items(gameRating.gameReviews, key = { it.reviewerName }) {
+            items(gameRating.gameReviews, key = { item -> item.reviewerName }) { item ->
                 GameReviewItem(
-                    reviewItem = it,
+                    reviewItem = item,
                     modifier = Modifier.padding(vertical = 5.dp)
                 )
             }
@@ -135,7 +137,7 @@ fun GameReviewsHeader(gameItem: GameItem, gameRating: GameRating) {
             modifier = Modifier.padding(bottom = 10.dp)
         )
         gameRating.gameReviews.toRatingsCounter().let { gameRatingsMap ->
-            gameRatingsMap.keys.forEach { key ->
+            gameRatingsMap.keys.forEachIndexed { index, key ->
                 val ratingPercent = gameRatingsMap[key]
                     ?.toFloat()
                     ?.div(gameRating.gameReviews.size)
@@ -144,7 +146,8 @@ fun GameReviewsHeader(gameItem: GameItem, gameRating: GameRating) {
                 RatingCounter(
                     rating = key,
                     ratingsCount = gameRatingsMap[key],
-                    ratingsPercent = ratingPercent
+                    ratingsPercent = ratingPercent,
+                    ratingOffset = index
                 )
             }
         }

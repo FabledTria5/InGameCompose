@@ -66,7 +66,7 @@ fun ShowGameScreen(
 ) {
     when (gameData) {
         is Resource.Error -> ShowGameLoadingError()
-        is Resource.Success -> ShowGameLoadingSuccess(
+        is Resource.Success -> ShowGameSuccess(
             gameItem = gameData.data,
             gameSnapshots = gameSnapshots,
             gameRating = gameRating,
@@ -112,7 +112,7 @@ fun ShowGameLoadingError() {
 
 @ExperimentalPagerApi
 @Composable
-fun ShowGameLoadingSuccess(
+fun ShowGameSuccess(
     gameItem: GameItem,
     gameSnapshots: Resource<List<String>>,
     gameRating: Resource<GameRating>,
