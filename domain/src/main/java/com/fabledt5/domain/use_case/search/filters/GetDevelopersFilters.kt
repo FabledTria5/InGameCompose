@@ -10,10 +10,7 @@ class GetDevelopersFilters @Inject constructor(private val filtersRepository: Fi
 
     operator fun invoke() = filtersRepository.getGameDevelopers().map { list ->
         if (list.isNotEmpty()) Resource.Success(data = list)
-        else {
-            filtersRepository.fetchDevelopersList()
-            Resource.Loading
-        }
+        else Resource.Error(exception = Throwable("Empty list"))
     }.catch {
         emit(Resource.Error(exception = it))
     }

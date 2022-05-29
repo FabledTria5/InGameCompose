@@ -8,8 +8,10 @@ import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.use_case.search.filters.FiltersCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,21 +36,18 @@ class CatalogueViewModel @Inject constructor(
     }
 
     private fun loadDevelopersFilter() = filtersCases.getDevelopersFilters()
-        .flowOn(Dispatchers.IO)
         .onEach { result ->
             _developersList.value = result
             if (result is Resource.Error) Timber.e(result.exception)
         }.launchIn(viewModelScope)
 
     private fun loadGenresFilter() = filtersCases.getGenresFilters()
-        .flowOn(Dispatchers.IO)
         .onEach { result ->
             _genresList.value = result
             if (result is Resource.Error) Timber.e(result.exception)
         }.launchIn(viewModelScope)
 
     private fun loadPlatformsFilter() = filtersCases.getPlatformsFilters()
-        .flowOn(Dispatchers.IO)
         .onEach { result ->
             _platformsList.value = result
             if (result is Resource.Error) Timber.e(result.exception)

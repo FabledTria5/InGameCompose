@@ -2,10 +2,8 @@ package com.fabledt5.remote.di
 
 import com.fabledt5.remote.BuildConfig
 import com.fabledt5.remote.api.ApiService
-import com.fabledt5.remote.api.InGameService
 import com.fabledt5.remote.utils.ApiInterceptor
 import com.fabledt5.remote.utils.Constants.API_BASE_URL
-import com.fabledt5.remote.utils.Constants.INGAME_SERVER_BASE_URL
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -18,7 +16,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Suppress("JSON_FORMAT_REDUNDANT")
@@ -49,19 +46,6 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("RemoteServer")
-    fun provideRemoteServerRetrofit(
-        okHttpClient: OkHttpClient,
-        jsonConverter: Converter.Factory
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(INGAME_SERVER_BASE_URL)
-        .addConverterFactory(jsonConverter)
-        .client(okHttpClient)
-        .build()
-
-    @Singleton
-    @Provides
-    @Named("Api")
     fun provideApiRetrofit(okHttpClient: OkHttpClient, jsonConverter: Converter.Factory): Retrofit =
         Retrofit.Builder()
             .baseUrl(API_BASE_URL)
@@ -71,12 +55,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRemoteServerService(@Named("RemoteServer") retrofit: Retrofit): InGameService =
-        retrofit.create(InGameService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideGamesService(@Named("Api") retrofit: Retrofit): ApiService =
+    fun provideGamesService(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
 
 }

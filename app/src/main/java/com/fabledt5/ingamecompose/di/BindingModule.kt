@@ -3,8 +3,7 @@ package com.fabledt5.ingamecompose.di
 import com.fabledt5.domain.repository.*
 import com.fabledt5.repository.firebase.AuthRepositoryImpl
 import com.fabledt5.repository.firebase.FireStoreRepositoryImpl
-import com.fabledt5.repository.local.PreferencesRepositoryImpl
-import com.fabledt5.repository.remote.FiltersRepositoryImpl
+import com.fabledt5.repository.local.FiltersRepositoryImpl
 import com.fabledt5.repository.remote.GameRepositoryImpl
 import com.fabledt5.repository.remote.GamesListRepositoryImpl
 import dagger.Binds
@@ -24,9 +23,6 @@ interface BindingModule {
 
     @Binds
     fun bindFirestoreRepository(fireStoreRepositoryImpl: FireStoreRepositoryImpl): FireStoreRepository
-
-    @Binds
-    fun bindPreferencesRepository(preferencesRepositoryImpl: PreferencesRepositoryImpl): PreferencesRepository
 
     @Binds
     fun bindGameRepository(gameRepositoryImpl: GameRepositoryImpl): GameRepository

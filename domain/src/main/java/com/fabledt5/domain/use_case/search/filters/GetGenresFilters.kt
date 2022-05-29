@@ -10,10 +10,7 @@ class GetGenresFilters @Inject constructor(private val filtersRepository: Filter
 
     operator fun invoke() = filtersRepository.getGameGenres().map { list ->
         if (list.isNotEmpty()) Resource.Success(data = list)
-        else {
-            filtersRepository.fetchGenresList()
-            Resource.Loading
-        }
+        else Resource.Error(exception = Throwable("Empty list"))
     }.catch {
         emit(Resource.Error(exception = it))
     }

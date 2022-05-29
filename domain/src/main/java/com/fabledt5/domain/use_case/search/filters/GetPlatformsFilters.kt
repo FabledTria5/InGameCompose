@@ -10,10 +10,7 @@ class GetPlatformsFilters @Inject constructor(private val filtersRepository: Fil
 
     operator fun invoke() = filtersRepository.getGamePlatforms().map { list ->
         if (list.isNotEmpty()) Resource.Success(data = list)
-        else {
-            filtersRepository.getGamePlatforms()
-            Resource.Loading
-        }
+        else Resource.Error(exception = Throwable("Empty list"))
     }.catch {
         emit(Resource.Error(exception = it))
     }

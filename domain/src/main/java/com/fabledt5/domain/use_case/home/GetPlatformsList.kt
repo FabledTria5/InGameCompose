@@ -11,10 +11,7 @@ class GetPlatformsList @Inject constructor(
 ) {
     operator fun invoke() = filtersRepository.getGamePlatforms().map { list ->
         if (list.isNotEmpty()) Resource.Success(data = list)
-        else {
-            filtersRepository.fetchPlatformsList()
-            Resource.Loading
-        }
+        else Resource.Error(Throwable("Empty list"))
     }.catch {
         emit(Resource.Error(exception = it))
     }

@@ -10,14 +10,15 @@ import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.directions.GameDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
@@ -45,6 +46,7 @@ class HomeViewModel @Inject constructor(
     init {
         loadHotGamesList()
         loadPlatformsList()
+        loadFavoritePlatform()
     }
 
     private fun loadHotGamesList() = viewModelScope.launch(Dispatchers.IO) {
@@ -54,21 +56,18 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadPlatformsList() = homeCases.getPlatformsList()
-        .flowOn(Dispatchers.IO)
         .onEach { result ->
             _platformsList.value = result
             if (result is Resource.Error) Timber.e(result.exception)
-            else loadSelectedPlatform()
         }.launchIn(viewModelScope)
 
-    private fun loadSelectedPlatform() = homeCases.getFavoritePlatform()
+    private fun loadFavoritePlatform() = homeCases.getFavoritePlatform()
         .onEach { result ->
-            _favoritePlatform.value = when (result) {
-                null -> Resource.Error(exception = Throwable("No favorite platform"))
-                else -> {
-                    loadGamesLists(result.platformId)
-                    Resource.Success(data = result)
-                }
+            _favoritePlatform.value = result
+            when (result) {
+                is Resource.Error -> Timber.e(result.exception)
+                is Resource.Success -> loadGamesLists(result.data.platformId)
+                else -> Unit
             }
         }.launchIn(viewModelScope)
 

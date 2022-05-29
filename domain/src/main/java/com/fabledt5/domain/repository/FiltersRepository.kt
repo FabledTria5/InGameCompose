@@ -7,12 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface FiltersRepository {
 
-    suspend fun fetchDevelopersList()
-
-    suspend fun fetchGenresList()
-
-    suspend fun fetchPlatformsList()
-
     fun getGameGenres(): Flow<List<GameGenre>>
 
     fun getGameDevelopers(): Flow<List<DeveloperItem>>
