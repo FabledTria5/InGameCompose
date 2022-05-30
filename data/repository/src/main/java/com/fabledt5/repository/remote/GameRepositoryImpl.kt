@@ -1,8 +1,8 @@
 package com.fabledt5.repository.remote
 
-import com.fabledt5.domain.model.GameItem
-import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.GameItem
+import com.fabledt5.domain.model.items.RatingItem
 import com.fabledt5.domain.repository.GameRepository
 import com.fabledt5.domain.utlis.getDateAsString
 import com.fabledt5.domain.utlis.toPEGI
@@ -42,7 +42,7 @@ class GameRepositoryImpl @Inject constructor(
                 gameDeveloper = gameDto.developers.first().name,
                 gameDescription = gameDto.description,
                 gameTrailersUrl = gameTrailerDto.toDomain(),
-                gameRequirements = gameDto.platforms.toDomain(),
+                requirementsItem = gameDto.platforms.toDomain(),
                 gameDirectors = gameDevelopersTeamDto.results
                     .filter {
                         it.positions.any { position ->
@@ -73,7 +73,7 @@ class GameRepositoryImpl @Inject constructor(
         emit(Resource.Success(data = gameSnapshotsResponse.results.toDomain()))
     }
 
-    override fun getGameReviews(gameUrl: String): GameRating {
+    override fun getGameReviews(gameUrl: String): RatingItem {
         val gameReviewsResponse = reviewsParser.parseGameReviews(targetUrl = gameUrl)
         return gameReviewsResponse.toDomain()
     }

@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.sp
 import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.components.OutlinedTabs
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.domain.model.GameItem
-import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.GameItem
+import com.fabledt5.domain.model.items.RatingItem
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.items.GameHeader
@@ -49,7 +49,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
     ShowGameScreen(
         gameData = gameData,
         gameSnapshots = gameSnapshots,
-        gameRating = gameReviews,
+        ratingItem = gameReviews,
         onShowReviewsClicked = { gameViewModel.openReviewsScreen() },
         onBackClicked = { gameViewModel.onBackClicked() }
     )
@@ -60,7 +60,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
 fun ShowGameScreen(
     gameData: Resource<GameItem>,
     gameSnapshots: Resource<List<String>>,
-    gameRating: Resource<GameRating>,
+    ratingItem: Resource<RatingItem>,
     onShowReviewsClicked: () -> Unit,
     onBackClicked: () -> Unit
 ) {
@@ -69,7 +69,7 @@ fun ShowGameScreen(
         is Resource.Success -> ShowGameSuccess(
             gameItem = gameData.data,
             gameSnapshots = gameSnapshots,
-            gameRating = gameRating,
+            ratingItem = ratingItem,
             onShowReviewsClicked = onShowReviewsClicked,
             onBackClicked = onBackClicked
         )
@@ -115,7 +115,7 @@ fun ShowGameLoadingError() {
 fun ShowGameSuccess(
     gameItem: GameItem,
     gameSnapshots: Resource<List<String>>,
-    gameRating: Resource<GameRating>,
+    ratingItem: Resource<RatingItem>,
     onShowReviewsClicked: () -> Unit,
     onBackClicked: () -> Unit
 ) {
@@ -148,11 +148,11 @@ fun ShowGameSuccess(
                 0 -> AboutGamePage(
                     gameItem = gameItem,
                     gameSnapshots = gameSnapshots,
-                    gameRating = gameRating,
+                    ratingItem = ratingItem,
                     onShowReviewsClicked = onShowReviewsClicked
                 )
                 1 -> InfoGamePage(gameItem = gameItem)
-                2 -> RequirementsGamePage(gameRequirements = gameItem.gameRequirements)
+                2 -> RequirementsGamePage(requirementsItem = gameItem.requirementsItem)
             }
         }
     }

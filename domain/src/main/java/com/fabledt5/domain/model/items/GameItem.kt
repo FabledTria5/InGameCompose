@@ -1,4 +1,4 @@
-package com.fabledt5.domain.model
+package com.fabledt5.domain.model.items
 
 data class GameItem(
     val gameId: Int,
@@ -9,7 +9,7 @@ data class GameItem(
     val gameReleaseYear: String = "",
     val gameGenres: String = "",
     val gameDescription: String = "",
-    val gameRequirements: GameRequirements? = null,
+    val requirementsItem: RequirementsItem? = null,
     val gameDirectors: String = "",
     val gameWriters: String = "",
     val gameTrailersUrl: String = "",

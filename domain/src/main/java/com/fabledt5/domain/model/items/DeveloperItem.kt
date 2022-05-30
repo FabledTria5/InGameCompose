@@ -1,4 +1,4 @@
-package com.fabledt5.domain.model
+package com.fabledt5.domain.model.items
 
 data class DeveloperItem(
     val foundation: Int,

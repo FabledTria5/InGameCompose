@@ -1,9 +1,9 @@
 package com.fabledt5.mapper
 
-import com.fabledt5.domain.model.GameItem
-import com.fabledt5.domain.model.GameRating
-import com.fabledt5.domain.model.GameRequirements
-import com.fabledt5.domain.model.ReviewItem
+import com.fabledt5.domain.model.items.GameItem
+import com.fabledt5.domain.model.items.RatingItem
+import com.fabledt5.domain.model.items.RequirementsItem
+import com.fabledt5.domain.model.items.ReviewItem
 import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
@@ -29,7 +29,7 @@ fun List<Platform>.toDomain() = try {
         !targetPlatform.requirements.minimum.isNullOrEmpty() &&
         !targetPlatform.requirements.recommended.isNullOrEmpty()
     ) {
-        GameRequirements(
+        RequirementsItem(
             min = targetPlatform.requirements.minimum?.removePrefix("Minimum:")!!,
             rec = targetPlatform.requirements.recommended?.removePrefix("Recommended:")!!
         )
@@ -41,7 +41,7 @@ fun List<Platform>.toDomain() = try {
         val minimumRequirements = requirements.first()
         val recommendedRequirements = requirements.last()
 
-        GameRequirements(min = minimumRequirements, rec = recommendedRequirements)
+        RequirementsItem(min = minimumRequirements, rec = recommendedRequirements)
     } else null
 } catch (e: Exception) {
     null
@@ -52,7 +52,7 @@ fun List<Result>.toDomain() = map { result ->
 }
 
 @JvmName("toDomainGameReviewDto")
-fun List<GameReviewDto>.toDomain() = GameRating(
+fun List<GameReviewDto>.toDomain() = RatingItem(
     gameRating = getAverageRating(),
     gameReviews = filter { it.criticScore.isNotEmpty() }
         .shuffled()

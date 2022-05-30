@@ -3,8 +3,9 @@ package com.fabledt5.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.fabledt5.domain.model.GameType
 
-@Entity(tableName = "hot_games_table")
+@Entity(tableName = "games_table")
 data class HotGameEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -22,5 +23,7 @@ data class HotGameEntity(
     @ColumnInfo(name = "release_year")
     val releaseYear: String,
     @ColumnInfo(name = "game_genres")
-    val gameGenres: String
+    val gameGenres: String,
+    @ColumnInfo(name = "game_type")
+    val gameType: GameType
 )

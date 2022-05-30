@@ -25,8 +25,8 @@ import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.utils.autoScroll
 import com.fabledt5.common.utils.drawImageForeground
-import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.home.R
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager

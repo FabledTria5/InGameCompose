@@ -1,6 +1,6 @@
 package com.fabledt5.domain.repository
 
-import com.fabledt5.domain.model.PlatformItem
+import com.fabledt5.domain.model.items.PlatformItem
 import kotlinx.coroutines.flow.Flow
 
 interface PreferencesRepository {

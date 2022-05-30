@@ -17,7 +17,7 @@ import com.fabledt5.common.theme.DarkLateGray
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.SandyBrown
-import com.fabledt5.domain.model.ReviewItem
+import com.fabledt5.domain.model.items.ReviewItem
 import com.fabledt5.game.R
 
 @Composable

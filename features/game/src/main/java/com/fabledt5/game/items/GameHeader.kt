@@ -21,7 +21,7 @@ import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.components.VideoPlayer
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.utils.drawImageForeground
-import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.items.GameItem
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator

@@ -5,14 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GameDetailsResponse(
-    @SerialName("achievements_count")
-    val achievementsCount: Int,
     @SerialName("added")
     val added: Int,
-    @SerialName("added_by_status")
-    val addedByStatus: AddedByStatus,
-    @SerialName("additions_count")
-    val additionsCount: Int,
     @SerialName("alternative_names")
     val alternativeNames: List<String>,
     @SerialName("background_image")
@@ -38,7 +32,7 @@ data class GameDetailsResponse(
     @SerialName("id")
     val id: Int,
     @SerialName("metacritic")
-    val metacritic: Int,
+    val metacritic: Int?,
     @SerialName("metacritic_url")
     val metacriticUrl: String,
     @SerialName("movies_count")
@@ -65,24 +59,12 @@ data class GameDetailsResponse(
     val ratings: List<Rating>,
     @SerialName("ratings_count")
     val ratingsCount: Int,
-    @SerialName("reddit_count")
-    val redditCount: Int,
-    @SerialName("reddit_description")
-    val redditDescription: String,
-    @SerialName("reddit_logo")
-    val redditLogo: String,
-    @SerialName("reddit_name")
-    val redditName: String,
-    @SerialName("reddit_url")
-    val redditUrl: String,
     @SerialName("released")
-    val released: String,
+    val released: String?,
     @SerialName("reviews_count")
     val reviewsCount: Int,
     @SerialName("reviews_text_count")
     val reviewsTextCount: Int,
-    @SerialName("saturated_color")
-    val saturatedColor: String,
     @SerialName("screenshots_count")
     val screenshotsCount: Int,
     @SerialName("slug")

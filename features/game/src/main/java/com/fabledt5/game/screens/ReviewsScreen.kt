@@ -24,9 +24,9 @@ import com.fabledt5.common.theme.Background
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Proxima
-import com.fabledt5.domain.model.GameItem
-import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.GameItem
+import com.fabledt5.domain.model.items.RatingItem
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.components.GameReviewItem
@@ -42,14 +42,14 @@ fun ReviewsScreen(gameViewModel: GameViewModel) {
 }
 
 @Composable
-fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<GameRating>) {
+fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<RatingItem>) {
     if (gameItem is Resource.Success && gameReviews is Resource.Success) {
-        ShowGameReviewsSuccess(gameItem = gameItem.data, gameRating = gameReviews.data)
+        ShowGameReviewsSuccess(gameItem = gameItem.data, ratingItem = gameReviews.data)
     }
 }
 
 @Composable
-fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
+fun ShowGameReviewsSuccess(gameItem: GameItem, ratingItem: RatingItem) {
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         topBar = {
@@ -79,9 +79,9 @@ fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
             contentPadding = PaddingValues(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 10.dp),
         ) {
             item {
-                GameReviewsHeader(gameItem = gameItem, gameRating = gameRating)
+                GameReviewsHeader(gameItem = gameItem, ratingItem = ratingItem)
             }
-            items(gameRating.gameReviews, key = { item -> item.reviewerName }) { item ->
+            items(ratingItem.gameReviews, key = { item -> item.reviewerName }) { item ->
                 GameReviewItem(
                     reviewItem = item,
                     modifier = Modifier.padding(vertical = 5.dp)
@@ -92,7 +92,7 @@ fun ShowGameReviewsSuccess(gameItem: GameItem, gameRating: GameRating) {
 }
 
 @Composable
-fun GameReviewsHeader(gameItem: GameItem, gameRating: GameRating) {
+fun GameReviewsHeader(gameItem: GameItem, ratingItem: RatingItem) {
     Column(
         modifier = Modifier
             .padding(bottom = 15.dp)
@@ -124,7 +124,7 @@ fun GameReviewsHeader(gameItem: GameItem, gameRating: GameRating) {
                 append(" ")
                 append(
                     AnnotatedString(
-                        text = gameRating.gameRating,
+                        text = ratingItem.gameRating,
                         spanStyle = SpanStyle(
                             color = Color.White,
                             fontSize = 13.sp,
@@ -136,11 +136,11 @@ fun GameReviewsHeader(gameItem: GameItem, gameRating: GameRating) {
             },
             modifier = Modifier.padding(bottom = 10.dp)
         )
-        gameRating.gameReviews.toRatingsCounter().let { gameRatingsMap ->
+        ratingItem.gameReviews.toRatingsCounter().let { gameRatingsMap ->
             gameRatingsMap.keys.forEachIndexed { index, key ->
                 val ratingPercent = gameRatingsMap[key]
                     ?.toFloat()
-                    ?.div(gameRating.gameReviews.size)
+                    ?.div(ratingItem.gameReviews.size)
                     ?.times(100)
                     ?.toInt() ?: 0
                 RatingCounter(

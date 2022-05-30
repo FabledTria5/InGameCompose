@@ -2,19 +2,15 @@ package com.fabledt5.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fabledt5.domain.model.GameItem
-import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.GameItem
+import com.fabledt5.domain.model.items.PlatformItem
 import com.fabledt5.domain.use_case.home.HomeCases
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.directions.GameDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -49,11 +45,12 @@ class HomeViewModel @Inject constructor(
         loadFavoritePlatform()
     }
 
-    private fun loadHotGamesList() = viewModelScope.launch(Dispatchers.IO) {
-        val hotGamesResult = homeCases.getHotGames()
-        _hotGamesList.value = if (hotGamesResult.isEmpty()) Resource.Error()
-        else Resource.Success(data = hotGamesResult)
-    }
+    private fun loadHotGamesList() = homeCases.getHotGames()
+        .flowOn(Dispatchers.IO)
+        .onEach { result ->
+            _hotGamesList.value = result
+            if (result is Resource.Error) Timber.e(result.exception)
+        }.launchIn(viewModelScope)
 
     private fun loadPlatformsList() = homeCases.getPlatformsList()
         .onEach { result ->
@@ -76,30 +73,29 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadGamesLists(gamesPlatformId: Int) = viewModelScope.launch(Dispatchers.IO) {
-        _upcomingGames.value = Resource.Loading
-        _bestGames.value = Resource.Loading
-        _newGames.value = Resource.Loading
+        launch {
+            _upcomingGames.value = Resource.Loading
+            val upcomingGames = homeCases.getUpcomingGames(gamesPlatformId)
+            _upcomingGames.value =
+                if (upcomingGames.isEmpty()) Resource.Error()
+                else Resource.Success(data = upcomingGames)
+        }
 
-        val upcomingGames = async { homeCases.getUpcomingGames(gamesPlatformId) }
-        val upcomingGamesResult = upcomingGames.await()
+        launch {
+            _bestGames.value = Resource.Loading
+            val bestGames = homeCases.getBestGames(gamesPlatformId)
+            _bestGames.value =
+                if (bestGames.isEmpty()) Resource.Error()
+                else Resource.Success(data = bestGames)
+        }
 
-        val bestGames = async { homeCases.getBestGames(gamesPlatformId) }
-        val bestGamesResult = bestGames.await()
-
-        val newGames = async { homeCases.getNewGames(gamesPlatformId) }
-        val newGamesResult = newGames.await()
-
-        _upcomingGames.value =
-            if (upcomingGamesResult.isEmpty()) Resource.Error()
-            else Resource.Success(data = upcomingGamesResult)
-
-        _bestGames.value =
-            if (bestGamesResult.isEmpty()) Resource.Error()
-            else Resource.Success(data = bestGamesResult)
-
-        _newGames.value =
-            if (newGamesResult.isEmpty()) Resource.Error()
-            else Resource.Success(data = newGamesResult)
+        launch {
+            _newGames.value = Resource.Loading
+            val newGames = homeCases.getNewGames(gamesPlatformId)
+            _newGames.value =
+                if (newGames.isEmpty()) Resource.Error()
+                else Resource.Success(data = newGames)
+        }
     }
 
     fun openGameScreen(gameId: Int) =

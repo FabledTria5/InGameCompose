@@ -25,10 +25,10 @@ import com.fabledt5.catalogue.components.FilterImageItem
 import com.fabledt5.catalogue.components.FilterTextItem
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
-import com.fabledt5.domain.model.DeveloperItem
-import com.fabledt5.domain.model.GameGenre
-import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.DeveloperItem
+import com.fabledt5.domain.model.items.GenreItem
+import com.fabledt5.domain.model.items.PlatformItem
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 
@@ -36,7 +36,7 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 fun CatalogueFiltersSection(
     developersFilters: Resource<List<DeveloperItem>>,
-    genresFilters: Resource<List<GameGenre>>,
+    genresFilters: Resource<List<GenreItem>>,
     platformsFilters: Resource<List<PlatformItem>>
 ) {
     when {
@@ -70,7 +70,7 @@ fun ShowFiltersError() {
 @Composable
 fun ShowFiltersSuccess(
     developersList: List<DeveloperItem>,
-    genresList: List<GameGenre>,
+    genresList: List<GenreItem>,
     platformsList: List<PlatformItem>
 ) {
     Column(
@@ -175,7 +175,7 @@ fun ShowPlatformsFilter(
 @ExperimentalFoundationApi
 @Composable
 fun ShowGenresFilter(
-    genresList: List<GameGenre>,
+    genresList: List<GenreItem>,
     modifier: Modifier = Modifier,
     onFilterClicked: (Int) -> Unit
 ) {

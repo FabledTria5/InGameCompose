@@ -8,7 +8,7 @@ data class Platform(
     @SerialName("platform")
     val platform: PlatformDto,
     @SerialName("released_at")
-    val releasedAt: String,
+    val releasedAt: String?,
     @SerialName("requirements")
     val requirements: Requirements
 )

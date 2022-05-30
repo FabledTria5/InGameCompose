@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.sp
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.utils.createFromHtml
-import com.fabledt5.domain.model.GameRequirements
+import com.fabledt5.domain.model.items.RequirementsItem
 import com.fabledt5.game.R
 
 @Composable
-fun RequirementsGamePage(gameRequirements: GameRequirements?) {
-    if (gameRequirements != null) ShowGameRequirements(requirements = gameRequirements)
+fun RequirementsGamePage(requirementsItem: RequirementsItem?) {
+    if (requirementsItem != null) ShowGameRequirements(requirements = requirementsItem)
     else ShowEmptyRequirements()
 }
 
@@ -43,7 +43,7 @@ fun ShowEmptyRequirements() {
 }
 
 @Composable
-fun ShowGameRequirements(requirements: GameRequirements) {
+fun ShowGameRequirements(requirements: RequirementsItem) {
     Column(
         modifier = Modifier
             .padding(10.dp)

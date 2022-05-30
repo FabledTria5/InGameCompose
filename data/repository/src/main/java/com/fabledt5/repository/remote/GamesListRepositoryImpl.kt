@@ -1,71 +1,95 @@
 package com.fabledt5.repository.remote
 
-import com.fabledt5.db.dao.HotGamesDao
-import com.fabledt5.domain.model.GameItem
+import com.fabledt5.db.dao.GamesDao
+import com.fabledt5.domain.model.GameType
+import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.repository.GamesListRepository
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.mapper.toDomainShort
 import com.fabledt5.mapper.toEntity
 import com.fabledt5.remote.api.ApiService
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
+import java.util.*
 import javax.inject.Inject
 
 class GamesListRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val hotGamesDao: HotGamesDao,
+    private val gamesDao: GamesDao,
 ) : GamesListRepository {
 
-    companion object {
-        private const val TAG = "GamesListRepositoryImpl"
+    override fun getHotGames(
+        gamesCount: Int,
+        dates: String,
+        metacriticRatings: String
+    ): Flow<List<GameItem>> = gamesDao.getGames(GameType.HOT_GAME.ordinal)
+        .onEach { list ->
+            if (list.isNotEmpty()) {
+                val calendar = Calendar.getInstance()
+                val currentMonth = calendar.get(Calendar.MONTH)
+                calendar.time = Date(list.first().createdAt)
+                val gamesMonth = calendar.get(Calendar.MONTH)
+
+                if (currentMonth > gamesMonth) {
+                    gamesDao.clearGames(gameTypeOrdinal = GameType.HOT_GAME.ordinal)
+                    fetchHotGames(
+                        gamesCount = gamesCount,
+                        dates = dates,
+                        metacriticRatings = metacriticRatings
+                    )
+                }
+                calendar.time = Date()
+            } else fetchHotGames(
+                gamesCount = gamesCount,
+                dates = dates,
+                metacriticRatings = metacriticRatings
+            )
+        }.toDomain()
+
+    private suspend fun fetchHotGames(gamesCount: Int, dates: String, metacriticRatings: String) {
+        val hotGamesResponse = apiService.getGamesList(
+            page = 1,
+            pageSize = gamesCount,
+            dates = dates,
+            metacriticRatings = metacriticRatings
+        )
+        gamesDao.insertHotGames(hotGamesResponse.toEntity())
     }
 
-    override suspend fun getHotGames(gamesCount: Int): List<GameItem> {
-        val localGamesList = hotGamesDao.getHotGames()
-        return if (localGamesList.isNotEmpty()) {
-            if (System.currentTimeMillis() - localGamesList.first().createdAt >= TimeUnit.DAYS.convert(
-                    7,
-                    TimeUnit.MILLISECONDS
-                )
-            ) {
-                localGamesList.toDomain()
-            } else {
-                hotGamesDao.clearHotGames()
-                loadHotGamesFromRemote(gamesCount)
-            }
-        } else loadHotGamesFromRemote(gamesCount)
-    }
-
-    override suspend fun getMonthlyGames(
+    override suspend fun getUpcomingGames(
         dates: String,
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        apiService.getGamesByDates(pageSize = gamesCount, dates = dates, platforms = platformId)
-            .toDomainShort()
+        apiService.getGamesList(
+            dates = dates,
+            pageSize = gamesCount,
+            platforms = platformId.toString(),
+            page = 1
+        ).toDomainShort()
 
     override suspend fun getBestGames(
         ratings: String,
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        apiService.getBestGames(
-            pageSize = gamesCount,
+        apiService.getGamesList(
             metacriticRatings = ratings,
-            platforms = platformId
+            pageSize = gamesCount,
+            page = 1,
+            platforms = platformId.toString()
         ).toDomainShort()
 
-    override suspend fun getNewGames(
+    override suspend fun getLatestGames(
         dates: String,
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        apiService.getGamesByDates(pageSize = gamesCount, dates = dates, platforms = platformId)
-            .toDomainShort()
-
-    private suspend fun loadHotGamesFromRemote(gamesCount: Int): List<GameItem> {
-        val hotGamesResponse = apiService.getHotGamesList(pageSize = gamesCount)
-        hotGamesDao.insertHotGames(hotGamesResponse.toEntity())
-        return hotGamesDao.getHotGames().toDomain()
-    }
+        apiService.getGamesList(
+            dates = dates,
+            pageSize = gamesCount,
+            page = 1,
+            platforms = platformId.toString()
+        ).toDomainShort()
 
 }

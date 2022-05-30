@@ -1,6 +1,6 @@
 package com.fabledt5.domain.use_case.home
 
-import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.repository.GamesListRepository
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,7 +19,7 @@ class GetUpcomingGames @Inject constructor(
 
         val endDate = formatter.format(cal.time)
 
-        return gamesListRepository.getMonthlyGames(
+        return gamesListRepository.getUpcomingGames(
             dates = "$startDate,$endDate",
             platformId = platformId,
             gamesCount = 8

@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
 import com.fabledt5.common.components.ExposedDropDownMenuIcon
 import com.fabledt5.common.theme.Background
-import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.PlatformItem
 import com.fabledt5.home.R
 
 @ExperimentalMaterial3Api

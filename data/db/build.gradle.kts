@@ -40,6 +40,8 @@ android {
 
 dependencies {
 
+    implementation(project(":domain"))
+
     // Kotlin
     implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
 

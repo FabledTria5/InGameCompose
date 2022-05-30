@@ -2,10 +2,10 @@ package com.fabledt5.catalogue
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fabledt5.domain.model.DeveloperItem
-import com.fabledt5.domain.model.GameGenre
-import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.DeveloperItem
+import com.fabledt5.domain.model.items.GenreItem
+import com.fabledt5.domain.model.items.PlatformItem
 import com.fabledt5.domain.use_case.search.filters.FiltersCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ class CatalogueViewModel @Inject constructor(
     private val _developersList = MutableStateFlow<Resource<List<DeveloperItem>>>(Resource.Loading)
     val developersList = _developersList.asStateFlow()
 
-    private val _genresList = MutableStateFlow<Resource<List<GameGenre>>>(Resource.Loading)
+    private val _genresList = MutableStateFlow<Resource<List<GenreItem>>>(Resource.Loading)
     val genresList = _genresList.asStateFlow()
 
     private val _platformsList = MutableStateFlow<Resource<List<PlatformItem>>>(Resource.Loading)

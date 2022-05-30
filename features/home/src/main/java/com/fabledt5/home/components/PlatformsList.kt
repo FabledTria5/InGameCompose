@@ -15,8 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.PlatformItem
 import com.fabledt5.home.R
 
 @ExperimentalMaterial3Api

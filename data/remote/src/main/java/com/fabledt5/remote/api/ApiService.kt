@@ -12,32 +12,15 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET(value = "api/games")
-    suspend fun getHotGamesList(
-        @Query(value = "page_size") pageSize: Int
-    ): GamesListResponse
-
-    @GET(value = "api/games")
-    suspend fun getGamesByDates(
-        @Query(value = "page_size") pageSize: Int,
-        @Query(value = "dates") dates: String,
-        @Query(value = "platforms") platforms: Int
-    ): GamesListResponse
-
-    @GET(value = "api/games")
-    suspend fun getBestGames(
-        @Query(value = "page_size") pageSize: Int,
-        @Query(value = "metacritic") metacriticRatings: String,
-        @Query(value = "platforms") platforms: Int
-    ): GamesListResponse
-
-    @GET(value = "api/games")
-    suspend fun searchGames(
+    suspend fun getGamesList(
         @Query(value = "page") page: Int,
         @Query(value = "page_size") pageSize: Int,
-        @Query(value = "search") search: String,
-        @Query(value = "platforms") platforms: String = "",
-        @Query(value = "genres") genres: String = "",
-        @Query(value = "developers") developers: String = ""
+        @Query(value = "search") search: String? = null,
+        @Query(value = "platforms") platforms: String? = null,
+        @Query(value = "genres") genres: String? = null,
+        @Query(value = "developers") developers: String? = null,
+        @Query(value = "dates") dates: String? = null,
+        @Query(value = "metacritic") metacriticRatings: String? = null
     ): GamesListResponse
 
     @GET(value = "api/games/{id}")

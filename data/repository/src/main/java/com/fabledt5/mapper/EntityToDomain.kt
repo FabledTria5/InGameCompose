@@ -4,23 +4,25 @@ import com.fabledt5.db.entities.DeveloperEntity
 import com.fabledt5.db.entities.GenreEntity
 import com.fabledt5.db.entities.HotGameEntity
 import com.fabledt5.db.entities.PlatformEntity
-import com.fabledt5.domain.model.DeveloperItem
-import com.fabledt5.domain.model.GameGenre
-import com.fabledt5.domain.model.GameItem
-import com.fabledt5.domain.model.PlatformItem
+import com.fabledt5.domain.model.items.DeveloperItem
+import com.fabledt5.domain.model.items.GameItem
+import com.fabledt5.domain.model.items.GenreItem
+import com.fabledt5.domain.model.items.PlatformItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @JvmName("toDomainHotGameEntity")
-fun List<HotGameEntity>.toDomain(): List<GameItem> = map { entity ->
-    GameItem(
-        gameId = entity.gameId,
-        gamePoster = entity.gamePoster,
-        gameTitle = entity.gameTitle,
-        gameGenres = entity.gameGenres,
-        gamePEGIRating = entity.gamePEGIRating,
-        gameReleaseYear = entity.releaseYear,
-    )
+fun Flow<List<HotGameEntity>>.toDomain(): Flow<List<GameItem>> = map { list ->
+    list.map { entity ->
+        GameItem(
+            gameId = entity.gameId,
+            gamePoster = entity.gamePoster,
+            gameTitle = entity.gameTitle,
+            gameGenres = entity.gameGenres,
+            gamePEGIRating = entity.gamePEGIRating,
+            gameReleaseYear = entity.releaseYear,
+        )
+    }
 }
 
 fun Flow<PlatformEntity?>.toDomain(): Flow<PlatformItem?> = map { entity ->
@@ -60,8 +62,8 @@ fun Flow<List<DeveloperEntity>>.toDomain(): Flow<List<DeveloperItem>> = map { li
 }
 
 @JvmName("toDomainGenreEntity")
-fun Flow<List<GenreEntity>>.toDomain(): Flow<List<GameGenre>> = map { list ->
+fun Flow<List<GenreEntity>>.toDomain(): Flow<List<GenreItem>> = map { list ->
     list.map { entity ->
-        GameGenre(id = entity.genreId, genreTitle = entity.genreName)
+        GenreItem(id = entity.genreId, genreTitle = entity.genreName)
     }
 }

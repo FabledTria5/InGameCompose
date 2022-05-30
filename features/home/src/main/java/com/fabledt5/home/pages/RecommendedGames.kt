@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.DimGray
-import com.fabledt5.domain.model.GameItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.GameItem
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.pager.ExperimentalPagerApi

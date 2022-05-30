@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.theme.Proxima
-import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.game.R
 
 @Composable
