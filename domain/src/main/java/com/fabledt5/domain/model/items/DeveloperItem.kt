@@ -7,5 +7,5 @@ data class DeveloperItem(
     val headquarters: String,
     val developerName: String,
     val preview: String,
-    val website: String,
+    val website: String
 )

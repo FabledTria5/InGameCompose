@@ -23,7 +23,9 @@ import androidx.compose.ui.unit.sp
 import com.fabledt5.catalogue.R
 import com.fabledt5.catalogue.components.FilterImageItem
 import com.fabledt5.catalogue.components.FilterTextItem
+import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.theme.Mark
+import com.fabledt5.common.theme.PROGRESS_INDICATOR_REGULAR
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.DeveloperItem
@@ -37,7 +39,13 @@ import com.google.accompanist.flowlayout.FlowRow
 fun CatalogueFiltersSection(
     developersFilters: Resource<List<DeveloperItem>>,
     genresFilters: Resource<List<GenreItem>>,
-    platformsFilters: Resource<List<PlatformItem>>
+    platformsFilters: Resource<List<PlatformItem>>,
+    selectedGenres: List<Int>,
+    selectedPlatforms: List<Int>,
+    selectedDevelopers: List<String>,
+    onPlatformClicked: (Int) -> Unit,
+    onGenreClicked: (Int) -> Unit,
+    onDeveloperClicked: (String) -> Unit
 ) {
     when {
         (platformsFilters is Resource.Error
@@ -50,7 +58,13 @@ fun CatalogueFiltersSection(
                 ) -> ShowFiltersSuccess(
             developersFilters.data,
             genresFilters.data,
-            platformsFilters.data
+            platformsFilters.data,
+            selectedGenres,
+            selectedPlatforms,
+            selectedDevelopers,
+            onDeveloperClicked = onDeveloperClicked,
+            onGenreClicked = onGenreClicked,
+            onPlatformClicked = onPlatformClicked
         )
         else -> ShowFiltersLoading()
     }
@@ -58,7 +72,9 @@ fun CatalogueFiltersSection(
 
 @Composable
 fun ShowFiltersLoading() {
-
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        ColorfulProgressIndicator(modifier = Modifier.size(PROGRESS_INDICATOR_REGULAR))
+    }
 }
 
 @Composable
@@ -71,7 +87,13 @@ fun ShowFiltersError() {
 fun ShowFiltersSuccess(
     developersList: List<DeveloperItem>,
     genresList: List<GenreItem>,
-    platformsList: List<PlatformItem>
+    platformsList: List<PlatformItem>,
+    selectedGenres: List<Int>,
+    selectedPlatforms: List<Int>,
+    selectedDevelopers: List<String>,
+    onDeveloperClicked: (String) -> Unit,
+    onGenreClicked: (Int) -> Unit,
+    onPlatformClicked: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -81,19 +103,22 @@ fun ShowFiltersSuccess(
     ) {
         ShowDevelopersFilters(
             developersList = developersList,
-            onFilterClicked = {},
+            selectedDevelopers = selectedDevelopers,
+            onDeveloperClicked = onDeveloperClicked,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(30.dp))
         ShowPlatformsFilter(
             platformsList = platformsList,
-            onFilterClicked = {},
+            selectedPlatforms = selectedPlatforms,
+            onPlatformClicked = onPlatformClicked,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(30.dp))
         ShowGenresFilter(
             genresList = genresList,
-            onFilterClicked = {},
+            selectedGenres = selectedGenres,
+            onGenreClicked = onGenreClicked,
             modifier = Modifier
                 .padding(horizontal = 10.dp)
                 .fillMaxWidth()
@@ -104,8 +129,9 @@ fun ShowFiltersSuccess(
 @Composable
 fun ShowDevelopersFilters(
     developersList: List<DeveloperItem>,
+    selectedDevelopers: List<String>,
     modifier: Modifier = Modifier,
-    onFilterClicked: (String) -> Unit
+    onDeveloperClicked: (String) -> Unit
 ) {
     Column(modifier = modifier) {
         Text(
@@ -125,11 +151,12 @@ fun ShowDevelopersFilters(
             items = developersList,
             key = { _, developer -> developer.developerName })
         { index, developer ->
-            var isSelected by remember { mutableStateOf(false) }
             FilterImageItem(
                 filterImage = developer.icon,
-                isActive = isSelected,
-                onItemSelected = { isSelected = !isSelected },
+                isActive = selectedDevelopers.contains(developer.developerName),
+                onItemSelected = {
+                    onDeveloperClicked(developer.developerName)
+                },
                 modifier = Modifier.size(90.dp)
             )
             if (index != developersList.lastIndex) Spacer(modifier = Modifier.width(10.dp))
@@ -140,8 +167,9 @@ fun ShowDevelopersFilters(
 @Composable
 fun ShowPlatformsFilter(
     platformsList: List<PlatformItem>,
+    selectedPlatforms: List<Int>,
     modifier: Modifier = Modifier,
-    onFilterClicked: (Int) -> Unit
+    onPlatformClicked: (Int) -> Unit
 ) {
     Column(modifier = modifier) {
         Text(
@@ -159,12 +187,13 @@ fun ShowPlatformsFilter(
             itemsIndexed(
                 items = platformsList,
                 key = { _, platform -> platform.platformId }) { index, platform ->
-                var isSelected by remember { mutableStateOf(false) }
                 FilterImageItem(
                     filterImage = platform.platformImage,
-                    isActive = isSelected,
-                    onItemSelected = { isSelected = !isSelected },
-                    modifier = Modifier.size(90.dp)
+                    isActive = selectedPlatforms.contains(platform.platformId),
+                    onItemSelected = {
+                        onPlatformClicked(platform.platformId)
+                    },
+                    modifier = Modifier.size(90.dp),
                 )
                 if (index != platformsList.lastIndex) Spacer(modifier = Modifier.width(10.dp))
             }
@@ -176,8 +205,9 @@ fun ShowPlatformsFilter(
 @Composable
 fun ShowGenresFilter(
     genresList: List<GenreItem>,
+    selectedGenres: List<Int>,
     modifier: Modifier = Modifier,
-    onFilterClicked: (Int) -> Unit
+    onGenreClicked: (Int) -> Unit
 ) {
     var isListOpen by remember { mutableStateOf(false) }
     var listMaxSize by remember { mutableStateOf(9) }
@@ -231,14 +261,12 @@ fun ShowGenresFilter(
             mainAxisAlignment = FlowMainAxisAlignment.SpaceBetween
         ) {
             genresList.take(listMaxSize).forEach { item ->
-                var isItemSelected by remember { mutableStateOf(false) }
                 FilterTextItem(
                     filterName = item.genreTitle,
                     onItemClick = {
-                        isItemSelected = !isItemSelected
-                        onFilterClicked(item.id)
+                        onGenreClicked(item.genreId)
                     },
-                    isActive = isItemSelected,
+                    isActive = selectedGenres.contains(item.genreId),
                     modifier = Modifier
                         .padding(top = 10.dp)
                         .fillMaxWidth(fraction = .3f)

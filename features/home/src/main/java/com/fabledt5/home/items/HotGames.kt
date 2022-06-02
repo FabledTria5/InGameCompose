@@ -22,6 +22,7 @@ import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.components.GradientPagerIndicators
 import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.Mark
+import com.fabledt5.common.theme.PROGRESS_INDICATOR_REGULAR
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.utils.autoScroll
 import com.fabledt5.common.utils.drawImageForeground
@@ -50,7 +51,7 @@ fun ShowHotGamesLoading() {
             .height(250.dp),
         contentAlignment = Alignment.Center
     ) {
-        ColorfulProgressIndicator(modifier = Modifier.size(35.dp))
+        ColorfulProgressIndicator(modifier = Modifier.size(PROGRESS_INDICATOR_REGULAR))
     }
 }
 

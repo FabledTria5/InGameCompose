@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.fabledt5.catalogue.screens.CatalogueScreen
@@ -19,16 +20,24 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
-fun NavGraphBuilder.primaryGraph() {
+fun NavGraphBuilder.primaryGraph(viewModelStoreOwner: ViewModelStoreOwner) {
     navigation(
         startDestination = PrimaryAppDirections.home.route,
         route = Routes.PRIMARY
     ) {
         composable(route = PrimaryAppDirections.home.route) {
-            HomeScreen(homeViewModel = hiltViewModel())
+            HomeScreen(
+                homeViewModel = hiltViewModel(
+                    viewModelStoreOwner = viewModelStoreOwner
+                )
+            )
         }
         composable(PrimaryAppDirections.catalogue.route) {
-            CatalogueScreen(catalogueViewModel = hiltViewModel())
+            CatalogueScreen(
+                catalogueViewModel = hiltViewModel(
+                    viewModelStoreOwner = viewModelStoreOwner
+                )
+            )
         }
     }
 }

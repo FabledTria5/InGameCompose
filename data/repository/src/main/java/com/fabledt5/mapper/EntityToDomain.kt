@@ -64,6 +64,9 @@ fun Flow<List<DeveloperEntity>>.toDomain(): Flow<List<DeveloperItem>> = map { li
 @JvmName("toDomainGenreEntity")
 fun Flow<List<GenreEntity>>.toDomain(): Flow<List<GenreItem>> = map { list ->
     list.map { entity ->
-        GenreItem(id = entity.genreId, genreTitle = entity.genreName)
+        GenreItem(
+            genreId = entity.genreId,
+            genreTitle = entity.genreName
+        )
     }
 }

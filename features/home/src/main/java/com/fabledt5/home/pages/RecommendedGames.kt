@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.DimGray
+import com.fabledt5.common.theme.PROGRESS_INDICATOR_REGULAR
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.GameItem
 import com.google.accompanist.flowlayout.FlowRow
@@ -89,7 +90,7 @@ fun ShowRecommendedGamesLoading() {
             .height(200.dp),
         contentAlignment = Alignment.Center
     ) {
-        ColorfulProgressIndicator(modifier = Modifier.size(35.dp))
+        ColorfulProgressIndicator(modifier = Modifier.size(PROGRESS_INDICATOR_REGULAR))
     }
 }
 

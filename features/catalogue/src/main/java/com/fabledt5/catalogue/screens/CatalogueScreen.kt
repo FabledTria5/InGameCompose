@@ -39,6 +39,10 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
     val genresFilters by catalogueViewModel.genresList.collectAsState()
     val platformsFilters by catalogueViewModel.platformsList.collectAsState()
 
+    val selectedPlatforms = catalogueViewModel.selectedPlatforms
+    val selectedGenres = catalogueViewModel.selectedGenres
+    val selectedDevelopers = catalogueViewModel.selectedDevelopers
+
     var isFiltersListOpen by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -64,9 +68,21 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                     .fillMaxWidth()
             )
             if (isFiltersListOpen) CatalogueFiltersSection(
-                developersFilters,
-                genresFilters,
-                platformsFilters
+                developersFilters = developersFilters,
+                genresFilters = genresFilters,
+                platformsFilters = platformsFilters,
+                selectedGenres = selectedGenres,
+                selectedPlatforms = selectedPlatforms,
+                selectedDevelopers = selectedDevelopers,
+                onPlatformClicked = {
+                    catalogueViewModel.togglePlatform(it)
+                },
+                onGenreClicked = {
+                    catalogueViewModel.toggleGenre(it)
+                },
+                onDeveloperClicked = {
+                    catalogueViewModel.toggleDeveloper(it)
+                }
             )
             else CatalogueSearchSection()
         }

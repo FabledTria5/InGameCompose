@@ -107,7 +107,7 @@ fun MainScreen(navigationManager: NavigationManager) {
                 SplashScreen(splashViewModel = hiltViewModel())
             }
             authenticationGraph()
-            primaryGraph()
+            primaryGraph(viewModelStoreOwner = viewModelStoreOwner)
             gameGraph(
                 viewModelStoreOwner = viewModelStoreOwner,
                 onGamePageSelected = { systemUiController.setTransparentStatusBar() },

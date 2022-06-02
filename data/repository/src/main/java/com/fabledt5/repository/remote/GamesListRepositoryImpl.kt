@@ -31,7 +31,6 @@ class GamesListRepositoryImpl @Inject constructor(
                 val gamesMonth = calendar.get(Calendar.MONTH)
 
                 if (currentMonth > gamesMonth) {
-                    gamesDao.clearGames(gameTypeOrdinal = GameType.HOT_GAME.ordinal)
                     fetchHotGames(
                         gamesCount = gamesCount,
                         dates = dates,
@@ -53,7 +52,7 @@ class GamesListRepositoryImpl @Inject constructor(
             dates = dates,
             metacriticRatings = metacriticRatings
         )
-        gamesDao.insertHotGames(hotGamesResponse.toEntity())
+        gamesDao.fetchHotGames(hotGamesResponse.toEntity())
     }
 
     override suspend fun getUpcomingGames(

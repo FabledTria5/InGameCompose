@@ -1,6 +1,6 @@
 package com.fabledt5.domain.model.items
 
 data class GenreItem(
-    val id: Int,
+    val genreId: Int,
     val genreTitle: String
 )

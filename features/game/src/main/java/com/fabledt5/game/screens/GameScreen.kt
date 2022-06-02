@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.components.OutlinedTabs
 import com.fabledt5.common.theme.Mark
+import com.fabledt5.common.theme.PROGRESS_INDICATOR_REGULAR
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.model.items.RatingItem
@@ -80,7 +81,7 @@ fun ShowGameScreen(
 @Composable
 fun ShowGameLoading() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        ColorfulProgressIndicator(modifier = Modifier.size(35.dp))
+        ColorfulProgressIndicator(modifier = Modifier.size(PROGRESS_INDICATOR_REGULAR))
     }
 }
 
