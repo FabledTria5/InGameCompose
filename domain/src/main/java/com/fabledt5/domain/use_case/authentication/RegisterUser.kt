@@ -1,10 +1,11 @@
 package com.fabledt5.domain.use_case.authentication
 
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.repository.AuthRepository
-import com.fabledt5.domain.repository.FireStoreRepository
+import com.fabledt5.domain.repository.firebase.AuthRepository
+import com.fabledt5.domain.repository.firebase.FireStoreRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi

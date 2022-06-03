@@ -1,5 +1,6 @@
 package com.fabledt5.common.theme
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val Purple200 = Color(0xFFBB86FC)
@@ -14,3 +15,7 @@ val Background = Color(0xFF121214)
 val DarkLateGray = Color(0xFF2B2C2F)
 val DimGray = Color(0xFF656467)
 val MidNightBlack = Color(0xFF191A1D)
+val DarkLateBlack = Color(0xFF222224)
+
+val DefaultHorizontalGradient = Brush.horizontalGradient(colors = listOf(Turquoise, MediumLateBlue))
+val DefaultVerticalGradient = Brush.verticalGradient(colors = listOf(Turquoise, MediumLateBlue))

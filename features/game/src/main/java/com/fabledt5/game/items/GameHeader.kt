@@ -17,11 +17,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.components.CoilImage
+import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.components.VideoPlayer
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.utils.drawImageForeground
-import com.fabledt5.domain.model.GameItem
+import com.fabledt5.domain.model.items.GameItem
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -33,7 +33,7 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
     val configuration = LocalConfiguration.current
 
     Box(modifier = Modifier.fillMaxWidth()) {
-        CoilImage(
+        RemoteImage(
             imagePath = gameItem.gamePoster,
             contentDescription = "${gameItem.gameTitle} game poster",
             modifier = Modifier
@@ -43,9 +43,9 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
                     drawContent()
                     drawImageForeground()
                 },
-            scaleType = ContentScale.Crop
+            contentScale = ContentScale.Crop
         )
-        if (gameItem.gameTrailersUrls.isEmpty()) CoilImage(
+        if (gameItem.gameTrailersUrl.isEmpty()) RemoteImage(
             imagePath = gameItem.gamePoster,
             contentDescription = "${gameItem.gameTitle} game poster",
             modifier = Modifier
@@ -55,7 +55,7 @@ fun GameHeader(onBackClicked: () -> Unit, gameItem: GameItem) {
                     drawContent()
                     drawImageForeground()
                 },
-            scaleType = ContentScale.Crop
+            contentScale = ContentScale.Crop
         ) else ShowHeaderPager(gameItem = gameItem)
         IconButton(
             onClick = onBackClicked,
@@ -133,7 +133,7 @@ fun BoxScope.ShowHeaderPager(gameItem: GameItem) {
     val configuration = LocalConfiguration.current
 
     HorizontalPager(
-        count = gameItem.gameTrailersUrls.size + 1,
+        count = 2,
         state = pagerState,
         modifier = Modifier
             .fillMaxWidth()
@@ -143,22 +143,23 @@ fun BoxScope.ShowHeaderPager(gameItem: GameItem) {
                 drawImageForeground()
             }
     ) { page ->
-        if (page == 0)
-            CoilImage(
+        when (page) {
+            0 -> RemoteImage(
                 imagePath = gameItem.gamePoster,
                 contentDescription = "${gameItem.gameTitle} game poster",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp),
-                scaleType = ContentScale.Crop
+                contentScale = ContentScale.Crop
             )
-        else {
-            VideoPlayer(
-                url = gameItem.gameTrailersUrls[page - 1], modifier = Modifier
+            1 -> VideoPlayer(
+                url = gameItem.gameTrailersUrl,
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
             )
         }
+
     }
 
     HorizontalPagerIndicator(

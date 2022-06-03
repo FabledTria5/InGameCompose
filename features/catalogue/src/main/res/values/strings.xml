@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="catalogue">Catalogue</string>
+    <string name="save">Save</string>
+    <string name="icon_search">Search Icon</string>
+    <string name="icon_voice">Voice Icon</string>
+    <string name="icon_edit">Edit Icon</string>
+    <string name="by_developer">By developer</string>
+    <string name="by_platform">By platform</string>
+    <string name="by_genre">By genre</string>
+    <string name="image_filter_item">Filter Item Image</string>
+    <string name="ic_open_genres_list">Open genres list icon</string>
+    <string name="see_all">See all</string>
+    <string name="games_search_message">Error while searching games</string>
+
+    <string-array name="search_suggestions">
+        <item>Monster hunter: world</item>
+        <item>Book of demons</item>
+        <item>Gris</item>
+        <item>Artifact</item>
+        <item>Grant theft auto 5</item>
+        <item>Planetside: arena</item>
+        <item>Day Z</item>
+        <item>Hand of fate 2</item>
+    </string-array>
+</resources>

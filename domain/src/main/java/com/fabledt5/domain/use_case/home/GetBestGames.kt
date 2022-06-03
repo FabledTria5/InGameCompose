@@ -8,6 +8,10 @@ class GetBestGames @Inject constructor(
 ) {
 
     suspend operator fun invoke(platformId: Int) =
-        gamesListRepository.getBestGames(ratings = "90,100", platformId = platformId, gamesCount = 8)
+        gamesListRepository.getBestGames(
+            ratings = "90,100",
+            platformId = platformId,
+            gamesCount = 8
+        )
 
 }

@@ -5,18 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.core.view.WindowCompat
 import com.fabledt5.common.theme.InGameComposeTheme
 import com.fabledt5.game.GameViewModel
 import com.fabledt5.ingamecompose.ui.MainScreen
 import com.fabledt5.navigation.NavigationManager
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,10 +21,10 @@ import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
+@ExperimentalMaterial3Api
 @ExperimentalPagerApi
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
@@ -46,7 +43,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             InGameComposeTheme {
-                Surface(color = MaterialTheme.colors.background) {
+                Surface(color = MaterialTheme.colorScheme.background) {
                     MainScreen(navigationManager = navigationManager)
                 }
             }

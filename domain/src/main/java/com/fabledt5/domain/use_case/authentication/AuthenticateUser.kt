@@ -1,6 +1,6 @@
 package com.fabledt5.domain.use_case.authentication
 
-import com.fabledt5.domain.repository.AuthRepository
+import com.fabledt5.domain.repository.firebase.AuthRepository
 import javax.inject.Inject
 
 class AuthenticateUser @Inject constructor(private val authRepository: AuthRepository) {

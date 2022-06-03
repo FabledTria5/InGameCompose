@@ -1,16 +1,18 @@
 package com.fabledt5.remote.api.dto.list_of_games
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GamesListResponse(
-    @SerializedName("count")
+    @SerialName("count")
     val count: Int,
-    @SerializedName("description")
-    val description: String,
-    @SerializedName("next")
+    @SerialName("description")
+    val description: String?,
+    @SerialName("next")
     val next: String?,
-    @SerializedName("previous")
+    @SerialName("previous")
     val previous: String?,
-    @SerializedName("results")
-    val results: List<Result>
+    @SerialName("results")
+    val results: List<GamesListResult>
 )

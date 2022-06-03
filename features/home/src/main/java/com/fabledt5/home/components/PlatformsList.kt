@@ -1,9 +1,11 @@
 package com.fabledt5.home.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,18 +14,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.components.OutlinedDropDown
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.theme.MediumLateBlue
-import com.fabledt5.domain.model.PlatformItem
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.PlatformItem
 import com.fabledt5.home.R
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 fun PlatformsList(
     platformsList: Resource<List<PlatformItem>>,
-    favoritePlatform: PlatformItem,
+    favoritePlatform: Resource<PlatformItem>,
     onPlatformSelected: (Int) -> Unit
 ) {
     Row(
@@ -41,17 +41,38 @@ fun PlatformsList(
             fontFamily = Mark,
             fontSize = 17.sp
         )
-        if (platformsList is Resource.Success && favoritePlatform.platformName.isNotEmpty())
-            OutlinedDropDown(
-                itemsList = platformsList.data.map { it.platformName },
-                selectedItem = favoritePlatform.platformName,
-                onItemSelected = { platformName ->
-                    val selectedPlatform =
-                        platformsList.data.first { it.platformName == platformName }
-                    onPlatformSelected(selectedPlatform.platformId)
-                }
+        when (platformsList) {
+            is Resource.Error -> ShowPlatformsError()
+            is Resource.Success -> ShowPlatformsList(
+                platformsList.data,
+                favoritePlatform,
+                onPlatformSelected = onPlatformSelected
             )
-        else
-            CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MediumLateBlue)
+            else -> ShowPlatformsLoading()
+        }
     }
+}
+
+@Composable
+fun ShowPlatformsLoading() {
+
+}
+
+@Composable
+fun ShowPlatformsError() {
+
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun ShowPlatformsList(
+    platformsList: List<PlatformItem>,
+    favoritePlatform: Resource<PlatformItem>,
+    onPlatformSelected: (Int) -> Unit
+) {
+    OutlinedDropDown(
+        itemsList = platformsList,
+        selectedItem = favoritePlatform,
+        onItemSelected = onPlatformSelected
+    )
 }

@@ -1,17 +1,18 @@
 package com.fabledt5.remote.api.dto.game_details
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class Genre(
-    @SerializedName("games_count")
+    @SerialName("games_count")
     val gamesCount: Int,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("image_background")
+    @SerialName("image_background")
     val imageBackground: String,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String
 )

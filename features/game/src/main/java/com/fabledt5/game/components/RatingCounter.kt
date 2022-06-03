@@ -1,5 +1,7 @@
 package com.fabledt5.game.components
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
@@ -17,15 +19,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.fabledt5.common.theme.*
 import com.fabledt5.game.R
 
 @Composable
-fun RatingCounter(rating: Int, ratingsCount: Int?, ratingsPercent: Int) {
-    var activeBoxWidth by remember { mutableStateOf(IntSize.Zero) }
+fun RatingCounter(rating: Int, ratingsCount: Int?, ratingsPercent: Int, ratingOffset: Int) {
+    val initialAnimationDelay = 500
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -59,38 +60,54 @@ fun RatingCounter(rating: Int, ratingsCount: Int?, ratingsPercent: Int) {
             fontFamily = Proxima,
             textAlign = TextAlign.Center
         )
-        Box {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(5.dp)
-                    .clip(RoundedCornerShape(size = 5.dp))
-                    .background(DimGray)
-                    .onGloballyPositioned { activeBoxWidth = it.size }
-            )
-            Box(
-                modifier = Modifier
-                    .width(with(LocalDensity.current) {
-                        activeBoxWidth.width.toDp() / 100 * ratingsPercent
-                    })
-                    .height(5.dp)
-                    .clip(RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
-                    .clip(CutCornerShape(bottomEnd = 20.dp))
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                Turquoise,
-                                MediumLateBlue
-                            )
-                        )
-                    )
-            )
-        }
+        RatingBar(
+            ratingsPercent = ratingsPercent,
+            animationDelay = initialAnimationDelay + 100 * ratingOffset,
+            animationDuration = 1000
+        )
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0x000000)
 @Composable
-fun RatingCounterPreview() {
-    RatingCounter(ratingsCount = 28, rating = 4, ratingsPercent = 42)
+fun RatingBar(ratingsPercent: Int, animationDelay: Int, animationDuration: Int) {
+    val density = LocalDensity.current
+
+    var backgroundBoxWidth by remember { mutableStateOf(IntSize.Zero) }
+    var activeBoxWidth by remember { mutableStateOf(0.dp) }
+
+    with(density) {
+        activeBoxWidth = backgroundBoxWidth.width.toDp() / 100 * ratingsPercent
+    }
+
+    Box {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .clip(RoundedCornerShape(size = 5.dp))
+                .background(DimGray)
+                .onGloballyPositioned { backgroundBoxWidth = it.size }
+        )
+        Box(
+            modifier = Modifier
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = animationDuration,
+                        delayMillis = animationDelay
+                    )
+                )
+                .width(activeBoxWidth)
+                .height(5.dp)
+                .clip(RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
+                .clip(CutCornerShape(bottomEnd = 20.dp))
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Turquoise,
+                            MediumLateBlue
+                        )
+                    )
+                )
+        )
+    }
 }

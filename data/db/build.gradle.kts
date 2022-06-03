@@ -1,19 +1,23 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("com.google.devtools.ksp") version "1.6.10-1.0.4"
-    id("dagger.hilt.android.plugin")
+    id(Plugins.library)
+    kotlin(Plugins.android)
+    kotlin(Plugins.kapt)
+    id(Plugins.ksp) version Versions.kspVersion
+    id(Plugins.hilt)
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testRunner
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     buildTypes {
@@ -26,36 +30,36 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Config.jvmTargetVersion
     }
 }
 
 dependencies {
 
+    implementation(project(":domain"))
+
     // Kotlin
-    implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
+    implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
 
     // Testing
-    testImplementation(dependencyNotation = "junit:junit:4.13.2")
-    androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
+    testImplementation(dependencyNotation = Dependencies.junit)
+    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
 
     // Room
-    val roomVersion = "2.4.2"
-    implementation(dependencyNotation = "androidx.room:room-runtime:$roomVersion")
-    implementation(dependencyNotation = "androidx.room:room-ktx:$roomVersion")
-    implementation(dependencyNotation = "androidx.room:room-paging:$roomVersion")
-    ksp(dependencyNotation = "androidx.room:room-compiler:$roomVersion")
+    implementation(dependencyNotation = Dependencies.roomRuntime)
+    implementation(dependencyNotation = Dependencies.roomKtx)
+    implementation(dependencyNotation = Dependencies.roomPaging)
+    ksp(dependencyNotation = Dependencies.roomCompiler)
 
     // Dagger Hilt
-    implementation(dependencyNotation = "com.google.dagger:hilt-android:2.40.5")
-    kapt(dependencyNotation = "com.google.dagger:hilt-android-compiler:2.40.5")
+    implementation(dependencyNotation = Dependencies.hiltAndroid)
+    kapt(dependencyNotation = Dependencies.hiltCompiler)
 
     // Pagination
-    val pagingVersion = "3.1.1"
-    implementation(dependencyNotation = "androidx.paging:paging-runtime:$pagingVersion")
+    implementation(dependencyNotation = Dependencies.pagingRuntime)
 
 }

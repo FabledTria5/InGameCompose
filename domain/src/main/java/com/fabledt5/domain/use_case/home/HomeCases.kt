@@ -10,5 +10,4 @@ data class HomeCases @Inject constructor(
     val getPlatformsList: GetPlatformsList,
     val getFavoritePlatform: GetFavoritePlatform,
     val setFavoritePlatform: SetFavoritePlatform,
-    val getFavoritePlatformId: GetFavoritePlatformId
 )

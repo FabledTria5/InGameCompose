@@ -1,15 +1,16 @@
 package com.fabledt5.remote.api.dto.list_of_games
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class Rating(
-    @SerializedName("count")
+    @SerialName("count")
     val count: Int,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("percent")
+    @SerialName("percent")
     val percent: Double,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String
 )

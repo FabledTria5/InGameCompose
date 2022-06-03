@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.theme.Turquoise
+import com.fabledt5.common.theme.DefaultHorizontalGradient
+import com.fabledt5.common.utils.gradient
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 
@@ -46,7 +47,7 @@ fun OutlinedTabs(
         TabRow(
             selectedTabIndex = pagerState.currentPage,
             modifier = Modifier.height(50.dp),
-            backgroundColor = Color.Transparent,
+            containerColor = Color.Transparent,
             indicator = { TabRowDefaults.Indicator(color = Color.Transparent) },
             divider = { TabRowDefaults.Divider(color = Color.Transparent) }
         ) {
@@ -72,11 +73,15 @@ fun OutlinedTabs(
                     text = {
                         Text(
                             text = tabName.uppercase(),
+                            modifier = Modifier.then(
+                                if (pagerState.currentPage == index) Modifier.gradient(
+                                    DefaultHorizontalGradient
+                                ) else Modifier
+                            ),
                             fontSize = textSize,
                             fontWeight = FontWeight.Bold
                         )
                     },
-                    selectedContentColor = Turquoise,
                     unselectedContentColor = Color.White.copy(alpha = .5f)
                 )
             }

@@ -25,14 +25,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import com.fabledt5.common.components.CoilImage
+import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.common.utils.createFromHtml
-import com.fabledt5.domain.model.GameItem
-import com.fabledt5.domain.model.GameRating
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.model.items.GameItem
+import com.fabledt5.domain.model.items.RatingItem
 import com.fabledt5.game.R
 import com.fabledt5.game.components.GameReviewItem
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -47,7 +47,7 @@ import kotlin.math.absoluteValue
 fun AboutGamePage(
     gameItem: GameItem,
     gameSnapshots: Resource<List<String>>,
-    gameRating: Resource<GameRating>,
+    ratingItem: Resource<RatingItem>,
     onShowReviewsClicked: () -> Unit
 ) {
     Column(
@@ -66,10 +66,10 @@ fun AboutGamePage(
             is Resource.Success -> ShowGameSnapshotsSuccess(gameSnapshots.data)
             else -> ShowGameSnapshotsLoading()
         }
-        when (gameRating) {
+        when (ratingItem) {
             is Resource.Error -> Unit
             is Resource.Success -> ShowGameReviewsSuccess(
-                gameRating = gameRating.data,
+                ratingItem = ratingItem.data,
                 onShowAllClicked = onShowReviewsClicked
             )
             else -> ShowGameReviewsLoading()
@@ -135,7 +135,7 @@ fun ShowGameSnapshotsSuccess(gameSnapshots: List<String>) {
             state = snapshotsListState,
             contentPadding = PaddingValues(horizontal = 50.dp)
         ) { page ->
-            CoilImage(
+            RemoteImage(
                 imagePath = gameSnapshots[page],
                 contentDescription = stringResource(R.string.game_snapshot),
                 modifier = Modifier
@@ -153,7 +153,7 @@ fun ShowGameSnapshotsSuccess(gameSnapshots: List<String>) {
                     .fillMaxWidth()
                     .aspectRatio(ratio = .9f)
                     .clip(shape = RoundedCornerShape(size = 10.dp)),
-                scaleType = ContentScale.Crop
+                contentScale = ContentScale.Crop
             )
         }
     }
@@ -184,7 +184,7 @@ fun ShowGameReviewsLoading() {
 
 @Composable
 fun ShowGameReviewsSuccess(
-    gameRating: GameRating,
+    ratingItem: RatingItem,
     onShowAllClicked: () -> Unit
 ) {
     Row(
@@ -209,7 +209,7 @@ fun ShowGameReviewsSuccess(
                 append(" ")
                 append(
                     AnnotatedString(
-                        text = gameRating.gameRating,
+                        text = ratingItem.gameRating,
                         spanStyle = SpanStyle(color = Color.White, fontWeight = FontWeight.Light)
                     )
                 )
@@ -237,8 +237,8 @@ fun ShowGameReviewsSuccess(
         }
     }
     Spacer(modifier = Modifier.height(10.dp))
-    if (gameRating.gameReviews.isNotEmpty() && gameRating.gameReviews.size >= 2)
-        gameRating.gameReviews.subList(0, 2).forEach { reviewItem ->
+    if (ratingItem.gameReviews.isNotEmpty() && ratingItem.gameReviews.size >= 2)
+        ratingItem.gameReviews.subList(0, 2).forEach { reviewItem ->
             GameReviewItem(
                 reviewItem = reviewItem,
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)

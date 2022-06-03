@@ -1,22 +1,22 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
+    id(Plugins.application)
+    kotlin(Plugins.android)
+    kotlin(Plugins.kapt)
+    id(Plugins.hilt)
+    id(Plugins.googleServices)
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = "com.fabledt5.ingamecompose"
-        minSdk = 23
-        targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Config.applicationId
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
+        versionCode = Config.versionCode
+        versionName = Config.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testRunner
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -32,17 +32,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Config.jvmTargetVersion
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = Config.composeCompilerExtensionVersion
     }
     packagingOptions {
         resources {
@@ -61,40 +61,39 @@ dependencies {
     implementation(project(":features:authentication"))
     implementation(project(":features:home"))
     implementation(project(":features:game"))
+    implementation(project(":features:catalogue"))
 
     // Kotlin
-    implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
-    implementation(dependencyNotation = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation(dependencyNotation = "com.google.firebase:firebase-auth-ktx:21.0.3")
+    implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
+    implementation(dependencyNotation = Dependencies.lifecycleRuntime)
+    implementation(dependencyNotation = Dependencies.firebaseAuth)
 
     // Design
-    implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
-    implementation(dependencyNotation = "com.google.android.material:material:1.5.0")
+    implementation(dependencyNotation = Dependencies.appcompat)
+    implementation(dependencyNotation = Dependencies.material)
 
     // Compose
-    val composeVersion = "1.1.1"
-    implementation(dependencyNotation = "androidx.compose.ui:ui:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.ui:ui-tooling:$composeVersion")
-    implementation(dependencyNotation = "androidx.activity:activity-compose:1.4.0")
-    androidTestImplementation(dependencyNotation = "androidx.compose.ui:ui-test-junit4:$composeVersion")
+    implementation(dependencyNotation = Dependencies.composeUi)
+    implementation(dependencyNotation = Dependencies.composeMaterial)
+    implementation(dependencyNotation = Dependencies.composeToolingPreview)
+    implementation(dependencyNotation = Dependencies.composeTooling)
+    implementation(dependencyNotation = Dependencies.activityCompose)
+    androidTestImplementation(dependencyNotation = Dependencies.junitCompose)
 
     // Accompanist
-    val accompanistVersion = "0.24.1-alpha"
-    implementation(dependencyNotation = "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
+    implementation(dependencyNotation = Dependencies.systemUiController)
+    implementation(dependencyNotation = Dependencies.pager)
 
     // Compose Navigation
-    val navigationVersion = "0.24.1-alpha"
-    implementation(dependencyNotation = "com.google.accompanist:accompanist-navigation-animation:$navigationVersion")
+    implementation(dependencyNotation = Dependencies.composeNavigation)
 
     // Dagger Hilt
-    implementation(dependencyNotation = "com.google.dagger:hilt-android:2.40.5")
-    implementation(dependencyNotation = "androidx.hilt:hilt-navigation-compose:1.0.0")
-    kapt(dependencyNotation = "com.google.dagger:hilt-android-compiler:2.40.5")
+    implementation(dependencyNotation = Dependencies.hiltAndroid)
+    implementation(dependencyNotation = Dependencies.hiltCompose)
+    kapt(dependencyNotation = Dependencies.hiltCompiler)
 
     // Testing
-    testImplementation(dependencyNotation = "junit:junit:4.13.2")
-    androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
-    androidTestImplementation(dependencyNotation = "androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(dependencyNotation = Dependencies.junit)
+    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
+    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
 }

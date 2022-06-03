@@ -1,5 +1,6 @@
 package com.fabledt5.ingamecompose.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -9,7 +10,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.fabledt5.common.theme.DefaultHorizontalGradient
 import com.fabledt5.common.theme.DimGray
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.theme.Turquoise
+import com.fabledt5.common.utils.gradient
 import com.fabledt5.ingamecompose.navigation.authenticationGraph
 import com.fabledt5.ingamecompose.navigation.gameGraph
 import com.fabledt5.ingamecompose.navigation.primaryGraph
@@ -42,10 +45,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@ExperimentalCoroutinesApi
+@ExperimentalMaterial3Api
 @ExperimentalPagerApi
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@ExperimentalFoundationApi
+@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen(navigationManager: NavigationManager) {
@@ -54,7 +58,8 @@ fun MainScreen(navigationManager: NavigationManager) {
         "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
     }
     val navHostController = rememberAnimatedNavController()
-    var currentDestination by remember { mutableStateOf(navHostController.currentDestination) }
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination?.route
     var inclusiveScreen by remember { mutableStateOf(true) }
 
     LaunchedEffect(key1 = navigationManager.commands) {
@@ -66,7 +71,6 @@ fun MainScreen(navigationManager: NavigationManager) {
                     }
             }
             inclusiveScreen = command.inclusive
-            currentDestination = navHostController.currentDestination
         }
     }
 
@@ -74,13 +78,12 @@ fun MainScreen(navigationManager: NavigationManager) {
         navigationManager.backNavigation.collectLatest { command ->
             if (command == BackDirection.back) {
                 navHostController.popBackStack()
-                currentDestination = navHostController.currentDestination
             }
         }
     }
 
     LaunchedEffect(key1 = currentDestination) {
-        when (currentDestination?.route) {
+        when (currentDestination) {
             SplashDirections.splash.route -> systemUiController.setTransparentStatusBar()
             GameDirections.gameScreenRoute -> systemUiController.setTransparentStatusBar()
             PrimaryAppDirections.home.route -> systemUiController.setTransparentStatusBar()
@@ -91,7 +94,7 @@ fun MainScreen(navigationManager: NavigationManager) {
     Scaffold(bottomBar = {
         BottomBar(
             navHostController = navHostController,
-            currentDestination = navHostController.currentDestination?.route
+            currentDestination = currentDestination
         )
     }) {
         AnimatedNavHost(
@@ -104,7 +107,7 @@ fun MainScreen(navigationManager: NavigationManager) {
                 SplashScreen(splashViewModel = hiltViewModel())
             }
             authenticationGraph()
-            primaryGraph()
+            primaryGraph(viewModelStoreOwner = viewModelStoreOwner)
             gameGraph(
                 viewModelStoreOwner = viewModelStoreOwner,
                 onGamePageSelected = { systemUiController.setTransparentStatusBar() },
@@ -114,6 +117,7 @@ fun MainScreen(navigationManager: NavigationManager) {
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun BottomBar(navHostController: NavHostController, currentDestination: String?) {
     val screens = listOf(
@@ -127,12 +131,12 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
         screen.destination.route == currentDestination
     }
     val bottomNavigationHeight by animateDpAsState(
-        targetValue = if (isBottomNavigationVisible) 56.dp else 0.dp,
+        targetValue = if (isBottomNavigationVisible) 70.dp else 0.dp,
         animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
     )
 
-    BottomNavigation(
-        backgroundColor = Color.Black,
+    NavigationBar(
+        containerColor = Color.Black,
         modifier = Modifier
             .navigationBarsPadding()
             .height(bottomNavigationHeight)
@@ -140,28 +144,48 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
         screens.forEach { screen ->
             AddNavigationItem(
                 screen = screen,
-                navHostController = navHostController
+                navHostController = navHostController,
+                currentDestination = currentDestination
             )
         }
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun RowScope.AddNavigationItem(
     screen: BottomBarItem,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    currentDestination: String?
 ) {
-    BottomNavigationItem(
-        selected = navHostController.currentDestination?.route == screen.destination.route,
+    val selected = currentDestination == screen.destination.route
+    NavigationBarItem(
+        selected = selected,
         onClick = { navHostController.navigate(screen.destination.route) },
-        label = { Text(text = screen.title, fontFamily = Mark) },
+        label = {
+            Text(
+                text = screen.title,
+                modifier = Modifier.then(
+                    if (selected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
+                ),
+                fontFamily = Mark
+            )
+        },
         icon = {
             Icon(
                 painter = painterResource(id = screen.icon),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.then(
+                    if (selected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
+                )
             )
         },
-        selectedContentColor = Turquoise,
-        unselectedContentColor = DimGray,
+        colors = NavigationBarItemDefaults.colors(
+            selectedIconColor = DimGray,
+            unselectedIconColor = DimGray,
+            selectedTextColor = DimGray,
+            unselectedTextColor = DimGray,
+            indicatorColor = Color.Transparent
+        )
     )
 }

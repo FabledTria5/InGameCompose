@@ -1,14 +1,16 @@
 package com.fabledt5.remote.api.dto.game_screenshots
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GameScreenshotsResult(
-    @SerializedName("count")
+    @SerialName("count")
     val count: Int,
-    @SerializedName("next")
+    @SerialName("next")
     val next: String?,
-    @SerializedName("previous")
+    @SerialName("previous")
     val previous: String?,
-    @SerializedName("results")
-    val results: List<Result>
+    @SerialName("results")
+    val results: List<ScreenshotsResult>
 )

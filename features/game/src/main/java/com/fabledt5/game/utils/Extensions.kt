@@ -1,6 +1,6 @@
 package com.fabledt5.game.utils
 
-import com.fabledt5.domain.model.ReviewItem
+import com.fabledt5.domain.model.items.ReviewItem
 
 fun List<ReviewItem>.toRatingsCounter(): Map<Int, Int> {
     val map = groupingBy { it.reviewerRating }.eachCount()

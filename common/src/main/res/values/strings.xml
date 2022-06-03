@@ -2,6 +2,13 @@
 <resources>
     <string name="application_icon">App icon</string>
     <string name="icon_arrow">Arrow Icon</string>
+    <string name="icon_star">Star Icon</string>
     <string name="icon_loading_error">Loading Error Icon</string>
     <string name="unknown">Unknown</string>
+    <string name="ic_watch_trailer">Watch Trailer Icon</string>
+    <string name="watch_trailer">Watch Trailer</string>
+    <string name="icon_favorite">Favorite Icon</string>
+    <string name="added_to_favourites">Added to favourites</string>
+    <string name="share_with_friends">Share with friends</string>
+    <string name="visit_website">Visit website</string>
 </resources>

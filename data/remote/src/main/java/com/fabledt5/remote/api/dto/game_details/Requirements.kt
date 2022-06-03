@@ -1,10 +1,12 @@
 package com.fabledt5.remote.api.dto.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Requirements(
-    @SerializedName("minimum")
+    @SerialName("minimum")
     val minimum: String?,
-    @SerializedName("recommended")
+    @SerialName("recommended")
     val recommended: String?
 )

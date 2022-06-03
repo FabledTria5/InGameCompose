@@ -1,18 +1,18 @@
 package com.fabledt5.domain.use_case.home
 
-import com.fabledt5.domain.repository.PreferencesRepository
-import kotlinx.coroutines.flow.catch
+import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.repository.FiltersRepository
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetFavoritePlatform @Inject constructor(
-    private val preferencesRepository: PreferencesRepository
+    private val filtersRepository: FiltersRepository
 ) {
 
-    operator fun invoke(platformId: Int) =
-        preferencesRepository.getFavoritePlatform(platformId = platformId)
-            .catch { exception ->
-                println("${exception.message}\n")
-                exception.printStackTrace()
-            }
+    operator fun invoke() = filtersRepository.getFavoritePlatform().map { platform ->
+        platform?.let {
+            Resource.Success(data = it)
+        } ?: Resource.Error()
+    }
 
 }

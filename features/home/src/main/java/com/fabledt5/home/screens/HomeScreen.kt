@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,17 +15,15 @@ import androidx.compose.ui.res.stringArrayResource
 import com.fabledt5.common.components.OutlinedTabs
 import com.fabledt5.home.HomeViewModel
 import com.fabledt5.home.R
-import com.fabledt5.home.items.HotGames
 import com.fabledt5.home.components.PlatformsList
+import com.fabledt5.home.items.HotGames
 import com.fabledt5.home.pages.RecommendedGamesPager
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
+@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
-@ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel) {
@@ -60,8 +58,9 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
             platformsList = platformsList,
             favoritePlatform = favoritePlatform,
             onPlatformSelected = { platformId ->
-                homeViewModel.changePlatform(platformId = platformId)
-            })
+                homeViewModel.changeFavoritePlatformPlatform(platformId = platformId)
+            }
+        )
         RecommendedGamesPager(
             gamesPagerState = gamesPagerState,
             upcomingGames = upcomingGames,

@@ -1,16 +1,16 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    id(Plugins.library)
+    kotlin(Plugins.android)
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testRunner
     }
 
     buildTypes {
@@ -24,51 +24,51 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = Config.composeCompilerExtensionVersion
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Config.jvmTargetVersion
     }
 }
 
 dependencies {
 
+    implementation(project(":domain"))
+
     // Kotlin
-    implementation(dependencyNotation = "androidx.core:core-ktx:1.7.0")
-    implementation(dependencyNotation = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+    implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
+    implementation(dependencyNotation = Dependencies.lifecycleRuntime)
 
     // Design
-    implementation(dependencyNotation = "androidx.appcompat:appcompat:1.4.1")
-    implementation(dependencyNotation = "com.google.android.material:material:1.5.0")
-    implementation(dependencyNotation = "com.google.android.exoplayer:exoplayer:2.17.1")
+    implementation(dependencyNotation = Dependencies.appcompat)
+    implementation(dependencyNotation = Dependencies.material)
+    implementation(dependencyNotation = Dependencies.exoPlayer)
 
     // Compose
-    val composeVersion = "1.1.1"
-    implementation(dependencyNotation = "androidx.compose.ui:ui:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.material:material:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation(dependencyNotation = "androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation(dependencyNotation = Dependencies.composeUi)
+    implementation(dependencyNotation = Dependencies.composeMaterial)
+    implementation(dependencyNotation = Dependencies.composeToolingPreview)
+    implementation(dependencyNotation = Dependencies.composeViewBinding)
+    debugImplementation(dependencyNotation = Dependencies.composeTooling)
 
     // Accompanist
-    val accompanistVersion = "0.24.5-alpha"
-    api(dependencyNotation = "com.google.accompanist:accompanist-pager:$accompanistVersion")
-    api(dependencyNotation = "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion")
-    api(dependencyNotation = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion")
+    implementation(dependencyNotation = Dependencies.pager)
 
     // Testing
-    testImplementation(dependencyNotation = "junit:junit:4.13.2")
-    androidTestImplementation(dependencyNotation = "androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation(dependencyNotation = "androidx.test.ext:junit:1.1.3")
+    testImplementation(dependencyNotation = Dependencies.junit)
+    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
+    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
 
     // Coil
-    implementation(dependencyNotation = "io.coil-kt:coil-compose:1.4.0")
+    implementation(dependencyNotation = Dependencies.coil)
 
     // Timber
-    api(dependencyNotation = "com.jakewharton.timber:timber:5.0.1")
+    api(dependencyNotation = Dependencies.timber)
 }

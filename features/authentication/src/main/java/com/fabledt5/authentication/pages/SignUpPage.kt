@@ -4,7 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,7 +79,7 @@ fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: R
                         shape = RoundedCornerShape(size = 3.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(
                             textColor = Color.White,
-                            backgroundColor = Color(0xFF111113),
+                            containerColor = Color(0xFF111113),
                             cursorColor = Color.White,
                             focusedBorderColor = Color.Transparent,
                             unfocusedBorderColor = Color.Transparent,
@@ -111,7 +111,7 @@ fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: R
                     shape = RoundedCornerShape(size = 3.dp),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         textColor = Color.White,
-                        backgroundColor = Color(0xFF111113),
+                        containerColor = Color(0xFF111113),
                         cursorColor = Color.White,
                         focusedBorderColor = Color.Transparent,
                         unfocusedBorderColor = Color.Transparent,
@@ -141,7 +141,7 @@ fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: R
                     shape = RoundedCornerShape(size = 3.dp),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         textColor = Color.White,
-                        backgroundColor = Color(0xFF111113),
+                        containerColor = Color(0xFF111113),
                         cursorColor = Color.White,
                         focusedBorderColor = Color.Transparent,
                         unfocusedBorderColor = Color.Transparent,
@@ -165,7 +165,7 @@ fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: R
                     Button(
                         onClick = { },
                         modifier = Modifier.weight(weight = 1f),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF111113)),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF111113)),
                         shape = RoundedCornerShape(size = 3.dp)
                     ) {
                         Text(
@@ -181,7 +181,7 @@ fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: R
                     Button(
                         onClick = { },
                         modifier = Modifier.weight(weight = 1f),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF111113)),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF111113)),
                         shape = RoundedCornerShape(size = 3.dp)
                     ) {
                         Text(
@@ -206,7 +206,7 @@ fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: R
                     shape = RoundedCornerShape(5.dp),
                     border = BorderStroke(width = 1.dp, color = Color.White),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = Color(0xFF0e0e0f)
+                        containerColor = Color(0xFF0e0e0f)
                     ),
                     enabled = userEmail.isNotEmpty()
                             && userPassword.isNotEmpty()

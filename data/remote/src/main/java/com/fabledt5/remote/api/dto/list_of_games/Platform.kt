@@ -1,14 +1,12 @@
 package com.fabledt5.remote.api.dto.list_of_games
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Platform(
-    @SerializedName("platform")
-    val platform: PlatformItem,
-    @SerializedName("released_at")
-    val releasedAt: String?,
-    @SerializedName("requirements_en")
-    val requirementsEn: Any?,
-    @SerializedName("requirements_ru")
-    val requirementsRu: Any?
+    @SerialName("platform")
+    val platform: PlatformItem?,
+    @SerialName("released_at")
+    val releasedAt: String?
 )
