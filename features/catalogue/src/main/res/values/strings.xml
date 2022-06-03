@@ -11,6 +11,7 @@
     <string name="image_filter_item">Filter Item Image</string>
     <string name="ic_open_genres_list">Open genres list icon</string>
     <string name="see_all">See all</string>
+    <string name="games_search_message">Error while searching games</string>
 
     <string-array name="search_suggestions">
         <item>Monster hunter: world</item>

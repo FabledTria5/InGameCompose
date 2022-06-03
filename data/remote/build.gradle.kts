@@ -58,6 +58,9 @@ dependencies {
     implementation(dependencyNotation = Dependencies.kotlinSerializationConverter)
     implementation(dependencyNotation = Dependencies.loggingInterceptor)
 
+    // Paging
+    implementation(dependencyNotation = Dependencies.pagingRuntime)
+
     // Jsoup
     implementation(dependencyNotation = Dependencies.jsoup)
 

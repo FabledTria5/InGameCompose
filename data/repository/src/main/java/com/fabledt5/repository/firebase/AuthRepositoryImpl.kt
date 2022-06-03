@@ -1,7 +1,7 @@
 package com.fabledt5.repository.firebase
 
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.repository.AuthRepository
+import com.fabledt5.domain.repository.firebase.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow

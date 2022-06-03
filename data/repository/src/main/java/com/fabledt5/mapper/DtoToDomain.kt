@@ -1,5 +1,8 @@
 package com.fabledt5.mapper
 
+import androidx.paging.PagingData
+import androidx.paging.filter
+import androidx.paging.map
 import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.model.items.RatingItem
 import com.fabledt5.domain.model.items.RequirementsItem
@@ -7,10 +10,15 @@ import com.fabledt5.domain.model.items.ReviewItem
 import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
-import com.fabledt5.remote.api.dto.game_screenshots.Result
+import com.fabledt5.remote.api.dto.game_screenshots.ScreenshotsResult
 import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
+import com.fabledt5.remote.api.dto.list_of_games.GamesListResult
 import com.fabledt5.remote.parser.dto.GameReviewDto
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun GamesListResponse.toDomainShort() = results.map { result ->
     GameItem(
@@ -47,7 +55,27 @@ fun List<Platform>.toDomain() = try {
     null
 }
 
-fun List<Result>.toDomain() = map { result ->
+fun Flow<PagingData<GamesListResult>>.toDomain(): Flow<PagingData<GameItem>> =
+    map { data ->
+        data
+            .filter { it.backgroundImage != null }
+            .map { result ->
+                GameItem(
+                    gameId = result.id,
+                    gamePoster = result.backgroundImage,
+                    gameTitle = result.name,
+                    gameReleaseYear = result.released.run {
+                        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+                        val date = formatter.parse(this)
+                        val newFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
+                        newFormatter.format(date!!)
+                    },
+                    gameGenres = result.genres.take(n = 2).joinToString { it.name }
+                )
+            }
+    }
+
+fun List<ScreenshotsResult>.toDomain() = map { result ->
     result.image
 }
 

@@ -55,8 +55,8 @@ dependencies {
     implementation(dependencyNotation = Dependencies.composeUi)
     implementation(dependencyNotation = Dependencies.composeMaterial)
     implementation(dependencyNotation = Dependencies.composeToolingPreview)
-    implementation(dependencyNotation = Dependencies.composeTooling)
     implementation(dependencyNotation = Dependencies.composeViewBinding)
+    debugImplementation(dependencyNotation = Dependencies.composeTooling)
 
     // Accompanist
     implementation(dependencyNotation = Dependencies.pager)

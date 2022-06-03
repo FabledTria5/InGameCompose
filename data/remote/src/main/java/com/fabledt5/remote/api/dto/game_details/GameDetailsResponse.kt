@@ -11,8 +11,6 @@ data class GameDetailsResponse(
     val alternativeNames: List<String>,
     @SerialName("background_image")
     val backgroundImage: String,
-    @SerialName("background_image_additional")
-    val backgroundImageAdditional: String,
     @SerialName("creators_count")
     val creatorsCount: Int,
     @SerialName("description")

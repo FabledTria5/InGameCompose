@@ -1,7 +1,7 @@
 package com.fabledt5.remote.di
 
 import com.fabledt5.remote.BuildConfig
-import com.fabledt5.remote.api.ApiService
+import com.fabledt5.remote.api.GamesApi
 import com.fabledt5.remote.utils.ApiInterceptor
 import com.fabledt5.remote.utils.Constants.API_BASE_URL
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -55,7 +55,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGamesService(retrofit: Retrofit): ApiService =
-        retrofit.create(ApiService::class.java)
+    fun provideGamesService(retrofit: Retrofit): GamesApi =
+        retrofit.create(GamesApi::class.java)
 
 }

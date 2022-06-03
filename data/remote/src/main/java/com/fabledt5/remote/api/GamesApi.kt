@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ApiService {
+interface GamesApi {
 
     @GET(value = "api/games")
     suspend fun getGamesList(

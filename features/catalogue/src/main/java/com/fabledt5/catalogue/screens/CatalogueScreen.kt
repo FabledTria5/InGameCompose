@@ -8,9 +8,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,8 +20,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.fabledt5.catalogue.CatalogueViewModel
 import com.fabledt5.catalogue.R
 import com.fabledt5.catalogue.items.CatalogueFiltersSection
@@ -30,7 +32,11 @@ import com.fabledt5.common.theme.DarkLateBlack
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Turquoise
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Composable
@@ -42,6 +48,9 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
     val selectedPlatforms = catalogueViewModel.selectedPlatforms
     val selectedGenres = catalogueViewModel.selectedGenres
     val selectedDevelopers = catalogueViewModel.selectedDevelopers
+
+    val searchQuery by catalogueViewModel.searchQuery.collectAsState()
+    val searchResults = catalogueViewModel.searchResults.collectAsLazyPagingItems()
 
     var isFiltersListOpen by remember { mutableStateOf(false) }
 
@@ -55,16 +64,19 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                 onOpenFiltersClicked = { isFiltersListOpen = true },
                 onSaveFiltersClicked = { isFiltersListOpen = false })
         },
-    ) { padding ->
+    ) { contentPadding ->
         Column(
             modifier = Modifier
-                .padding(padding)
+                .padding(contentPadding)
                 .fillMaxSize()
         ) {
             CatalogueSearchField(
-                onSearchClicked = {},
+                searchQuery = searchQuery,
+                onSearchQueryChange = { query ->
+                    catalogueViewModel.searchQuery.value = query
+                },
                 modifier = Modifier
-                    .padding(start = 10.dp, top = 15.dp, end = 10.dp)
+                    .padding(start = 10.dp, top = 15.dp, end = 10.dp, bottom = 10.dp)
                     .fillMaxWidth()
             )
             if (isFiltersListOpen) CatalogueFiltersSection(
@@ -84,7 +96,14 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                     catalogueViewModel.toggleDeveloper(it)
                 }
             )
-            else CatalogueSearchSection()
+            else CatalogueSearchSection(
+                searchResults = searchResults,
+                onGameClicked = { gameId ->
+                    catalogueViewModel.onGameClicked(gameId)
+                },
+                onGameLoadingError = { loadState ->
+                    catalogueViewModel.onGamesLoadingError(loadState)
+                })
         }
     }
 }
@@ -139,8 +158,11 @@ fun CatalogueTopBar(
 }
 
 @Composable
-fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String) -> Unit) {
-    var searchQuery by remember { mutableStateOf("") }
+fun CatalogueSearchField(
+    searchQuery: String,
+    modifier: Modifier = Modifier,
+    onSearchQueryChange: (String) -> Unit
+) {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -149,22 +171,14 @@ fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String
             val spokenText = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.let {
                 it[0]
             }
-            if (!spokenText.isNullOrEmpty()) searchQuery = spokenText
+            if (!spokenText.isNullOrEmpty()) onSearchQueryChange(spokenText)
         }
     }
 
     OutlinedTextField(
         value = searchQuery,
-        onValueChange = { searchQuery = it },
+        onValueChange = onSearchQueryChange,
         modifier = modifier.shadow(elevation = 10.dp),
-        leadingIcon = {
-            IconButton(onClick = { onSearchClicked(searchQuery) }) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = stringResource(R.string.icon_search)
-                )
-            }
-        },
         trailingIcon = {
             IconButton(onClick = {
                 Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -192,6 +206,7 @@ fun CatalogueSearchField(modifier: Modifier = Modifier, onSearchClicked: (String
             unfocusedLeadingIconColor = Color.White.copy(alpha = .2f),
             focusedTrailingIconColor = Color.White.copy(alpha = .4f),
             unfocusedTrailingIconColor = Color.White.copy(alpha = .4f)
-        )
+        ),
+        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
     )
 }

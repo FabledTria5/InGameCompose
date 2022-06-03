@@ -3,22 +3,31 @@ package com.fabledt5.catalogue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.DeveloperItem
 import com.fabledt5.domain.model.items.GenreItem
 import com.fabledt5.domain.model.items.PlatformItem
+import com.fabledt5.domain.use_case.search.SearchGames
 import com.fabledt5.domain.use_case.search.filters.FiltersCases
+import com.fabledt5.navigation.NavigationManager
+import com.fabledt5.navigation.directions.GameDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @HiltViewModel
 class CatalogueViewModel @Inject constructor(
-    private val filtersCases: FiltersCases
+    private val navigationManager: NavigationManager,
+    private val filtersCases: FiltersCases,
+    private val searchGames: SearchGames
 ) : ViewModel() {
 
     private val _developersList = MutableStateFlow<Resource<List<DeveloperItem>>>(Resource.Loading)
@@ -38,6 +47,20 @@ class CatalogueViewModel @Inject constructor(
 
     private val _selectedPlatforms = mutableStateListOf<Int>()
     val selectedPlatforms: List<Int> = _selectedPlatforms
+
+    val searchQuery = MutableStateFlow(value = "")
+
+    val searchResults = searchQuery
+        .debounce(timeoutMillis = 1000)
+        .flatMapLatest { query ->
+            searchGames(
+                searchQuery = query,
+                platforms = selectedPlatforms,
+                genres = selectedGenres,
+                developers = selectedDevelopers
+            ).cachedIn(viewModelScope)
+        }
+        .stateIn(scope = viewModelScope, started = SharingStarted.Lazily, PagingData.empty())
 
     init {
         loadDevelopersFilter()
@@ -65,6 +88,12 @@ class CatalogueViewModel @Inject constructor(
             if (result is Resource.Error) Timber.e(result.exception)
         }
         .launchIn(viewModelScope)
+
+    fun onGameClicked(gameId: Int) = navigationManager.navigate(GameDirections.game(gameId))
+
+    fun onGamesLoadingError(loadState: LoadState) {
+        Timber.e((loadState as? LoadState.Error)?.error)
+    }
 
     fun togglePlatform(platformId: Int) = if (_selectedPlatforms.contains(platformId))
         _selectedPlatforms.remove(platformId)

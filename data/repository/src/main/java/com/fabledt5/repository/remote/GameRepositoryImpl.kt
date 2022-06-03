@@ -7,7 +7,7 @@ import com.fabledt5.domain.repository.GameRepository
 import com.fabledt5.domain.utlis.getDateAsString
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.mapper.toDomain
-import com.fabledt5.remote.api.ApiService
+import com.fabledt5.remote.api.GamesApi
 import com.fabledt5.remote.parser.ReviewsParser
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
-    private val apiService: ApiService,
+    private val gamesApi: GamesApi,
     private val reviewsParser: ReviewsParser
 ) : GameRepository {
 
@@ -23,10 +23,10 @@ class GameRepositoryImpl @Inject constructor(
         emit(Resource.Loading)
 
         val gameItem = coroutineScope {
-            val gameResponse = async { apiService.getGameDetails(gameId = gameId) }
-            val gameTrailerResponse = async { apiService.getGameTrailers(gameId = gameId) }
+            val gameResponse = async { gamesApi.getGameDetails(gameId = gameId) }
+            val gameTrailerResponse = async { gamesApi.getGameTrailers(gameId = gameId) }
             val gameDevelopersTeamResponse =
-                async { apiService.getGameCreators(gameId = gameId) }
+                async { gamesApi.getGameCreators(gameId = gameId) }
 
             val gameDto = gameResponse.await()
             val gameTrailerDto = gameTrailerResponse.await()
@@ -69,7 +69,7 @@ class GameRepositoryImpl @Inject constructor(
     override fun getGameSnapShots(gameId: Int) = flow {
         emit(Resource.Loading)
 
-        val gameSnapshotsResponse = apiService.getGameSnapshots(gameId = gameId)
+        val gameSnapshotsResponse = gamesApi.getGameSnapshots(gameId = gameId)
         emit(Resource.Success(data = gameSnapshotsResponse.results.toDomain()))
     }
 

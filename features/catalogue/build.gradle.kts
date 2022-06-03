@@ -60,6 +60,9 @@ dependencies {
     // Accompanist
     implementation(dependencyNotation = Dependencies.flowLayout)
 
+    // Paging
+    implementation(dependencyNotation = Dependencies.pagingCompose)
+
     // Design
     implementation(dependencyNotation = Dependencies.appcompat)
     implementation(dependencyNotation = Dependencies.material)

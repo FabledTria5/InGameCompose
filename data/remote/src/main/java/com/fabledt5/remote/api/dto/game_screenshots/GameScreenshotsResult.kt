@@ -12,5 +12,5 @@ data class GameScreenshotsResult(
     @SerialName("previous")
     val previous: String?,
     @SerialName("results")
-    val results: List<Result>
+    val results: List<ScreenshotsResult>
 )

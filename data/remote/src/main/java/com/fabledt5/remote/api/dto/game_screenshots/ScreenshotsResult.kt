@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Result(
+data class ScreenshotsResult(
     @SerialName("hidden")
     val hidden: Boolean?,
     @SerialName("image")

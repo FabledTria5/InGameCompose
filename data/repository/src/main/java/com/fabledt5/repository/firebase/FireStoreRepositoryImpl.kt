@@ -1,7 +1,7 @@
 package com.fabledt5.repository.firebase
 
 import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.repository.FireStoreRepository
+import com.fabledt5.domain.repository.firebase.FireStoreRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await

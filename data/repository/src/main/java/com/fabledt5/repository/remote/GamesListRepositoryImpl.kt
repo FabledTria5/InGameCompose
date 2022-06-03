@@ -7,14 +7,14 @@ import com.fabledt5.domain.repository.GamesListRepository
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.mapper.toDomainShort
 import com.fabledt5.mapper.toEntity
-import com.fabledt5.remote.api.ApiService
+import com.fabledt5.remote.api.GamesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import java.util.*
 import javax.inject.Inject
 
 class GamesListRepositoryImpl @Inject constructor(
-    private val apiService: ApiService,
+    private val gamesApi: GamesApi,
     private val gamesDao: GamesDao,
 ) : GamesListRepository {
 
@@ -46,7 +46,7 @@ class GamesListRepositoryImpl @Inject constructor(
         }.toDomain()
 
     private suspend fun fetchHotGames(gamesCount: Int, dates: String, metacriticRatings: String) {
-        val hotGamesResponse = apiService.getGamesList(
+        val hotGamesResponse = gamesApi.getGamesList(
             page = 1,
             pageSize = gamesCount,
             dates = dates,
@@ -60,7 +60,7 @@ class GamesListRepositoryImpl @Inject constructor(
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        apiService.getGamesList(
+        gamesApi.getGamesList(
             dates = dates,
             pageSize = gamesCount,
             platforms = platformId.toString(),
@@ -72,7 +72,7 @@ class GamesListRepositoryImpl @Inject constructor(
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        apiService.getGamesList(
+        gamesApi.getGamesList(
             metacriticRatings = ratings,
             pageSize = gamesCount,
             page = 1,
@@ -84,7 +84,7 @@ class GamesListRepositoryImpl @Inject constructor(
         platformId: Int,
         gamesCount: Int
     ): List<GameItem> =
-        apiService.getGamesList(
+        gamesApi.getGamesList(
             dates = dates,
             pageSize = gamesCount,
             page = 1,

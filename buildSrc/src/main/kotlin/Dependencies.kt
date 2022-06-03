@@ -10,7 +10,7 @@ object Config {
     const val applicationId = "com.fabledt5.ingamecompose"
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
     const val jvmTargetVersion = "11"
-    const val composeCompilerExtensionVersion = "1.2.0-beta02"
+    const val composeCompilerExtensionVersion = "1.2.0-beta03"
 
     val javaVersion = JavaVersion.VERSION_11
 }
@@ -40,8 +40,8 @@ object Versions {
     const val exoPlayer = "2.17.1"
 
     // Compose
-    const val compose = "1.2.0-beta02"
-    const val composeMaterial = "1.0.0-alpha12"
+    const val compose = "1.2.0-beta03"
+    const val composeMaterial = "1.0.0-alpha13"
     const val activityCompose = "1.4.0"
     const val accompanist = "0.24.9-beta"
     const val coil = "2.0.0"
@@ -74,6 +74,7 @@ object Versions {
 
     // Pagination
     const val pagingVersion = "3.1.1"
+    const val pagingCompose = "1.0.0-alpha15"
 }
 
 object Dependencies {
@@ -141,6 +142,7 @@ object Dependencies {
     // Paging
     const val pagingRuntime = "androidx.paging:paging-runtime:${Versions.pagingVersion}"
     const val pagingCommon = "androidx.paging:paging-common:${Versions.pagingVersion}"
+    const val pagingCompose = "androidx.paging:paging-compose:${Versions.pagingCompose}"
 
     // Preferences
     const val dataStorePreferences =

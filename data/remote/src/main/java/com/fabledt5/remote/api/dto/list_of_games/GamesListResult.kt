@@ -4,11 +4,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Result(
+data class GamesListResult(
     @SerialName("added")
     val added: Int,
     @SerialName("background_image")
-    val backgroundImage: String,
+    val backgroundImage: String?,
     @SerialName("dominant_color")
     val dominantColor: String,
     @SerialName("esrb_rating")
