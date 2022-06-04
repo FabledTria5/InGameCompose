@@ -7,6 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
+import com.example.collections.screens.CollectionsScreen
 import com.fabledt5.catalogue.screens.CatalogueScreen
 import com.fabledt5.home.screens.HomeScreen
 import com.fabledt5.navigation.Routes
@@ -14,7 +15,9 @@ import com.fabledt5.navigation.directions.PrimaryAppDirections
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
 @ExperimentalMaterial3Api
 @ExperimentalPagerApi
 @ExperimentalFoundationApi
@@ -38,6 +41,9 @@ fun NavGraphBuilder.primaryGraph(viewModelStoreOwner: ViewModelStoreOwner) {
                     viewModelStoreOwner = viewModelStoreOwner
                 )
             )
+        }
+        composable(PrimaryAppDirections.collections.route) {
+            CollectionsScreen()
         }
     }
 }

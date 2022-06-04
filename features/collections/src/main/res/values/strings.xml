@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="collections">Collections</string>
+    <string name="icon_previous_month">Previous month icon</string>
+    <string name="icon_next_month">Next month icon</string>
+
+    <string-array name="collections_tabs">
+        <item>Favourites</item>
+        <item>Played</item>
+        <item>Calendar</item>
+    </string-array>
+</resources>

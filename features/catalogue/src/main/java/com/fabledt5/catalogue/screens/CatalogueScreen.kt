@@ -55,9 +55,7 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
     var isFiltersListOpen by remember { mutableStateOf(false) }
 
     Scaffold(
-        modifier = Modifier
-            .systemBarsPadding()
-            .fillMaxSize(),
+        modifier = Modifier.systemBarsPadding(),
         topBar = {
             CatalogueTopBar(
                 isFiltersOpen = isFiltersListOpen,
@@ -76,7 +74,7 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
                     catalogueViewModel.searchQuery.value = query
                 },
                 modifier = Modifier
-                    .padding(start = 10.dp, top = 15.dp, end = 10.dp, bottom = 10.dp)
+                    .padding(horizontal = 10.dp, vertical = 20.dp)
                     .fillMaxWidth()
             )
             if (isFiltersListOpen) CatalogueFiltersSection(

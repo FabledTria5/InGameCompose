@@ -24,9 +24,10 @@ object Versions {
     const val kspVersion = "1.6.21-1.0.5"
 
     // Kotlin
-    const val kotlinVersion = "1.7.0"
+    const val kotlinVersion = "1.8.0"
     const val lifecycleRuntime = "2.4.1"
     const val kotlinSerialization = "1.3.2"
+    const val desugar = "1.1.5"
 
     // Firebase
     const val firebaseAuth = "21.0.3"
@@ -46,6 +47,10 @@ object Versions {
     const val accompanist = "0.24.9-beta"
     const val coil = "2.0.0"
     const val hiltCompose = "1.0.0"
+    const val customview = "1.2.0-alpha01"
+    const val poolingContainer = "1.0.0-beta02"
+    const val constraintLayout = "1.1.0-alpha02"
+    const val calendar = "0.5.1"
 
     // Dagger Hilt
     const val hiltAndroid = "2.40.5"
@@ -98,6 +103,7 @@ object Dependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}"
     const val kotlinSerialization =
         "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
+    const val desugar = "com.android.tools:desugar_jdk_libs:${Versions.desugar}"
 
     // Firebase
     const val firebaseAuth = "com.google.firebase:firebase-auth-ktx:${Versions.firebaseAuth}"
@@ -123,6 +129,13 @@ object Dependencies {
     const val composeUiUtil = "androidx.compose.ui:ui-util:${Versions.compose}"
     const val composeViewBinding = "androidx.compose.ui:ui-viewbinding:${Versions.compose}"
     const val junitCompose = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
+    const val customview = "androidx.customview:customview:${Versions.customview}"
+    const val poolingContainer =
+        "androidx.customview:customview-poolingcontainer:${Versions.poolingContainer}"
+    const val constraintLayout =
+        "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayout}"
+    const val calendar =
+        "io.github.boguszpawlowski.composecalendar:composecalendar:${Versions.calendar}"
 
     // Accompanist
     const val systemUiController =

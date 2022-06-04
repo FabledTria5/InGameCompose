@@ -138,7 +138,11 @@ fun ShowGameSuccess(
             textSize = 10.sp,
             onTabSelected = { tabIndex ->
                 scope.launch { gameDataPagerState.animateScrollToPage(tabIndex) }
-            })
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 10.dp)
+        )
         HorizontalPager(
             count = gameDataTabs.size,
             modifier = Modifier.wrapContentHeight(),
