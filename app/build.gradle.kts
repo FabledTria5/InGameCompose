@@ -32,6 +32,8 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = Config.javaVersion
         targetCompatibility = Config.javaVersion
     }
@@ -68,6 +70,7 @@ dependencies {
     implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
     implementation(dependencyNotation = Dependencies.lifecycleRuntime)
     implementation(dependencyNotation = Dependencies.firebaseAuth)
+    coreLibraryDesugaring(dependencyNotation = Dependencies.desugar)
 
     // Design
     implementation(dependencyNotation = Dependencies.appcompat)
@@ -75,7 +78,6 @@ dependencies {
 
     // Accompanist
     implementation(dependencyNotation = Dependencies.systemUiController)
-    implementation(dependencyNotation = Dependencies.pager)
 
     // Compose Navigation
     implementation(dependencyNotation = Dependencies.composeNavigation)
@@ -89,4 +91,10 @@ dependencies {
     testImplementation(dependencyNotation = Dependencies.junit)
     androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
     androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
+    }
 }

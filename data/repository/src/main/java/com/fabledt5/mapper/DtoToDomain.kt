@@ -18,6 +18,8 @@ import com.fabledt5.remote.parser.dto.GameReviewDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 fun GamesListResponse.toDomainShort() = results.map { result ->
@@ -26,6 +28,7 @@ fun GamesListResponse.toDomainShort() = results.map { result ->
         gamePoster = result.backgroundImage,
         gameTitle = result.name,
         gameReleaseYear = result.released?.take(n = 4) ?: "Unknown",
+        gameLastUpdate = formatUpdateDate(result.updated),
         gameGenres = result.genres.joinToString(),
         gamePEGIRating = result.esrbRating?.slug.toPEGI()
     )
@@ -79,7 +82,6 @@ fun List<ScreenshotsResult>.toDomain() = map { result ->
     result.image
 }
 
-@JvmName("toDomainGameReviewDto")
 fun List<GameReviewDto>.toDomain() = RatingItem(
     gameRating = getAverageRating(),
     gameReviews = filter { it.criticScore.isNotEmpty() }
@@ -96,6 +98,11 @@ fun List<GameReviewDto>.toDomain() = RatingItem(
 
 fun GameTrailersResponse.toDomain(): String =
     results.lastOrNull { it.data.x480.isNotEmpty() }?.data?.x480 ?: ""
+
+private fun formatUpdateDate(date: String): String {
+    val localDate = LocalDate.parse(date.split('T')[0])
+    return localDate.format(DateTimeFormatter.ofPattern("dd MMM. yyyy"))
+}
 
 private fun List<GameReviewDto>.getAverageRating(): String {
     var ratingsSum = 0

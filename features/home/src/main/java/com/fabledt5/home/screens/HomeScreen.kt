@@ -25,9 +25,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterial3Api
-@ExperimentalFoundationApi
-@ExperimentalPagerApi
+@OptIn(
+    ExperimentalPagerApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel) {
     val scope = rememberCoroutineScope()

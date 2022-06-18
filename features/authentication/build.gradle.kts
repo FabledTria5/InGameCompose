@@ -61,3 +61,9 @@ dependencies {
     implementation(dependencyNotation = Dependencies.hiltAndroid)
     kapt(dependencyNotation = Dependencies.hiltCompiler)
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
+    }
+}

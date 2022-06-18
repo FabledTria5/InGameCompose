@@ -31,9 +31,11 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@ExperimentalFoundationApi
-@ExperimentalPagerApi
-@ExperimentalMaterial3Api
+@OptIn(
+    ExperimentalPagerApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {
     val collectionsTabs = stringArrayResource(id = R.array.collections_tabs)

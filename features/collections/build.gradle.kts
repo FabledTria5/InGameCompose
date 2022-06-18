@@ -11,7 +11,6 @@ android {
     defaultConfig {
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
-        multiDexEnabled = true
 
         testInstrumentationRunner = Config.testRunner
     }
@@ -69,4 +68,10 @@ dependencies {
     // Dagger Hilt
     implementation(dependencyNotation = Dependencies.hiltAndroid)
     kapt(dependencyNotation = Dependencies.hiltCompiler)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
+    }
 }

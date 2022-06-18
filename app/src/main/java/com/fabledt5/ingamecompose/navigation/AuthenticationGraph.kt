@@ -12,11 +12,7 @@ import com.fabledt5.authentication.screens.PasswordRecoveryScreen
 import com.fabledt5.navigation.Routes
 import com.fabledt5.navigation.directions.AuthorizationDirections
 import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.pager.ExperimentalPagerApi
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalPagerApi
-@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.authenticationGraph() {
     navigation(

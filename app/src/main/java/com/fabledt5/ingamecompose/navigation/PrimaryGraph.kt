@@ -1,8 +1,6 @@
 package com.fabledt5.ingamecompose.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavGraphBuilder
@@ -13,15 +11,7 @@ import com.fabledt5.home.screens.HomeScreen
 import com.fabledt5.navigation.Routes
 import com.fabledt5.navigation.directions.PrimaryAppDirections
 import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.pager.ExperimentalPagerApi
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
-@FlowPreview
-@ExperimentalMaterial3Api
-@ExperimentalPagerApi
-@ExperimentalFoundationApi
-@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.primaryGraph(viewModelStoreOwner: ViewModelStoreOwner) {
     navigation(

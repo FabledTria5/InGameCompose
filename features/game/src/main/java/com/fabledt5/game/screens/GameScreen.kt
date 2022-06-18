@@ -38,7 +38,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@ExperimentalPagerApi
+
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun GameScreen(gameViewModel: GameViewModel) {
     val gameData by gameViewModel.gameData.collectAsState()

@@ -32,13 +32,11 @@ import com.fabledt5.common.theme.DarkLateBlack
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.common.theme.Turquoise
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
-@FlowPreview
-@ExperimentalCoroutinesApi
-@ExperimentalMaterial3Api
-@ExperimentalFoundationApi
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
     val developersFilters by catalogueViewModel.developersList.collectAsState()

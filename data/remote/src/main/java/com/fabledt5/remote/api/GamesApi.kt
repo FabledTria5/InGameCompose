@@ -14,7 +14,7 @@ interface GamesApi {
     @GET(value = "api/games")
     suspend fun getGamesList(
         @Query(value = "page") page: Int,
-        @Query(value = "page_size") pageSize: Int,
+        @Query(value = "page_size") pageSize: Int? = null,
         @Query(value = "search") search: String? = null,
         @Query(value = "platforms") platforms: String? = null,
         @Query(value = "genres") genres: String? = null,

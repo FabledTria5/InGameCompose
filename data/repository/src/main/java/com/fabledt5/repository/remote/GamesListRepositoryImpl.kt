@@ -91,4 +91,7 @@ class GamesListRepositoryImpl @Inject constructor(
             platforms = platformId.toString()
         ).toDomainShort()
 
+    override suspend fun getGamesForDate(date: String): List<GameItem> =
+        gamesApi.getGamesList(dates = date, page = 1).toDomainShort()
+
 }

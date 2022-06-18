@@ -23,11 +23,9 @@ import com.fabledt5.common.theme.Mark
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
-@ExperimentalPagerApi
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
     val pagerState = rememberPagerState()

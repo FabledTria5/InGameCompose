@@ -21,8 +21,7 @@ import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@FlowPreview
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @HiltViewModel
 class CatalogueViewModel @Inject constructor(
     private val navigationManager: NavigationManager,

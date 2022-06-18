@@ -26,6 +26,8 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = Config.javaVersion
         targetCompatibility = Config.javaVersion
     }
@@ -47,6 +49,7 @@ dependencies {
     implementation(dependencyNotation = Dependencies.fireStore)
     implementation(dependencyNotation = Dependencies.firebaseDatabase)
     implementation(dependencyNotation = Dependencies.firebaseCoroutines)
+    coreLibraryDesugaring(dependencyNotation = Dependencies.desugar)
 
     // Testing
     testImplementation(dependencyNotation = Dependencies.junit)

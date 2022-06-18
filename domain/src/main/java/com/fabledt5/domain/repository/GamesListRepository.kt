@@ -17,4 +17,6 @@ interface GamesListRepository {
 
     suspend fun getLatestGames(dates: String, platformId: Int, gamesCount: Int): List<GameItem>
 
+    suspend fun getGamesForDate(date: String): List<GameItem>
+
 }
