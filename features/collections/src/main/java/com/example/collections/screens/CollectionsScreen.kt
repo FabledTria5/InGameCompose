@@ -1,5 +1,6 @@
 package com.example.collections.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.collections.CollectionsViewModel
 import com.example.collections.R
 import com.example.collections.pages.CalendarPage
 import com.example.collections.pages.FavouritesPage
@@ -29,13 +31,16 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @ExperimentalPagerApi
 @ExperimentalMaterial3Api
 @Composable
-fun CollectionsScreen() {
+fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {
     val collectionsTabs = stringArrayResource(id = R.array.collections_tabs)
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
+
+    val calendarGames = collectionsViewModel.calendarGamesMap
 
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
@@ -81,17 +86,22 @@ fun CollectionsScreen() {
                 when (page) {
                     0 -> FavouritesPage()
                     1 -> PlayedPage()
-                    2 -> CalendarPage()
+                    2 -> CalendarPage(
+                        calendarGames = calendarGames
+                    ) { localDate ->
+                        collectionsViewModel.dateSelected(localDate)
+                    }
                 }
             }
         }
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalPagerApi
 @ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Composable
 fun CollectionsScreenPreview() {
-    CollectionsScreen()
+    CollectionsScreen(CollectionsViewModel())
 }

@@ -73,14 +73,6 @@ dependencies {
     implementation(dependencyNotation = Dependencies.appcompat)
     implementation(dependencyNotation = Dependencies.material)
 
-    // Compose
-    implementation(dependencyNotation = Dependencies.composeUi)
-    implementation(dependencyNotation = Dependencies.composeMaterial)
-    implementation(dependencyNotation = Dependencies.composeToolingPreview)
-    implementation(dependencyNotation = Dependencies.composeTooling)
-    implementation(dependencyNotation = Dependencies.activityCompose)
-    androidTestImplementation(dependencyNotation = Dependencies.junitCompose)
-
     // Accompanist
     implementation(dependencyNotation = Dependencies.systemUiController)
     implementation(dependencyNotation = Dependencies.pager)

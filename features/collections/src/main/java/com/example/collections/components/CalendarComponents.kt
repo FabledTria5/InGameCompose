@@ -27,6 +27,7 @@ import io.github.boguszpawlowski.composecalendar.header.MonthState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.*
 
@@ -100,6 +101,7 @@ object CalendarComponents {
     @Composable
     fun CalendarDay(
         dayState: DayState<DynamicSelectionState>,
+        belongsToMonth: YearMonth,
         unSelectedColor: Color,
         onDateSelected: (LocalDate) -> Unit,
         modifier: Modifier = Modifier
@@ -108,7 +110,7 @@ object CalendarComponents {
         val selectionState = dayState.selectionState
 
         val isSelected = selectionState.isDateSelected(date)
-        val isCurrentMonth = date.month.value == LocalDate.now().month.value
+        val isCurrentMonth = date.month.value == belongsToMonth.month.value
 
         ConstraintLayout(
             modifier = modifier

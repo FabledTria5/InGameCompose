@@ -43,7 +43,11 @@ fun NavGraphBuilder.primaryGraph(viewModelStoreOwner: ViewModelStoreOwner) {
             )
         }
         composable(PrimaryAppDirections.collections.route) {
-            CollectionsScreen()
+            CollectionsScreen(
+                collectionsViewModel = hiltViewModel(
+                    viewModelStoreOwner = viewModelStoreOwner
+                )
+            )
         }
     }
 }

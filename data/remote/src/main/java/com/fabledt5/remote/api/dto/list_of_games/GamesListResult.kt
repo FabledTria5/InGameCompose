@@ -34,7 +34,7 @@ data class GamesListResult(
     @SerialName("ratings_count")
     val ratingsCount: Int,
     @SerialName("released")
-    val released: String,
+    val released: String?,
     @SerialName("reviews_count")
     val reviewsCount: Int,
     @SerialName("reviews_text_count")

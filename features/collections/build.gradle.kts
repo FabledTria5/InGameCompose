@@ -55,18 +55,8 @@ dependencies {
     coreLibraryDesugaring(dependencyNotation = Dependencies.desugar)
 
     // Compose
-    implementation(dependencyNotation = Dependencies.composeUi)
-    implementation(dependencyNotation = Dependencies.composeMaterial)
-    implementation(dependencyNotation = Dependencies.composeUiUtil)
-    implementation(dependencyNotation = Dependencies.activityCompose)
     implementation(dependencyNotation = Dependencies.constraintLayout)
     implementation(dependencyNotation = Dependencies.calendar)
-
-    // Compose Preview
-    implementation(dependencyNotation = Dependencies.composeToolingPreview)
-    debugImplementation(dependencyNotation = Dependencies.composeTooling)
-    debugImplementation(dependencyNotation = Dependencies.customview)
-    debugImplementation(dependencyNotation = Dependencies.poolingContainer)
 
     // Accompanist
     implementation(dependencyNotation = Dependencies.pager)
@@ -79,9 +69,4 @@ dependencies {
     // Dagger Hilt
     implementation(dependencyNotation = Dependencies.hiltAndroid)
     kapt(dependencyNotation = Dependencies.hiltCompiler)
-
-    // Testing
-    testImplementation(dependencyNotation = Dependencies.junit)
-    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
-    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
 }

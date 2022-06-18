@@ -20,7 +20,7 @@ fun GamesListResponse.toEntity(): List<HotGameEntity> {
                 null,
             gamePEGIRating = dto.esrbRating?.slug.toPEGI(),
             gameGenres = dto.genres.take(n = 2).joinToString { it.name },
-            releaseYear = dto.released.take(n = 4),
+            releaseYear = dto.released?.take(n = 4) ?: "Unknown",
             gameType = GameType.HOT_GAME
         )
     }

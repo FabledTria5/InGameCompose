@@ -52,19 +52,25 @@ dependencies {
     implementation(dependencyNotation = Dependencies.exoPlayer)
 
     // Compose
-    implementation(dependencyNotation = Dependencies.composeUi)
-    implementation(dependencyNotation = Dependencies.composeMaterial)
-    implementation(dependencyNotation = Dependencies.composeToolingPreview)
     implementation(dependencyNotation = Dependencies.composeViewBinding)
-    debugImplementation(dependencyNotation = Dependencies.composeTooling)
+    api(dependencyNotation = Dependencies.composeUi)
+    api(dependencyNotation = Dependencies.composeMaterial)
+    api(dependencyNotation = Dependencies.activityCompose)
+
+    // Compose Preview
+    api(dependencyNotation = Dependencies.composeToolingPreview)
+    debugApi(dependencyNotation = Dependencies.composeTooling)
+    debugApi(dependencyNotation = Dependencies.customview)
+    debugApi(dependencyNotation = Dependencies.poolingContainer)
 
     // Accompanist
     implementation(dependencyNotation = Dependencies.pager)
 
     // Testing
-    testImplementation(dependencyNotation = Dependencies.junit)
-    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
-    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
+    testApi(dependencyNotation = Dependencies.junit)
+    androidTestApi(dependencyNotation = Dependencies.androidJunit)
+    androidTestApi(dependencyNotation = Dependencies.espressoCore)
+    androidTestApi(dependencyNotation = Dependencies.junitCompose)
 
     // Coil
     implementation(dependencyNotation = Dependencies.coil)

@@ -50,13 +50,6 @@ dependencies {
     implementation(dependencyNotation = Dependencies.lifecycleRuntime)
     implementation(dependencyNotation = Dependencies.lifecycleViewModel)
 
-    // Compose
-    implementation(dependencyNotation = Dependencies.composeUi)
-    implementation(dependencyNotation = Dependencies.composeMaterial)
-    implementation(dependencyNotation = Dependencies.composeToolingPreview)
-    implementation(dependencyNotation = Dependencies.activityCompose)
-    debugImplementation(dependencyNotation = Dependencies.composeTooling)
-
     // Accompanist
     implementation(dependencyNotation = Dependencies.flowLayout)
 
@@ -70,9 +63,4 @@ dependencies {
     // Dagger Hilt
     implementation(dependencyNotation = Dependencies.hiltAndroid)
     kapt(dependencyNotation = Dependencies.hiltCompiler)
-
-    // Testing
-    testImplementation(dependencyNotation = Dependencies.junit)
-    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
-    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
 }

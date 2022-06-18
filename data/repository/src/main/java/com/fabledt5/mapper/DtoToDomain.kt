@@ -25,7 +25,7 @@ fun GamesListResponse.toDomainShort() = results.map { result ->
         gameId = result.id,
         gamePoster = result.backgroundImage,
         gameTitle = result.name,
-        gameReleaseYear = result.released.take(n = 4),
+        gameReleaseYear = result.released?.take(n = 4) ?: "Unknown",
         gameGenres = result.genres.joinToString(),
         gamePEGIRating = result.esrbRating?.slug.toPEGI()
     )
@@ -64,12 +64,12 @@ fun Flow<PagingData<GamesListResult>>.toDomain(): Flow<PagingData<GameItem>> =
                     gameId = result.id,
                     gamePoster = result.backgroundImage,
                     gameTitle = result.name,
-                    gameReleaseYear = result.released.run {
+                    gameReleaseYear = result.released?.run {
                         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
                         val date = formatter.parse(this)
                         val newFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
                         newFormatter.format(date!!)
-                    },
+                    } ?: "Unknown",
                     gameGenres = result.genres.take(n = 2).joinToString { it.name }
                 )
             }

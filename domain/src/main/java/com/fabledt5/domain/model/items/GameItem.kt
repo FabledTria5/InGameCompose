@@ -7,6 +7,7 @@ data class GameItem(
     val gameDeveloper: String = "",
     val gamePEGIRating: String = "",
     val gameReleaseYear: String = "",
+    val gameLastUpdate: String = "",
     val gameGenres: String = "",
     val gameDescription: String = "",
     val requirementsItem: RequirementsItem? = null,
