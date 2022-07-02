@@ -21,6 +21,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.collections.R
 import com.fabledt5.common.theme.DefaultHorizontalGradient
 import com.fabledt5.common.theme.Proxima
+import com.fabledt5.common.utils.capitalize
 import com.fabledt5.common.utils.gradient
 import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.header.MonthState
@@ -45,10 +46,12 @@ object CalendarComponents {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = monthState.currentMonth.month
-                    .getDisplayName(TextStyle.FULL, Locale.ENGLISH)
-                    .lowercase()
-                    .replaceFirstChar { it.titlecase() },
+                text = "${
+                    monthState.currentMonth.month.getDisplayName(
+                        TextStyle.FULL,
+                        Locale.ENGLISH
+                    ).lowercase().capitalize()
+                }, ${monthState.currentMonth.year}",
                 modifier = Modifier.padding(start = 10.dp),
                 color = contentColor
             )

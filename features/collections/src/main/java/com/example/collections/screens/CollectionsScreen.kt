@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.collections.CollectionsViewModel
@@ -89,21 +88,16 @@ fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {
                     0 -> FavouritesPage()
                     1 -> PlayedPage()
                     2 -> CalendarPage(
-                        calendarGames = calendarGames
-                    ) { localDate ->
-                        collectionsViewModel.dateSelected(localDate)
-                    }
+                        calendarGames = calendarGames,
+                        onDateSelected = { localDate ->
+                            collectionsViewModel.dateSelected(localDate)
+                        },
+                        onGameClicked = { gameId ->
+                            collectionsViewModel.gameClicked(gameId)
+                        }
+                    )
                 }
             }
         }
     }
-}
-
-@ExperimentalFoundationApi
-@ExperimentalPagerApi
-@ExperimentalMaterial3Api
-@Preview(showBackground = true)
-@Composable
-fun CollectionsScreenPreview() {
-    CollectionsScreen(CollectionsViewModel())
 }

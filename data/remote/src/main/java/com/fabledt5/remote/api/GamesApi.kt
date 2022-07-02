@@ -1,6 +1,6 @@
 package com.fabledt5.remote.api
 
-import com.fabledt5.remote.api.dto.game_creators.GameDevelopersResponse
+import com.fabledt5.remote.api.dto.game_creators.GameCreatorsResponse
 import com.fabledt5.remote.api.dto.game_details.GameDetailsResponse
 import com.fabledt5.remote.api.dto.game_screenshots.GameScreenshotsResult
 import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
@@ -13,7 +13,7 @@ interface GamesApi {
 
     @GET(value = "api/games")
     suspend fun getGamesList(
-        @Query(value = "page") page: Int,
+        @Query(value = "page") page: Int? = null,
         @Query(value = "page_size") pageSize: Int? = null,
         @Query(value = "search") search: String? = null,
         @Query(value = "platforms") platforms: String? = null,
@@ -41,6 +41,6 @@ interface GamesApi {
     @GET(value = "api/games/{game_pk}/development-team")
     suspend fun getGameCreators(
         @Path(value = "game_pk") gameId: Int
-    ): GameDevelopersResponse
+    ): GameCreatorsResponse
 
 }

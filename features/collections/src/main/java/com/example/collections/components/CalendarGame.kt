@@ -29,8 +29,8 @@ fun CalendarGame(gameItem: GameItem, onGameClicked: (Int) -> Unit) {
             .wrapContentHeight()
             .clip(RoundedCornerShape(8.dp))
             .background(MidNightBlack)
-            .clickable {  }
-            .padding(horizontal = 5.dp, vertical = 15.dp)
+            .clickable { onGameClicked(gameItem.gameId) }
+            .padding(horizontal = 10.dp, vertical = 15.dp)
     ) {
         Row {
             RemoteImage(
@@ -58,7 +58,7 @@ fun CalendarGame(gameItem: GameItem, onGameClicked: (Int) -> Unit) {
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = "Last update: 17 Dec. 2018",
+                        text = "Last update: ${gameItem.gameLastUpdate}",
                         modifier = Modifier.padding(top = 5.dp),
                         color = Color.White.copy(alpha = .3f),
                         fontFamily = Mark,

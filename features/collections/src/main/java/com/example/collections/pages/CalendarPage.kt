@@ -32,7 +32,8 @@ import java.time.LocalDate
 @Composable
 fun CalendarPage(
     calendarGames: SnapshotStateMap<String, Resource<List<GameItem>>>,
-    onDateSelected: (LocalDate) -> Unit
+    onDateSelected: (LocalDate) -> Unit,
+    onGameClicked: (Int) -> Unit
 ) {
     val calendarState = rememberSelectableCalendarState(
         initialSelection = listOf(LocalDate.now()),
@@ -72,14 +73,22 @@ fun CalendarPage(
                     )
                 })
         }
-        showGames(gamesMap = calendarGames)
+        showGames(gamesMap = calendarGames, onGameClicked = onGameClicked)
     }
 }
 
-fun LazyListScope.showGames(gamesMap: SnapshotStateMap<String, Resource<List<GameItem>>>) {
-    gamesMap.toSortedMap().forEach { (key, value) ->
-        item {
-            Box(modifier = Modifier.fillMaxWidth()) {
+@OptIn(ExperimentalFoundationApi::class)
+fun LazyListScope.showGames(
+    gamesMap: SnapshotStateMap<String, Resource<List<GameItem>>>,
+    onGameClicked: (Int) -> Unit
+) {
+    gamesMap.forEach { (key, value) ->
+        stickyHeader {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Background)
+            ) {
                 Text(
                     text = key,
                     modifier = Modifier.padding(vertical = 10.dp),
@@ -92,7 +101,7 @@ fun LazyListScope.showGames(gamesMap: SnapshotStateMap<String, Resource<List<Gam
             is Resource.Error -> showGamesError()
             is Resource.Success -> {
                 items(value.data) { game ->
-                    CalendarGame(gameItem = game, onGameClicked = {})
+                    CalendarGame(gameItem = game, onGameClicked = onGameClicked)
                 }
             }
             else -> showGamesLoading()
