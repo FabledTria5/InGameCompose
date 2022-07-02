@@ -22,5 +22,6 @@ val Mark = FontFamily(
 )
 
 val Proxima = FontFamily(
-    Font(R.font.proxima_regular)
+    Font(R.font.proxima_regular),
+    Font(R.font.proxima_bold, FontWeight.Bold)
 )

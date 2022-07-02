@@ -57,6 +57,7 @@ dependencies {
     api(dependencyNotation = Dependencies.composeUi)
     api(dependencyNotation = Dependencies.composeMaterial)
     api(dependencyNotation = Dependencies.activityCompose)
+    api(dependencyNotation = Dependencies.extendedIcons)
 
     // Compose Preview
     api(dependencyNotation = Dependencies.composeToolingPreview)

@@ -31,7 +31,7 @@ class CollectionsViewModel @Inject constructor(
     val calendarGamesMap = mutableStateMapOf<String, Resource<List<GameItem>>>()
 
     init {
-        dateSelected(LocalDate.now())
+//        dateSelected(LocalDate.now())
     }
 
     fun dateSelected(localDate: LocalDate) {

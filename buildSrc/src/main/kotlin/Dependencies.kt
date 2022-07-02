@@ -41,8 +41,8 @@ object Versions {
     const val exoPlayer = "2.17.1"
 
     // Compose
-    const val compose = "1.2.0-rc01"
-    const val composeMaterial = "1.0.0-alpha13"
+    const val compose = "1.2.0-rc03"
+    const val composeMaterial = "1.0.0-alpha14"
     const val activityCompose = "1.4.0"
     const val accompanist = "0.24.10-beta"
     const val coil = "2.0.0"
@@ -51,6 +51,7 @@ object Versions {
     const val poolingContainer = "1.0.0-beta02"
     const val constraintLayout = "1.1.0-alpha02"
     const val calendar = "0.5.1"
+    const val extendedIcons = "1.3.0-alpha01"
 
     // Dagger Hilt
     const val hiltAndroid = "2.40.5"
@@ -136,6 +137,8 @@ object Dependencies {
         "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayout}"
     const val calendar =
         "io.github.boguszpawlowski.composecalendar:composecalendar:${Versions.calendar}"
+    const val extendedIcons =
+        "androidx.compose.material:material-icons-extended:${Versions.extendedIcons}"
 
     // Accompanist
     const val systemUiController =
