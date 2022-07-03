@@ -3,6 +3,7 @@ package com.example.collections.screens
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,7 +34,8 @@ import kotlinx.coroutines.launch
 @OptIn(
     ExperimentalPagerApi::class,
     ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterialApi::class
 )
 @Composable
 fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {

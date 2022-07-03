@@ -28,21 +28,30 @@ class CollectionsViewModel @Inject constructor(
         private const val CALENDAR_DATES_FORMAT = "dd MMM. yyyy"
     }
 
+    private val _calendarGamesCache = mutableMapOf<String, Resource<List<GameItem>>>()
     val calendarGamesMap = mutableStateMapOf<String, Resource<List<GameItem>>>()
 
     init {
-//        dateSelected(LocalDate.now())
+        dateSelected(LocalDate.now())
     }
 
     fun dateSelected(localDate: LocalDate) {
         val formattedDate =
             localDate.format(DateTimeFormatter.ofPattern(CALENDAR_DATES_FORMAT, Locale.ENGLISH))
-        if (calendarGamesMap.containsKey(formattedDate)) calendarGamesMap.remove(formattedDate)
-        else collectionsCases.getGamesByDate(localDate)
+        if (calendarGamesMap.containsKey(formattedDate)) {
+            calendarGamesMap.remove(formattedDate)
+            return
+        }
+        val cachedData = _calendarGamesCache[formattedDate]
+        if (cachedData != null) {
+            calendarGamesMap[formattedDate] = cachedData
+            return
+        }
+        collectionsCases.getGamesByDate(localDate)
             .flowOn(Dispatchers.IO)
             .onEach { resource ->
-                if (resource is Resource.Success && resource.data.isNotEmpty())
-                    calendarGamesMap[formattedDate] = resource
+                calendarGamesMap[formattedDate] = resource
+                _calendarGamesCache[formattedDate] = resource
             }
             .launchIn(viewModelScope)
     }

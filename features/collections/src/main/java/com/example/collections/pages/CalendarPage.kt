@@ -12,11 +12,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.collections.R
 import com.example.collections.components.CalendarComponents
 import com.example.collections.components.CalendarGame
 import com.fabledt5.common.components.ColorfulProgressIndicator
@@ -98,11 +96,13 @@ fun LazyListScope.showGames(
             }
         }
         when (value) {
-            is Resource.Error -> showGamesError()
+            is Resource.Error -> showGamesError("Error while loading games")
             is Resource.Success -> {
-                items(value.data) { game ->
-                    CalendarGame(gameItem = game, onGameClicked = onGameClicked)
-                }
+                if (value.data.isNotEmpty())
+                    items(value.data) { game ->
+                        CalendarGame(gameItem = game, onGameClicked = onGameClicked)
+                    }
+                else showGamesError("No games upcoming for this day")
             }
             else -> showGamesLoading()
         }
@@ -122,7 +122,7 @@ fun LazyListScope.showGamesLoading() {
     }
 }
 
-fun LazyListScope.showGamesError() {
+fun LazyListScope.showGamesError(errorMessage: String) {
     item {
         Box(
             modifier = Modifier
@@ -131,7 +131,7 @@ fun LazyListScope.showGamesError() {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = stringResource(R.string.calendar_games_error),
+                text = errorMessage,
                 color = Color.White,
                 fontFamily = Mark,
                 fontWeight = FontWeight.Bold,

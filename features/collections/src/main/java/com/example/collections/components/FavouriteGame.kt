@@ -22,7 +22,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -196,21 +195,5 @@ fun FavoriteGameImage(
             .shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp)),
         contentScale = ContentScale.Crop,
         onSuccess = onImageLoadedSuccess
-    )
-}
-
-@ExperimentalMaterialApi
-@Preview(showBackground = true, backgroundColor = 0xFF121214, showSystemUi = true)
-@Composable
-fun FavoriteGamePreview() {
-    FavoriteGame(
-        gameItem = GameItem(
-            gameId = -1,
-            gameTitle = "The elder scrolls V: Skyrim",
-            gamePoster = "https://newxboxone.ru/wp-content/uploads/2022/01/305f04c9-8780-4c7b-91dd-e87979844dab.jpg"
-        ),
-        itemHeight = 180.dp,
-        onAddedToFavoritesClicked = {},
-        onShareWithFriendsClicked = {}
     )
 }
