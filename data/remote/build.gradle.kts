@@ -54,7 +54,7 @@ dependencies {
     androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
 
     // Retrofit
-    implementation(dependencyNotation = Dependencies.retrofit)
+    api(dependencyNotation = Dependencies.retrofit)
     implementation(dependencyNotation = Dependencies.kotlinSerializationConverter)
     implementation(dependencyNotation = Dependencies.loggingInterceptor)
 

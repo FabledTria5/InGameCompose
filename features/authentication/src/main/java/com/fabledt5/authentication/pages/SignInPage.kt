@@ -31,7 +31,7 @@ import com.fabledt5.domain.model.Resource
 fun SignInPage(
     onForgotPasswordClicked: () -> Unit,
     onSignInClicked: (String, String) -> Unit,
-    signInState: Resource<Boolean>
+    signInState: Resource<Any>
 ) {
     var userEmail by remember { mutableStateOf("") }
     var userPassword by remember { mutableStateOf("") }

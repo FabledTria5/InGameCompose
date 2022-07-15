@@ -62,4 +62,7 @@ dependencies {
     // Pagination
     implementation(dependencyNotation = Dependencies.pagingRuntime)
 
+    // Timber
+    implementation(dependencyNotation = Dependencies.timber)
+
 }

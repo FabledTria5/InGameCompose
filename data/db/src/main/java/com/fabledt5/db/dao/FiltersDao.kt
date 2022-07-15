@@ -33,6 +33,6 @@ interface FiltersDao {
     suspend fun removeFavoritePlatform()
 
     @Query(value = "SELECT * FROM platforms_table WHERE isFavorite = 1")
-    fun getFavoritePlatform(): Flow<PlatformEntity?>
+    fun getFavoritePlatform(): Flow<PlatformEntity>
 
 }

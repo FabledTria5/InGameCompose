@@ -10,7 +10,7 @@ import com.fabledt5.domain.model.items.ReviewItem
 import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
-import com.fabledt5.remote.api.dto.game_screenshots.ScreenshotsResult
+import com.fabledt5.remote.api.dto.game_screenshots.GameScreenshotsResult
 import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResult
@@ -78,14 +78,13 @@ fun Flow<PagingData<GamesListResult>>.toDomain(): Flow<PagingData<GameItem>> =
             }
     }
 
-fun List<ScreenshotsResult>.toDomain() = map { result ->
+fun GameScreenshotsResult.toDomain() = results.map { result ->
     result.image
 }
 
 fun List<GameReviewDto>.toDomain() = RatingItem(
     gameRating = getAverageRating(),
-    gameReviews = filter { it.criticScore.isNotEmpty() }
-        .shuffled()
+    gameReviews = shuffled()
         .map { dto ->
             ReviewItem(
                 reviewerName = dto.criticName,
@@ -105,12 +104,22 @@ private fun formatUpdateDate(date: String): String {
 }
 
 private fun List<GameReviewDto>.getAverageRating(): String {
-    var ratingsSum = 0
-    this.forEach {
-        if (it.criticScore.isNotEmpty())
-            ratingsSum += it.criticScore.toRating()
-    }
-    return (ratingsSum.toDouble() / this.size).setScale(n = 1).toString()
+    val ratingSum = sumOf { it.criticScore }
+
+    return (ratingSum.toDouble() / size)
+        .toRating()
+        .setScale(n = 1)
+        .toString()
 }
 
-private fun String.toRating() = if (this.toInt() > 90) 5 else this.toInt() / 20
+private fun Int.toRating() =
+    1 + (this > 30).toInt() + (this > 59).toInt() + (this > 74).toInt() + (this > 89).toInt()
+
+private fun Double.toRating(): Double {
+    val rawNumber =
+        1 + (this > 30).toInt() + (this > 59).toInt() + (this > 74).toInt() + (this > 91).toInt()
+    if (rawNumber < 5) return (rawNumber + (this.toInt() - this))
+    return rawNumber.toDouble()
+}
+
+private fun Boolean.toInt() = if (this) 1 else 0

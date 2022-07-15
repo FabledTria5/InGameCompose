@@ -23,7 +23,7 @@ import com.fabledt5.home.R
 @Composable
 fun PlatformsList(
     platformsList: Resource<List<PlatformItem>>,
-    favoritePlatform: Resource<PlatformItem>,
+    favoritePlatform: PlatformItem,
     onPlatformSelected: (Int) -> Unit
 ) {
     Row(
@@ -67,7 +67,7 @@ fun ShowPlatformsError() {
 @Composable
 fun ShowPlatformsList(
     platformsList: List<PlatformItem>,
-    favoritePlatform: Resource<PlatformItem>,
+    favoritePlatform: PlatformItem,
     onPlatformSelected: (Int) -> Unit
 ) {
     OutlinedDropDown(

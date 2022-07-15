@@ -8,7 +8,7 @@ java {
 }
 
 dependencies {
-    implementation(dependencyNotation = Dependencies.coroutinesNative)
+    implementation(dependencyNotation = Dependencies.coroutinesCore)
     implementation(dependencyNotation = Dependencies.javaInject)
     implementation(dependencyNotation = Dependencies.pagingCommon)
 

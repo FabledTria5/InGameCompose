@@ -33,8 +33,8 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
 
     val authenticationTabs = stringArrayResource(id = R.array.authentication_options)
 
-    val registrationState by authenticationViewModel.registrationState.collectAsState()
-    val loginState by authenticationViewModel.loginState.collectAsState()
+    val signUpState by authenticationViewModel.registrationState.collectAsState()
+    val signInState by authenticationViewModel.loginState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -73,13 +73,13 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
                     onSignInClicked = { userEmail, userPassword ->
                         authenticationViewModel.authenticateUser(userEmail, userPassword)
                     },
-                    signInState = loginState
+                    signInState = signInState
                 )
                 1 -> SignUpPage(
                     onSignUpClicked = { userEmail, userPassword, userNickname ->
                         authenticationViewModel.registerUser(userEmail, userPassword, userNickname)
                     },
-                    signUpState = registrationState
+                    signUpState = signUpState
                 )
             }
         }

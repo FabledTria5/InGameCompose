@@ -7,4 +7,6 @@
     </string-array>
     <string name="for_platform">For Platform</string>
     <string name="hot_games_error">Unable to load games</string>
+    <string name="empty_games_list_message">No %1$s games found for this platform</string>
+    <string name="games_error_message">Error while receiving games</string>
 </resources>

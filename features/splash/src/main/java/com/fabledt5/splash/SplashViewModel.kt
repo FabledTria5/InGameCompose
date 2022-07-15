@@ -1,23 +1,37 @@
 package com.fabledt5.splash
 
 import androidx.lifecycle.ViewModel
-import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.use_case.authentication.IsUserAuthenticated
+import androidx.lifecycle.viewModelScope
+import com.fabledt5.domain.use_case.authentication.IsAuthenticated
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.directions.AuthorizationDirections
 import com.fabledt5.navigation.directions.PrimaryAppDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
-    private val isUserAuthenticatedCase: IsUserAuthenticated
+    isAuthenticated: IsAuthenticated
 ) : ViewModel() {
 
-    val isUserAuthenticated get() = isUserAuthenticatedCase()
+    private val _isUserAuthenticated = MutableStateFlow(false)
+    val isUserAuthenticated = _isUserAuthenticated.asStateFlow()
+
+    init {
+        isAuthenticated()
+            .onEach {
+                _isUserAuthenticated.value = it
+            }
+            .catch { exception ->
+                Timber.e(exception)
+            }
+            .flowOn(Dispatchers.IO)
+            .launchIn(viewModelScope)
+    }
 
     fun openLoginScreen() = navigationManager.navigate(AuthorizationDirections.authorization)
 

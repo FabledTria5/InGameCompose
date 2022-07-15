@@ -1,17 +1,13 @@
 package com.fabledt5.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.fabledt5.db.entities.HotGameEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GamesDao {
 
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHotGames(games: List<HotGameEntity>)
 
     @Query(value = "SELECT * FROM games_table WHERE game_type = :gameTypeOrdinal")

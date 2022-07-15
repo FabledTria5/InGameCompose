@@ -24,7 +24,7 @@ data class GamesListResult(
     @SerialName("parent_platforms")
     val parentPlatforms: List<ParentPlatform>,
     @SerialName("platforms")
-    val platforms: List<Platform>,
+    val platforms: List<Platform>?,
     @SerialName("playtime")
     val playtime: Int,
     @SerialName("rating")

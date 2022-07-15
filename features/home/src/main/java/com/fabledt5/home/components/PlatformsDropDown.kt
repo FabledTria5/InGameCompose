@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
 import com.fabledt5.common.components.ExposedDropDownMenuIcon
 import com.fabledt5.common.theme.Background
-import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.PlatformItem
 import com.fabledt5.home.R
 
@@ -27,7 +26,7 @@ import com.fabledt5.home.R
 fun OutlinedDropDown(
     modifier: Modifier = Modifier,
     itemsList: List<PlatformItem>,
-    selectedItem: Resource<PlatformItem>,
+    selectedItem: PlatformItem,
     onItemSelected: (Int) -> Unit
 ) {
     var platformsItemSize by remember { mutableStateOf(IntSize.Zero) }
@@ -36,37 +35,33 @@ fun OutlinedDropDown(
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
     Column(modifier = modifier) {
-        when (selectedItem) {
-            is Resource.Error -> onItemSelected(itemsList.first().platformId)
-            is Resource.Success -> ExposedDropdownMenuBox(
-                expanded = isExpanded,
-                onExpandedChange = { isExpanded = !isExpanded }
-            ) {
-                OutlinedTextField(
-                    value = selectedItem.data.platformName,
-                    onValueChange = {},
-                    modifier = modifier.onGloballyPositioned { coordinates ->
-                        textFieldSize = coordinates.size.toSize()
-                    },
-                    readOnly = true,
-                    trailingIcon = {
-                        ExposedDropDownMenuIcon(
-                            isExpanded = isExpanded,
-                            onIconClick = { isExpanded = !isExpanded },
-                            contentDescription = stringResource(id = R.string.icon_arrow),
-                            iconDrawable = Icons.Default.KeyboardArrowDown
-                        )
-                    },
-                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedBorderColor = Color.White.copy(alpha = .7f),
-                        unfocusedBorderColor = Color.White.copy(alpha = .4f),
-                        disabledBorderColor = Color.White.copy(alpha = .4f),
-                        textColor = Color.White
+        ExposedDropdownMenuBox(
+            expanded = isExpanded,
+            onExpandedChange = { isExpanded = !isExpanded }
+        ) {
+            OutlinedTextField(
+                value = selectedItem.platformName,
+                onValueChange = {},
+                modifier = modifier.onGloballyPositioned { coordinates ->
+                    textFieldSize = coordinates.size.toSize()
+                },
+                readOnly = true,
+                trailingIcon = {
+                    ExposedDropDownMenuIcon(
+                        isExpanded = isExpanded,
+                        onIconClick = { isExpanded = !isExpanded },
+                        contentDescription = stringResource(id = R.string.icon_arrow),
+                        iconDrawable = Icons.Default.KeyboardArrowDown
                     )
+                },
+                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedBorderColor = Color.White.copy(alpha = .7f),
+                    unfocusedBorderColor = Color.White.copy(alpha = .4f),
+                    disabledBorderColor = Color.White.copy(alpha = .4f),
+                    textColor = Color.White
                 )
-            }
-            else -> Unit
+            )
         }
         DropdownMenu(
             expanded = isExpanded,

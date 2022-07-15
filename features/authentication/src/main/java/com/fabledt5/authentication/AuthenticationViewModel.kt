@@ -8,11 +8,9 @@ import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.directions.AuthorizationDirections
 import com.fabledt5.navigation.directions.PrimaryAppDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -22,14 +20,24 @@ class AuthenticationViewModel @Inject constructor(
     private val authenticationCases: AuthenticationCases
 ) : ViewModel() {
 
-    private val _registrationState = MutableStateFlow<Resource<Boolean>>(Resource.Idle)
+    private val _registrationState = MutableStateFlow<Resource<Any?>>(Resource.Idle)
     val registrationState = _registrationState.asStateFlow()
 
-    private val _loginState = MutableStateFlow<Resource<Boolean>>(Resource.Idle)
+    private val _loginState = MutableStateFlow<Resource<Any>>(Resource.Idle)
     val loginState = _loginState.asStateFlow()
 
-    private val _passwordRecoveryState = MutableStateFlow<Resource<Boolean>>(Resource.Idle)
+    private val _passwordRecoveryState = MutableStateFlow<Resource<Any>>(Resource.Idle)
     val passwordRecoveryState = _passwordRecoveryState.asStateFlow()
+
+    init {
+        getUserAuthenticationStatus()
+    }
+
+    private fun getUserAuthenticationStatus() = authenticationCases.isAuthenticated()
+        .onEach { isAuthenticated ->
+            if (isAuthenticated) openHomePage()
+        }
+        .launchIn(viewModelScope)
 
     fun openPasswordRecoveryScreen() =
         navigationManager.navigate(AuthorizationDirections.passwordRecovery)
@@ -37,14 +45,17 @@ class AuthenticationViewModel @Inject constructor(
     fun registerUser(userEmail: String, userPassword: String, userNickname: String) =
         authenticationCases.registerUser(userEmail, userPassword, userNickname).onEach { resource ->
             _registrationState.value = resource
-        }.launchIn(viewModelScope)
+        }
+            .flowOn(Dispatchers.IO)
+            .launchIn(viewModelScope)
 
     fun authenticateUser(userEmail: String, userPassword: String) =
         authenticationCases.authenticateUser(userEmail, userPassword).onEach { resource ->
-            if (resource is Resource.Success) {
-                navigationManager.navigate(PrimaryAppDirections.home)
-            }
             _loginState.value = resource
-        }.launchIn(viewModelScope)
+        }
+            .flowOn(Dispatchers.IO)
+            .launchIn(viewModelScope)
+
+    private fun openHomePage() = navigationManager.navigate(PrimaryAppDirections.home)
 
 }

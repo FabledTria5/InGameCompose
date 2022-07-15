@@ -27,7 +27,7 @@ import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.domain.model.Resource
 
 @Composable
-fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: Resource<Boolean>) {
+fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: Resource<Any?>) {
     var userEmail by remember { mutableStateOf("") }
     var userPassword by remember { mutableStateOf("") }
     var userNickName by remember { mutableStateOf("") }

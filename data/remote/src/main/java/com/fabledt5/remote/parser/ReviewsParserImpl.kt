@@ -20,7 +20,6 @@ class ReviewsParserImpl @Inject constructor() : ReviewsParser {
         return extractReviews(rawReviewsList)
     }
 
-
     private fun extractReviews(reviewsElements: List<Element>): List<GameReviewDto> {
         val reviewsList = arrayListOf<GameReviewDto>()
 
@@ -30,8 +29,10 @@ class ReviewsParserImpl @Inject constructor() : ReviewsParser {
             val reviewBody = element.select(".review_body").text()
             val reviewDate = element.select(".date").text()
 
+            if (metaScore.isEmpty() || metaScore.any { !it.isDigit() }) continue
+
             val gameReviewDto = GameReviewDto(
-                criticScore = metaScore,
+                criticScore = metaScore.toInt(),
                 criticName = criticName,
                 reviewText = reviewBody,
                 reviewDate = reviewDate

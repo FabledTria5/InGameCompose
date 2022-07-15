@@ -16,7 +16,7 @@ class GetGamesByDate @Inject constructor(
 
         val formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         val gamesResult = gamesListRepository.getGamesByDate("$formattedDate,$formattedDate")
-        emit(Resource.Success(data = gamesResult))
+        emit(gamesResult)
     }
 
 }

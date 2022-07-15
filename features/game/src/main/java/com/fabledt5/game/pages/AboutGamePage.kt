@@ -63,15 +63,17 @@ fun AboutGamePage(
         )
         when (gameSnapshots) {
             is Resource.Error -> Unit
-            is Resource.Success -> ShowGameSnapshotsSuccess(gameSnapshots.data)
+            is Resource.Success -> if (gameSnapshots.data.isNotEmpty())
+                ShowGameSnapshotsSuccess(gameSnapshots.data)
             else -> ShowGameSnapshotsLoading()
         }
         when (ratingItem) {
             is Resource.Error -> Unit
-            is Resource.Success -> ShowGameReviewsSuccess(
-                ratingItem = ratingItem.data,
-                onShowAllClicked = onShowReviewsClicked
-            )
+            is Resource.Success -> if (ratingItem.data.gameReviews.isNotEmpty())
+                ShowGameReviewsSuccess(
+                    ratingItem = ratingItem.data,
+                    onShowAllClicked = onShowReviewsClicked
+                )
             else -> ShowGameReviewsLoading()
         }
     }
