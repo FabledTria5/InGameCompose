@@ -3,7 +3,6 @@ plugins {
     id(Plugins.hilt)
     kotlin(Plugins.android)
     kotlin(Plugins.kapt)
-    id(Plugins.googleServices)
 }
 
 android {

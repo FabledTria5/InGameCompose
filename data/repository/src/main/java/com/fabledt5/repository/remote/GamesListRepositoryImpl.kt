@@ -28,7 +28,7 @@ class GamesListRepositoryImpl @Inject constructor(
         gamesCount: Int,
         dates: String,
         metacriticRatings: String
-    ): Flow<List<GameItem>> = gamesDao.getGames(GameType.HOT_GAME.ordinal)
+    ): Flow<List<GameItem>> = gamesDao.getHotGames(GameType.HOT_GAME.ordinal)
         .onEach { list ->
             if (list.isNotEmpty()) {
                 val calendar = Calendar.getInstance()

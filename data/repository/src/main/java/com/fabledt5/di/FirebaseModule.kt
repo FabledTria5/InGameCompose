@@ -29,4 +29,8 @@ object FirebaseModule {
     @Provides
     fun provideRealtimeDatabase(): FirebaseDatabase = Firebase.database
 
+    @Singleton
+    @Provides
+    fun provideUserId(firebaseAuth: FirebaseAuth): String = firebaseAuth.uid.orEmpty()
+
 }

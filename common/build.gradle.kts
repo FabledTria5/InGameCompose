@@ -25,7 +25,6 @@ android {
     }
     buildFeatures {
         compose = true
-        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Config.composeCompilerExtensionVersion
@@ -50,10 +49,8 @@ dependencies {
     // Design
     implementation(dependencyNotation = Dependencies.appcompat)
     implementation(dependencyNotation = Dependencies.material)
-    implementation(dependencyNotation = Dependencies.exoPlayer)
 
     // Compose
-    implementation(dependencyNotation = Dependencies.composeViewBinding)
     api(dependencyNotation = Dependencies.composeUi)
     api(dependencyNotation = Dependencies.composeMaterial)
     api(dependencyNotation = Dependencies.activityCompose)

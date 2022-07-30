@@ -21,8 +21,9 @@ import com.fabledt5.domain.model.items.GameItem
 @Composable
 fun SharedGameItem(
     gameItem: GameItem,
+    onGameClicked: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    onGameClicked: (Int) -> Unit
+    gameAction: @Composable () -> Unit = {},
 ) {
     var isImageLoaded by remember { mutableStateOf(false) }
 
@@ -64,12 +65,13 @@ fun SharedGameItem(
                     fontSize = 11.sp
                 )
                 Text(
-                    text = "Release date: ${gameItem.gameReleaseYear}",
+                    text = "Release date: ${gameItem.releaseDate}",
                     modifier = Modifier.padding(bottom = 5.dp),
                     color = Color.White.copy(alpha = .3f),
                     fontFamily = Proxima,
                     fontSize = 11.sp
                 )
+                gameAction()
             }
         }
     }

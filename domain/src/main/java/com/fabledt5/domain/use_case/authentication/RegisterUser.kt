@@ -22,7 +22,6 @@ class RegisterUser @Inject constructor(
                     fireStoreRepository.createUser(
                         userEmail = email,
                         userNickname = nickName,
-                        userUId = uId
                     )
                 }
             }

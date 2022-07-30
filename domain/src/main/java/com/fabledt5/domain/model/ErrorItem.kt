@@ -6,4 +6,5 @@ abstract class ErrorItem : Exception() {
 
 sealed class DefaultErrors {
     class UnknownError(override val errorMessage: String) : ErrorItem()
+    class EmptyError(override val errorMessage: String = ""): ErrorItem()
 }

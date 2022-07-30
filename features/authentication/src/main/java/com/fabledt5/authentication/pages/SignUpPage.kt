@@ -26,6 +26,7 @@ import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
 import com.fabledt5.domain.model.Resource
 
+@ExperimentalMaterial3Api
 @Composable
 fun SignUpPage(onSignUpClicked: (String, String, String) -> Unit, signUpState: Resource<Any?>) {
     var userEmail by remember { mutableStateOf("") }

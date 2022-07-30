@@ -6,13 +6,12 @@ data class GameItem(
     val gameTitle: String = "",
     val gameDeveloper: String = "",
     val gamePEGIRating: String = "",
-    val gameReleaseYear: String = "",
+    val releaseDate: String = "",
     val gameLastUpdate: String = "",
     val gameGenres: String = "",
     val gameDescription: String = "",
     val requirementsItem: RequirementsItem? = null,
     val gameDirectors: String = "",
     val gameWriters: String = "",
-    val gameTrailersUrl: String = "",
     val gameReviewsUrl: String? = null
 )

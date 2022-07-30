@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.authentication.R
@@ -23,6 +22,7 @@ import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordRecoveryScreen() {
 
@@ -111,10 +111,4 @@ fun PasswordRecoveryScreen() {
             }
         }
     }
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFF18181C)
-@Composable
-fun PasswordRecoveryScreenPreview() {
-    PasswordRecoveryScreen()
 }

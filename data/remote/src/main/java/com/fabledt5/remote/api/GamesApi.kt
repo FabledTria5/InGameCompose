@@ -3,7 +3,6 @@ package com.fabledt5.remote.api
 import com.fabledt5.remote.api.dto.game_creators.GameCreatorsResponse
 import com.fabledt5.remote.api.dto.game_details.GameDetailsResponse
 import com.fabledt5.remote.api.dto.game_screenshots.GameScreenshotsResult
-import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -27,11 +26,6 @@ interface GamesApi {
     suspend fun getGameDetails(
         @Path(value = "id") gameId: Int
     ): GameDetailsResponse
-
-    @GET(value = "api/games/{id}/movies")
-    suspend fun getGameTrailers(
-        @Path(value = "id") gameId: Int
-    ): GameTrailersResponse
 
     @GET(value = "api/games/{game_pk}/screenshots")
     suspend fun getGameSnapshots(

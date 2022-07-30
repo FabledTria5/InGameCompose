@@ -40,16 +40,15 @@ import kotlin.math.roundToInt
 fun FavoriteGame(
     gameItem: GameItem,
     itemHeight: Dp,
-    onAddedToFavoritesClicked: (GameItem) -> Unit,
-    onShareWithFriendsClicked: (GameItem) -> Unit
+    onAddedToFavoritesClicked: (Int) -> Unit,
+    onShareWithFriendsClicked: (GameItem) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val contentWidth = LocalConfiguration.current.screenWidthDp.dp - 150.dp
     var isGameContentVisible by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier
-            .padding(horizontal = 10.dp)
-            .fillMaxWidth()
+        modifier = modifier
             .height(itemHeight)
     ) {
         if (isGameContentVisible)
@@ -79,7 +78,7 @@ fun FavoriteGame(
 fun FavoriteGameContent(
     gameItem: GameItem,
     modifier: Modifier = Modifier,
-    onAddedToFavoritesClicked: (GameItem) -> Unit,
+    onAddedToFavoritesClicked: (Int) -> Unit,
     onShareWithFriendsClicked: (GameItem) -> Unit
 ) {
     Column(
@@ -124,7 +123,9 @@ fun FavoriteGameContent(
             )
         }
         Row(
-            modifier = Modifier.clickable { onAddedToFavoritesClicked(gameItem) },
+            modifier = Modifier.clickable {
+                onAddedToFavoritesClicked(gameItem.gameId)
+                                          },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(

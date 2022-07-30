@@ -11,17 +11,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.collections.R
 import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.MidNightBlack
 import com.fabledt5.domain.model.items.GameItem
 
 @Composable
-fun CalendarGame(gameItem: GameItem, onGameClicked: (Int) -> Unit) {
+fun CalendarGame(
+    gameItem: GameItem,
+    onGameClicked: (Int) -> Unit,
+    onAddToPlayedClicked: (GameItem) -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(bottom = 15.dp)
@@ -68,8 +74,8 @@ fun CalendarGame(gameItem: GameItem, onGameClicked: (Int) -> Unit) {
                     )
                 }
                 Text(
-                    text = "Add to favorite",
-                    modifier = Modifier.clickable { },
+                    text = stringResource(R.string.add_to_played),
+                    modifier = Modifier.clickable { onAddToPlayedClicked(gameItem) },
                     color = Color.White.copy(alpha = .3f),
                     fontFamily = Mark,
                     fontSize = 13.sp,

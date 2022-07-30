@@ -6,6 +6,7 @@ import com.fabledt5.domain.repository.firebase.FireStoreRepository
 import com.fabledt5.repository.firebase.AuthRepositoryImpl
 import com.fabledt5.repository.firebase.FireStoreRepositoryImpl
 import com.fabledt5.repository.local.FiltersRepositoryImpl
+import com.fabledt5.repository.local.LocalGamesRepositoryImpl
 import com.fabledt5.repository.remote.GameRepositoryImpl
 import com.fabledt5.repository.remote.GamesListRepositoryImpl
 import com.fabledt5.repository.remote.SearchRepositoryImpl
@@ -39,5 +40,8 @@ interface BindingModule {
 
     @Binds
     fun bindErrorRepository(errorRepositoryImpl: ErrorRepositoryImpl): ErrorRepository
+
+    @Binds
+    fun bindLocalGamesRepository(localGamesRepositoryImpl: LocalGamesRepositoryImpl): LocalGamesRepository
 
 }

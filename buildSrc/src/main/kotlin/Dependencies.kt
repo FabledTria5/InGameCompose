@@ -10,7 +10,7 @@ object Config {
     const val applicationId = "com.fabledt5.ingamecompose"
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
     const val jvmTargetVersion = "11"
-    const val composeCompilerExtensionVersion = "1.2.0"
+    const val composeCompilerExtensionVersion = "1.3.0-rc01"
 
     val javaVersion = JavaVersion.VERSION_11
 }
@@ -19,43 +19,42 @@ object Versions {
 
     // Core
     const val gradle = "7.2.1"
-    const val kotlinGradleVersion = "1.7.0"
+    const val kotlinGradleVersion = "1.7.10"
     const val googleServices = "4.3.13"
-    const val kspVersion = "1.7.0-1.0.6"
+    const val kspVersion = "1.7.10-1.0.6"
     const val gradleDependencies = "0.42.0"
 
     // Kotlin
-    const val kotlinVersion = "1.9.0-alpha05"
+    const val kotlinVersion = "1.8.0"
     const val lifecycleRuntime = "2.6.0-alpha01"
-    const val kotlinSerialization = "1.3.3"
+    const val kotlinSerialization = "1.4.0-RC"
     const val desugar = "1.1.5"
 
     // Firebase
     const val firebaseAuth = "21.0.6"
-    const val fireStore = "24.2.0"
+    const val fireStore = "24.2.1"
     const val firebaseDatabase = "20.0.5"
-    const val coroutinesCore = "1.6.3"
+    const val coroutinesCore = "1.6.4"
 
     // Design
     const val appCompat = "1.6.0-alpha05"
     const val material = "1.6.0"
-    const val exoPlayer = "2.18.0"
 
     // Compose
-    const val compose = "1.3.0-alpha01"
-    const val composeMaterial = "1.0.0-alpha14"
+    const val compose = "1.2.0"
+    const val composeMaterial = "1.0.0-alpha15"
     const val activityCompose = "1.5.0"
-    const val accompanist = "0.24.13-rc"
+    const val accompanist = "0.26.0-alpha"
     const val coil = "2.1.0"
     const val hiltCompose = "1.0.0"
     const val customview = "1.2.0-alpha01"
     const val poolingContainer = "1.0.0-rc01"
     const val constraintLayout = "1.1.0-alpha03"
     const val calendar = "0.5.1"
-    const val extendedIcons = "1.3.0-alpha01"
+    const val extendedIcons = "1.3.0-alpha02"
 
     // Dagger Hilt
-    const val hiltAndroid = "2.42"
+    const val hiltAndroid = "2.43"
 
     // Testing
     const val jUnit = "4.13.2"
@@ -120,7 +119,6 @@ object Dependencies {
     // Design
     const val appcompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val material = "com.google.android.material:material:${Versions.material}"
-    const val exoPlayer = "com.google.android.exoplayer:exoplayer:${Versions.exoPlayer}"
     const val coil = "io.coil-kt:coil-compose:${Versions.coil}"
 
     // Compose
@@ -131,7 +129,6 @@ object Dependencies {
     const val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
     const val composeUiUtil = "androidx.compose.ui:ui-util:${Versions.compose}"
-    const val composeViewBinding = "androidx.compose.ui:ui-viewbinding:${Versions.compose}"
     const val junitCompose = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
     const val customview = "androidx.customview:customview:${Versions.customview}"
     const val poolingContainer =

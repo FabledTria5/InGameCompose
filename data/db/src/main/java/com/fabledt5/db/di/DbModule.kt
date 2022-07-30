@@ -20,7 +20,7 @@ object DbModule {
     @Provides
     fun provideGamesDatabase(@ApplicationContext context: Context): GamesDataBase = Room
         .databaseBuilder(context, GamesDataBase::class.java, "games_database")
-        .createFromAsset("database/filters.db")
+        .createFromAsset(databaseFilePath = "database/filters.db")
         .build()
 
     @Singleton

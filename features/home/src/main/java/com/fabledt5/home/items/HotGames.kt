@@ -143,7 +143,7 @@ fun HotGame(hotGame: GameItem, onGameClicked: (Int) -> Unit) {
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = hotGame.gameReleaseYear,
+                    text = hotGame.releaseDate,
                     color = Color.White.copy(alpha = .5f),
                     fontFamily = Proxima,
                     fontSize = 12.sp

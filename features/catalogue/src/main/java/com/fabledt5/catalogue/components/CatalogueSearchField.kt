@@ -9,10 +9,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -28,6 +25,7 @@ import com.fabledt5.catalogue.R
 import com.fabledt5.common.theme.DarkLateBlack
 import com.fabledt5.common.theme.Turquoise
 
+@ExperimentalMaterial3Api
 @ExperimentalComposeUiApi
 @Composable
 fun CatalogueSearchField(

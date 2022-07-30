@@ -31,7 +31,8 @@ import java.time.LocalDate
 fun CalendarPage(
     calendarGames: SnapshotStateMap<String, Resource<List<GameItem>>>,
     onDateSelected: (LocalDate) -> Unit,
-    onGameClicked: (Int) -> Unit
+    onGameClicked: (Int) -> Unit,
+    onAddToPlayedClicked: (GameItem) -> Unit
 ) {
     val calendarState = rememberSelectableCalendarState(
         initialSelection = listOf(LocalDate.now()),
@@ -71,14 +72,19 @@ fun CalendarPage(
                     )
                 })
         }
-        showGames(gamesMap = calendarGames, onGameClicked = onGameClicked)
+        showGames(
+            gamesMap = calendarGames,
+            onGameClicked = onGameClicked,
+            onAddToPlayedClicked = onAddToPlayedClicked
+        )
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.showGames(
     gamesMap: SnapshotStateMap<String, Resource<List<GameItem>>>,
-    onGameClicked: (Int) -> Unit
+    onGameClicked: (Int) -> Unit,
+    onAddToPlayedClicked: (GameItem) -> Unit
 ) {
     gamesMap.forEach { (key, value) ->
         stickyHeader {
@@ -100,7 +106,11 @@ fun LazyListScope.showGames(
             is Resource.Success -> {
                 if (value.data.isNotEmpty())
                     items(value.data) { game ->
-                        CalendarGame(gameItem = game, onGameClicked = onGameClicked)
+                        CalendarGame(
+                            gameItem = game,
+                            onGameClicked = onGameClicked,
+                            onAddToPlayedClicked = onAddToPlayedClicked
+                        )
                     }
                 else showGamesError("No games upcoming for this day")
             }

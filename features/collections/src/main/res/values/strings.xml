@@ -7,6 +7,10 @@
     <string name="ic_favorite">Add to favorite icon</string>
     <string name="added_to_favorites">Added to Favourites</string>
     <string name="share_with_friends">Share with friends</string>
+    <string name="add_to_played">Add to played</string>
+    <string name="add_to_favorite">Add to favorite</string>
+    <string name="empty_games_message">You have\' not added any games yet</string>
+    <string name="game_remove_question">Are you sure want to remove this game from your favorites?</string>
 
     <string-array name="collections_tabs">
         <item>Favourites</item>

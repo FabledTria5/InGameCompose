@@ -18,6 +18,9 @@ class AuthRepositoryImpl @Inject constructor(
     private val errorRepository: ErrorRepository
 ) : AuthRepository {
 
+    override val isUserAuthenticated: Boolean
+        get() = authenticator.currentUser != null
+
     override suspend fun signUpFirebase(email: String, password: String) = try {
         val result = authenticator.createUserWithEmailAndPassword(email, password).await()
         Resource.Success(data = result.user?.uid)
@@ -54,7 +57,7 @@ class AuthRepositoryImpl @Inject constructor(
         Resource.Error(error)
     }
 
-    override fun isUserAuthenticated() = callbackFlow {
+    override fun checkAuthStatus() = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             trySend(element = auth.currentUser != null)
         }

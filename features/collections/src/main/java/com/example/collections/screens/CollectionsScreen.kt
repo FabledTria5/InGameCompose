@@ -3,12 +3,13 @@ package com.example.collections.screens
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,8 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.example.collections.CollectionsViewModel
 import com.example.collections.R
 import com.example.collections.pages.CalendarPage
-import com.example.collections.pages.FavouritesPage
-import com.example.collections.pages.PlayedPage
+import com.example.collections.pages.FavouriteGamesPage
+import com.example.collections.pages.PlayedGamesPage
 import com.fabledt5.common.components.OutlinedTabs
 import com.fabledt5.common.theme.Background
 import com.fabledt5.common.theme.Mark
@@ -44,6 +45,10 @@ fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {
     val scope = rememberCoroutineScope()
 
     val calendarGames = collectionsViewModel.calendarGamesMap
+    val favoriteGames by collectionsViewModel.favoriteGames.collectAsState()
+    val playedGames by collectionsViewModel.playedGames.collectAsState()
+
+    var openDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
@@ -87,8 +92,18 @@ fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {
                 verticalAlignment = Alignment.Top
             ) { page ->
                 when (page) {
-                    0 -> FavouritesPage()
-                    1 -> PlayedPage()
+                    0 -> FavouriteGamesPage(
+                        favoriteGames = favoriteGames,
+                        onAddedToFavoritesClicked = { gameId ->
+                            openDialog = true
+                        }
+                    )
+                    1 -> PlayedGamesPage(
+                        playedGames = playedGames,
+                        onAddToFavoriteClicked = { game ->
+                            collectionsViewModel.addGameToFavorites(game)
+                        }
+                    )
                     2 -> CalendarPage(
                         calendarGames = calendarGames,
                         onDateSelected = { localDate ->
@@ -96,10 +111,44 @@ fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {
                         },
                         onGameClicked = { gameId ->
                             collectionsViewModel.gameClicked(gameId)
+                        },
+                        onAddToPlayedClicked = { game ->
+                            collectionsViewModel.addGameToPlayed(game)
                         }
                     )
                 }
             }
         }
+        if (openDialog) GameDeleteDialog() {
+            openDialog = false
+        }
     }
+}
+
+@Composable
+fun GameDeleteDialog(onDialogDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDialogDismiss,
+        buttons = {
+            Row(
+                modifier = Modifier.padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(onClick = { /*TODO*/ }, modifier = Modifier.weight(weight = 1f)) {
+                    Text(text = "Remove")
+                }
+                Spacer(modifier = Modifier.weight(.1f))
+                Button(onClick = { /*TODO*/ }, modifier = Modifier.weight(weight = 1f)) {
+                    Text(text = "Cancel")
+                }
+            }
+        },
+        text = {
+            Text(
+                text = stringResource(R.string.game_remove_question),
+                color = Color.White
+            )
+        },
+        backgroundColor = Background
+    )
 }

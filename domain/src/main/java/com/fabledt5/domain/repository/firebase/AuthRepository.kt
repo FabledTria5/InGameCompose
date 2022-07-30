@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
+    val isUserAuthenticated: Boolean
+
     suspend fun signInFirebase(email: String, password: String): Resource<Boolean>
 
     suspend fun signUpFirebase(email: String, password: String): Resource<String?>
@@ -13,5 +15,5 @@ interface AuthRepository {
 
     suspend fun signOut(): Resource<Boolean>
 
-    fun isUserAuthenticated(): Flow<Boolean>
+    fun checkAuthStatus(): Flow<Boolean>
 }

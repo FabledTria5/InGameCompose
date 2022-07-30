@@ -33,7 +33,7 @@ class AuthenticationViewModel @Inject constructor(
         getUserAuthenticationStatus()
     }
 
-    private fun getUserAuthenticationStatus() = authenticationCases.isAuthenticated()
+    private fun getUserAuthenticationStatus() = authenticationCases.checkAuthentication()
         .onEach { isAuthenticated ->
             if (isAuthenticated) openHomePage()
         }

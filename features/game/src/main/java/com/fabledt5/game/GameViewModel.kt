@@ -15,6 +15,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class GameViewModel @AssistedInject constructor(
@@ -94,6 +95,10 @@ class GameViewModel @AssistedInject constructor(
     }
 
     fun openReviewsScreen() = navigationManager.navigate(GameDirections.reviews(gameId = gameId))
+
+    fun markGameAsPlayed(gameItem: GameItem) = viewModelScope.launch(Dispatchers.IO) {
+        gameCases.markAsPlayed(gameItem)
+    }
 
     fun onBackClicked() = navigationManager.navigateBack()
 

@@ -11,7 +11,6 @@ import com.fabledt5.mapper.toDomain
 import com.fabledt5.remote.api.GamesApi
 import com.fabledt5.remote.api.dto.game_creators.GameCreatorsResponse
 import com.fabledt5.remote.api.dto.game_details.GameDetailsResponse
-import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.parser.ReviewsParser
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -28,16 +27,14 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun getGameDetails(gameId: Int): Resource<GameItem> = coroutineScope {
         val gameResponse = async { gamesApi.getGameDetails(gameId = gameId) }
-        val gameTrailerResponse = async { gamesApi.getGameTrailers(gameId = gameId) }
         val gameDevelopersTeamResponse =
             async { gamesApi.getGameCreators(gameId = gameId) }
 
         try {
             val gameDto = gameResponse.await()
-            val gameTrailerDto = gameTrailerResponse.await()
             val gameDevelopersTeamDto = gameDevelopersTeamResponse.await()
 
-            val gameItem = buildGameItem(gameDto, gameTrailerDto, gameDevelopersTeamDto)
+            val gameItem = buildGameItem(gameDto, gameDevelopersTeamDto)
             Resource.Success(gameItem)
         } catch (exception: SocketTimeoutException) {
             Timber.e(exception)
@@ -84,18 +81,16 @@ class GameRepositoryImpl @Inject constructor(
 
     private fun buildGameItem(
         gameDto: GameDetailsResponse,
-        trailersDto: GameTrailersResponse,
         developersDto: GameCreatorsResponse
     ): GameItem = GameItem(
         gameId = gameDto.id,
         gamePoster = gameDto.backgroundImage,
         gameTitle = gameDto.name,
         gamePEGIRating = gameDto.esrbRating?.slug.toPEGI(),
-        gameReleaseYear = gameDto.released.getDateAsString(),
+        releaseDate = gameDto.released.getDateAsString(),
         gameGenres = gameDto.genres.take(n = 3).joinToString { it.name },
         gameDeveloper = gameDto.developers.firstOrNull()?.name ?: "Unknown",
         gameDescription = gameDto.description,
-        gameTrailersUrl = trailersDto.toDomain(),
         requirementsItem = gameDto.platforms.toDomain(),
         gameDirectors = developersDto.results
             .filter { result ->

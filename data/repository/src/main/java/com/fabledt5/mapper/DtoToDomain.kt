@@ -11,7 +11,6 @@ import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
 import com.fabledt5.remote.api.dto.game_screenshots.GameScreenshotsResult
-import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResult
 import com.fabledt5.remote.parser.dto.GameReviewDto
@@ -27,7 +26,7 @@ fun GamesListResponse.toDomainShort() = results.map { result ->
         gameId = result.id,
         gamePoster = result.backgroundImage,
         gameTitle = result.name,
-        gameReleaseYear = result.released?.take(n = 4) ?: "Unknown",
+        releaseDate = result.released?.formatReleaseDate().orEmpty(),
         gameLastUpdate = formatUpdateDate(result.updated),
         gameGenres = result.genres.joinToString(),
         gamePEGIRating = result.esrbRating?.slug.toPEGI()
@@ -67,12 +66,7 @@ fun Flow<PagingData<GamesListResult>>.toDomain(): Flow<PagingData<GameItem>> =
                     gameId = result.id,
                     gamePoster = result.backgroundImage,
                     gameTitle = result.name,
-                    gameReleaseYear = result.released?.run {
-                        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                        val date = formatter.parse(this)
-                        val newFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
-                        newFormatter.format(date!!)
-                    } ?: "Unknown",
+                    releaseDate = result.released?.formatReleaseDate().orEmpty(),
                     gameGenres = result.genres.take(n = 2).joinToString { it.name }
                 )
             }
@@ -95,8 +89,12 @@ fun List<GameReviewDto>.toDomain() = RatingItem(
         }
 )
 
-fun GameTrailersResponse.toDomain(): String =
-    results.lastOrNull { it.data.x480.isNotEmpty() }?.data?.x480 ?: ""
+private fun String.formatReleaseDate(): String {
+    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    val date = formatter.parse(this)
+    val newFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
+    return newFormatter.format(date!!)
+}
 
 private fun formatUpdateDate(date: String): String {
     val localDate = LocalDate.parse(date.split('T')[0])

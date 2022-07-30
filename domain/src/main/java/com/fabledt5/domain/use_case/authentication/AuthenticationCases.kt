@@ -6,6 +6,6 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 data class AuthenticationCases @Inject constructor (
     val authenticateUser: AuthenticateUser,
-    val isAuthenticated: IsAuthenticated,
+    val checkAuthentication: CheckAuthentication,
     val registerUser: RegisterUser
 )
