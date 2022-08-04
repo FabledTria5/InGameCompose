@@ -45,7 +45,7 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
     var searchQuery by remember { mutableStateOf(catalogueViewModel.searchQuery.value) }
 
     Scaffold(
-        modifier = Modifier.systemBarsPadding(),
+        modifier = Modifier.statusBarsPadding(),
         topBar = {
             CatalogueTopBar(
                 isFiltersOpen = isFiltersListOpen,
@@ -55,7 +55,7 @@ fun CatalogueScreen(catalogueViewModel: CatalogueViewModel) {
     ) { contentPadding ->
         Column(
             modifier = Modifier
-                .padding(contentPadding)
+                .padding(top = contentPadding.calculateTopPadding())
                 .fillMaxSize()
         ) {
             CatalogueSearchField(

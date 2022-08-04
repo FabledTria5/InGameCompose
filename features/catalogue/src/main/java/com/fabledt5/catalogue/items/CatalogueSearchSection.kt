@@ -100,7 +100,7 @@ fun ShowSearchResults(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 15.dp, top = 15.dp, end = 15.dp, bottom = 70.dp)
+        contentPadding = PaddingValues(start = 10.dp, top = 10.dp, end = 10.dp)
     ) {
         items(searchResults, key = { it.gameId }) { gameItem ->
             gameItem?.let {

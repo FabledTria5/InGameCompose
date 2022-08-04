@@ -1,9 +1,9 @@
 package com.example.collections.pages
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
@@ -34,18 +34,22 @@ fun FavouriteGamesPage(
 @ExperimentalMaterialApi
 @Composable
 fun ShowFavoriteGames(data: List<GameItem>, onAddedToFavoritesClicked: (Int) -> Unit) {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(items = data, key = { it.gameId }) { item ->
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = 10.dp)
+    ) {
+        items(
+            items = data,
+            key = { it.gameId }
+        ) { item ->
             FavoriteGame(
                 gameItem = item,
                 itemHeight = 180.dp,
                 onAddedToFavoritesClicked = onAddedToFavoritesClicked,
                 onShareWithFriendsClicked = {},
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }

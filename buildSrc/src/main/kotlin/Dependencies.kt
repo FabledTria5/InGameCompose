@@ -18,7 +18,7 @@ object Config {
 object Versions {
 
     // Core
-    const val gradle = "7.2.1"
+    const val gradle = "7.2.2"
     const val kotlinGradleVersion = "1.7.10"
     const val googleServices = "4.3.13"
     const val kspVersion = "1.7.10-1.0.6"
@@ -41,20 +41,20 @@ object Versions {
     const val material = "1.6.0"
 
     // Compose
-    const val compose = "1.2.0"
+    const val compose = "1.3.0-alpha02"
     const val composeMaterial = "1.0.0-alpha15"
     const val activityCompose = "1.5.0"
     const val accompanist = "0.26.0-alpha"
     const val coil = "2.1.0"
     const val hiltCompose = "1.0.0"
     const val customview = "1.2.0-alpha01"
-    const val poolingContainer = "1.0.0-rc01"
+    const val poolingContainer = "1.0.0"
     const val constraintLayout = "1.1.0-alpha03"
-    const val calendar = "0.5.1"
+    const val calendar = "0.6.0"
     const val extendedIcons = "1.3.0-alpha02"
 
     // Dagger Hilt
-    const val hiltAndroid = "2.43"
+    const val hiltAndroid = "2.43.1"
 
     // Testing
     const val jUnit = "4.13.2"

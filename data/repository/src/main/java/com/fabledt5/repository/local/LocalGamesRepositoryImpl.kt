@@ -7,24 +7,31 @@ import com.fabledt5.domain.repository.LocalGamesRepository
 import com.fabledt5.mapper.toDomain
 import com.fabledt5.mapper.toEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class LocalGamesRepositoryImpl @Inject constructor(
     private val gamesDao: GamesDao
 ) : LocalGamesRepository {
 
     override fun readHotGames(): Flow<List<GameItem>> =
-        gamesDao.getHotGames(GameType.HOT_GAME.ordinal).toDomain()
+        gamesDao.getHotGames().toDomain()
 
-    override fun readSavedGames(gameType: GameType): Flow<List<GameItem>> =
-        gamesDao.readSavedGames(gameType.ordinal).toDomain()
+    override fun readSavedGames(gameType: GameType): Flow<List<GameItem>> = when (gameType) {
+        GameType.FAVORITE -> gamesDao.readFavoriteGames().toDomain()
+        GameType.PLAYED -> gamesDao.readPlayedGames().toDomain()
+        GameType.HOT_GAME -> {
+            Timber.i(message = "Hot games can't be observed from here")
+            flowOf()
+        }
+    }
 
-    override suspend fun insertGame(game: Pair<GameItem, GameType>) =
-        gamesDao.insertSavedGame(game.first.toEntity(game.second))
+    override suspend fun insertGame(gameData: Pair<GameItem, GameType>) =
+        gamesDao.fetchGames(gameData.first.toEntity(), gameData.second)
 
-    override suspend fun deleteGame(gameId: Int) = gamesDao.deleteGame(gameId)
+    override suspend fun deleteGame(gameId: Int, gameType: GameType) =
+        gamesDao.removeSavedGame(gameId, gameType)
 
 }
 

@@ -12,9 +12,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.collections.R
 import com.example.collections.components.CalendarComponents
 import com.example.collections.components.CalendarGame
 import com.fabledt5.common.components.ColorfulProgressIndicator
@@ -43,7 +45,7 @@ fun CalendarPage(
         modifier = Modifier
             .fillMaxSize()
             .background(Background),
-        contentPadding = PaddingValues(start = 10.dp, end = 10.dp, bottom = 70.dp)
+        contentPadding = PaddingValues(horizontal = 10.dp)
     ) {
         item {
             SelectableCalendar(
@@ -102,7 +104,7 @@ fun LazyListScope.showGames(
             }
         }
         when (value) {
-            is Resource.Error -> showGamesError("Error while loading games")
+            is Resource.Error -> showGamesError(value.error.errorMessage)
             is Resource.Success -> {
                 if (value.data.isNotEmpty())
                     items(value.data) { game ->
@@ -112,7 +114,7 @@ fun LazyListScope.showGames(
                             onAddToPlayedClicked = onAddToPlayedClicked
                         )
                     }
-                else showGamesError("No games upcoming for this day")
+                else showGamesError()
             }
             else -> showGamesLoading()
         }
@@ -132,7 +134,7 @@ fun LazyListScope.showGamesLoading() {
     }
 }
 
-fun LazyListScope.showGamesError(errorMessage: String) {
+fun LazyListScope.showGamesError(errorMessage: String = "") {
     item {
         Box(
             modifier = Modifier
@@ -141,7 +143,7 @@ fun LazyListScope.showGamesError(errorMessage: String) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = errorMessage,
+                text = errorMessage.ifEmpty { stringResource(R.string.no_games_for_day_message) },
                 color = Color.White,
                 fontFamily = Mark,
                 fontWeight = FontWeight.Bold,

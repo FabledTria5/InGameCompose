@@ -25,7 +25,7 @@ object DbModule {
 
     @Singleton
     @Provides
-    fun provideHotGamesDao(gamesDataBase: GamesDataBase): GamesDao = gamesDataBase.hotGamesDao()
+    fun provideGamesDao(gamesDataBase: GamesDataBase): GamesDao = gamesDataBase.gamesDao()
 
     @Singleton
     @Provides

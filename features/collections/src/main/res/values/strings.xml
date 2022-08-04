@@ -11,6 +11,7 @@
     <string name="add_to_favorite">Add to favorite</string>
     <string name="empty_games_message">You have\' not added any games yet</string>
     <string name="game_remove_question">Are you sure want to remove this game from your favorites?</string>
+    <string name="no_games_for_day_message">No games upcoming for this day</string>
 
     <string-array name="collections_tabs">
         <item>Favourites</item>

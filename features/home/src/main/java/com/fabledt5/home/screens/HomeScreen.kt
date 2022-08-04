@@ -1,6 +1,5 @@
 package com.fabledt5.home.screens
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +29,6 @@ import kotlinx.coroutines.launch
 @OptIn(
     ExperimentalPagerApi::class,
     ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
 )
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel) {
@@ -46,8 +44,6 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
     val upcomingGames by homeViewModel.upcomingGames.collectAsState()
     val bestGames by homeViewModel.bestGames.collectAsState()
     val newGames by homeViewModel.newGames.collectAsState()
-
-    val onGameClick: (Int) -> Unit = { homeViewModel.openGameScreen(gameId = it) }
 
     Column(
         modifier = Modifier
@@ -84,17 +80,17 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
                 0 -> HomeGamesPage(
                     pageName = recommendedGamesTabs[page],
                     games = upcomingGames,
-                    onGameClick = onGameClick
+                    onGameClick = { homeViewModel.openGameScreen(gameId = it) }
                 )
                 1 -> HomeGamesPage(
                     pageName = recommendedGamesTabs[page],
                     games = bestGames,
-                    onGameClick = onGameClick
+                    onGameClick = { homeViewModel.openGameScreen(gameId = it) }
                 )
                 2 -> HomeGamesPage(
                     pageName = recommendedGamesTabs[page],
                     games = newGames,
-                    onGameClick = onGameClick
+                    onGameClick = { homeViewModel.openGameScreen(gameId = it) }
                 )
             }
         }

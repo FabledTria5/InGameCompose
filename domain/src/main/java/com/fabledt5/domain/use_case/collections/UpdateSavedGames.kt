@@ -19,7 +19,12 @@ class UpdateSavedGames @Inject constructor(
         .onEach { result ->
             when (result) {
                 is Resource.Success -> localRepository.insertGame(result.data)
-                is Resource.Error -> result.data?.let { localRepository.deleteGame(it.first.gameId) }
+                is Resource.Error -> result.data?.let {
+                    localRepository.deleteGame(
+                        it.first.gameId,
+                        it.second
+                    )
+                }
                 else -> Unit
             }
         }

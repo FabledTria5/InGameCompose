@@ -1,7 +1,6 @@
 package com.fabledt5.repository.remote
 
 import com.fabledt5.db.dao.GamesDao
-import com.fabledt5.domain.model.GameType
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.repository.ErrorRepository
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import retrofit2.HttpException
 import timber.log.Timber
 import java.net.SocketTimeoutException
-import java.util.*
+import java.time.LocalDate
 import javax.inject.Inject
 
 class GamesListRepositoryImpl @Inject constructor(
@@ -28,22 +27,18 @@ class GamesListRepositoryImpl @Inject constructor(
         gamesCount: Int,
         dates: String,
         metacriticRatings: String
-    ): Flow<List<GameItem>> = gamesDao.getHotGames(GameType.HOT_GAME.ordinal)
+    ): Flow<List<GameItem>> = gamesDao.getHotGames()
         .onEach { list ->
             if (list.isNotEmpty()) {
-                val calendar = Calendar.getInstance()
-                val currentMonth = calendar.get(Calendar.MONTH)
-                calendar.time = Date(list.first().createdAt)
-                val gamesMonth = calendar.get(Calendar.MONTH)
+                val localDate = LocalDate.now()
+                val currentMonth = localDate.month.value
+                val gamesMonth = list.first().createdAt
 
-                if (currentMonth > gamesMonth) {
-                    fetchHotGames(
-                        gamesCount = gamesCount,
-                        dates = dates,
-                        metacriticRatings = metacriticRatings
-                    )
-                }
-                calendar.time = Date()
+                if (currentMonth > gamesMonth) fetchHotGames(
+                    gamesCount = gamesCount,
+                    dates = dates,
+                    metacriticRatings = metacriticRatings
+                )
             } else fetchHotGames(
                 gamesCount = gamesCount,
                 dates = dates,

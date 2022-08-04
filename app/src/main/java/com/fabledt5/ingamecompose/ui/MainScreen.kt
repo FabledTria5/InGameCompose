@@ -1,18 +1,15 @@
 package com.fabledt5.ingamecompose.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +40,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navigationManager: NavigationManager) {
     val systemUiController = rememberSystemUiController()
@@ -54,6 +50,8 @@ fun MainScreen(navigationManager: NavigationManager) {
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
     var inclusiveScreen by remember { mutableStateOf(true) }
+
+    val configuration = LocalConfiguration.current
 
     LaunchedEffect(key1 = navigationManager.commands) {
         navigationManager.commands.collectLatest { command ->
@@ -89,12 +87,14 @@ fun MainScreen(navigationManager: NavigationManager) {
             navHostController = navHostController,
             currentDestination = currentDestination
         )
-    }) {
+    }) { paddingValues ->
         AnimatedNavHost(
             navController = navHostController,
             startDestination = SplashDirections.splash.route,
             route = Routes.ROOT,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = paddingValues.calculateBottomPadding())
         ) {
             composable(route = SplashDirections.splash.route) {
                 SplashScreen(splashViewModel = hiltViewModel())
@@ -125,7 +125,7 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
     }
     val bottomNavigationHeight by animateDpAsState(
         targetValue = if (isBottomNavigationVisible) 70.dp else 0.dp,
-        animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
+        animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
     )
 
     NavigationBar(

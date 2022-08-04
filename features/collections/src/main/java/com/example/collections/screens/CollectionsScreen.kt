@@ -51,7 +51,7 @@ fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {
     var openDialog by remember { mutableStateOf(false) }
 
     Scaffold(
-        modifier = Modifier.systemBarsPadding(),
+        modifier = Modifier.statusBarsPadding(),
         topBar = {
             Box(
                 modifier = Modifier
@@ -69,10 +69,9 @@ fun CollectionsScreen(collectionsViewModel: CollectionsViewModel) {
                     fontSize = 18.sp
                 )
             }
-        },
-        containerColor = Background
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        }
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
             OutlinedTabs(
                 pagerState = pagerState,
                 tabsTitles = collectionsTabs,

@@ -10,8 +10,8 @@ interface LocalGamesRepository {
 
     fun readSavedGames(gameType: GameType): Flow<List<GameItem>>
 
-    suspend fun insertGame(game: Pair<GameItem, GameType>)
+    suspend fun insertGame(gameData: Pair<GameItem, GameType>)
 
-    suspend fun deleteGame(gameId: Int)
+    suspend fun deleteGame(gameId: Int, gameType: GameType)
 
 }
