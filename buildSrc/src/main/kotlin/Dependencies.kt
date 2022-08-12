@@ -67,8 +67,8 @@ object Versions {
     // Room
     const val roomVersion = "2.5.0-alpha02"
 
-    // Preferences
-    const val datastorePreferences = "1.0.0"
+    // Work Manager
+    const val workManager = "2.7.1"
 
     // Network
     const val retrofitVersion = "2.9.0"
@@ -160,9 +160,8 @@ object Dependencies {
     const val pagingCommon = "androidx.paging:paging-common:${Versions.pagingVersion}"
     const val pagingCompose = "androidx.paging:paging-compose:${Versions.pagingCompose}"
 
-    // Preferences
-    const val dataStorePreferences =
-        "androidx.datastore:datastore-preferences:${Versions.datastorePreferences}"
+    // Work Manger
+    const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
 
     // Room
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"

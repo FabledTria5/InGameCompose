@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class AuthRepositoryImpl @Inject constructor(
     private val authenticator: FirebaseAuth,
     private val errorRepository: ErrorRepository
@@ -23,7 +21,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun signUpFirebase(email: String, password: String) = try {
         val result = authenticator.createUserWithEmailAndPassword(email, password).await()
-        Resource.Success(data = result.user?.uid)
+        Resource.Success(data = result.user!!.uid)
     } catch (exception: FirebaseAuthException) {
         Timber.e(exception)
         val error = errorRepository.resolveAuthenticationError(exception)

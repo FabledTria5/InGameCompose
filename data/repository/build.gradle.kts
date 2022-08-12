@@ -38,7 +38,6 @@ android {
 dependencies {
 
     implementation(project(":domain"))
-    implementation(project(":data:preferences"))
     implementation(project(":data:db"))
     implementation(project(":data:remote"))
 

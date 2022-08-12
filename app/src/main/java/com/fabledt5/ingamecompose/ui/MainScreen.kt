@@ -9,7 +9,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,14 +23,12 @@ import com.fabledt5.ingamecompose.navigation.authenticationGraph
 import com.fabledt5.ingamecompose.navigation.gameGraph
 import com.fabledt5.ingamecompose.navigation.primaryGraph
 import com.fabledt5.ingamecompose.utils.BottomBarItem
+import com.fabledt5.ingamecompose.utils.setBackgroundColor
 import com.fabledt5.ingamecompose.utils.setPrimaryColor
 import com.fabledt5.ingamecompose.utils.setTransparentStatusBar
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.Routes
-import com.fabledt5.navigation.directions.BackDirection
-import com.fabledt5.navigation.directions.GameDirections
-import com.fabledt5.navigation.directions.PrimaryAppDirections
-import com.fabledt5.navigation.directions.SplashDirections
+import com.fabledt5.navigation.directions.*
 import com.fabledt5.splash.SplashScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -50,8 +47,6 @@ fun MainScreen(navigationManager: NavigationManager) {
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
     var inclusiveScreen by remember { mutableStateOf(true) }
-
-    val configuration = LocalConfiguration.current
 
     LaunchedEffect(key1 = navigationManager.commands) {
         navigationManager.commands.collectLatest { command ->
@@ -78,6 +73,8 @@ fun MainScreen(navigationManager: NavigationManager) {
             SplashDirections.splash.route -> systemUiController.setTransparentStatusBar()
             GameDirections.gameScreenRoute -> systemUiController.setTransparentStatusBar()
             PrimaryAppDirections.home.route -> systemUiController.setTransparentStatusBar()
+            AuthorizationDirections.authorization.route -> systemUiController.setBackgroundColor()
+            AuthorizationDirections.passwordRecovery.route -> systemUiController.setBackgroundColor()
             else -> systemUiController.setPrimaryColor()
         }
     }
@@ -154,7 +151,15 @@ fun RowScope.AddNavigationItem(
     val selected = currentDestination == screen.destination.route
     NavigationBarItem(
         selected = selected,
-        onClick = { navHostController.navigate(screen.destination.route) },
+        onClick = {
+            if (!navHostController.popBackStack(
+                    route = screen.destination.route,
+                    inclusive = false
+                )
+            ) {
+                navHostController.navigate(screen.destination.route)
+            }
+        },
         label = {
             Text(
                 text = screen.title,

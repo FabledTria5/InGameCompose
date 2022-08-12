@@ -14,11 +14,10 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
+import javax.inject.Named
 
-@Singleton
 class FireStoreRepositoryImpl @Inject constructor(
-    private val uId: String,
+    @Named("Firebase User Id") private val uId: String,
     private val firestore: FirebaseFirestore,
     private val errorRepository: ErrorRepository,
 ) : FireStoreRepository {
@@ -147,16 +146,6 @@ class FireStoreRepositoryImpl @Inject constructor(
                 .collection(type)
                 .document(gameItem.gameId.toString())
                 .set(gameDocument)
-        }
-    }
-
-    override suspend fun removeGameFromCollection(gameId: Int, gameType: GameType) {
-        gameType.toCollection()?.let { type ->
-            firestore.collection(USERS_TABLE_NAME)
-                .document(uId)
-                .collection(type)
-                .document(gameId.toString())
-                .delete()
         }
     }
 

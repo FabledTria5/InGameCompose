@@ -130,7 +130,6 @@ fun ShowGameSuccess(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
             .verticalScroll(screenScrollState)
     ) {
         GameHeader(

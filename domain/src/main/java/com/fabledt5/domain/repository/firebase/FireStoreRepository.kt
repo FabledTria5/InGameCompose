@@ -21,6 +21,4 @@ interface FireStoreRepository {
         gameType: GameType
     )
 
-    suspend fun removeGameFromCollection(gameId: Int, gameType: GameType)
-
 }

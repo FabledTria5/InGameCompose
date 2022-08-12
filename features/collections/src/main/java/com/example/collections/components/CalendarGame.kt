@@ -25,8 +25,9 @@ import com.fabledt5.domain.model.items.GameItem
 @Composable
 fun CalendarGame(
     gameItem: GameItem,
+    isUpcoming: Boolean,
     onGameClicked: (Int) -> Unit,
-    onAddToPlayedClicked: (GameItem) -> Unit
+    onActionClicked: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -73,15 +74,16 @@ fun CalendarGame(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-                Text(
-                    text = stringResource(R.string.add_to_played),
-                    modifier = Modifier.clickable { onAddToPlayedClicked(gameItem) },
-                    color = Color.White.copy(alpha = .3f),
-                    fontFamily = Mark,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (!isUpcoming)
+                    Text(
+                        text = stringResource(R.string.add_to_played),
+                        modifier = Modifier.clickable { onActionClicked() },
+                        color = Color.White.copy(alpha = .3f),
+                        fontFamily = Mark,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis
+                    )
             }
         }
     }

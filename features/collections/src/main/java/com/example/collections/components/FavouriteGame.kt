@@ -1,5 +1,7 @@
 package com.example.collections.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -13,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -28,10 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.collections.R
 import com.fabledt5.common.components.RemoteImage
-import com.fabledt5.common.theme.DefaultHorizontalGradient
+import com.fabledt5.common.theme.GradinentTextStyle
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
-import com.fabledt5.common.utils.gradient
 import com.fabledt5.domain.model.items.GameItem
 import kotlin.math.roundToInt
 
@@ -40,27 +42,27 @@ import kotlin.math.roundToInt
 fun FavoriteGame(
     gameItem: GameItem,
     itemHeight: Dp,
-    onAddedToFavoritesClicked: (Int) -> Unit,
-    onShareWithFriendsClicked: (GameItem) -> Unit,
+    onGameClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val contentWidth = LocalConfiguration.current.screenWidthDp.dp - 150.dp
-    var isGameContentVisible by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = modifier
-            .height(itemHeight)
-    ) {
+    var isGameContentVisible by remember { mutableStateOf(false) }
+    val favoriteGameContentVisibility by animateFloatAsState(
+        targetValue = if (isGameContentVisible) 1f else 0f,
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    Box(modifier = modifier.height(itemHeight)) {
         if (isGameContentVisible)
             FavoriteGameContent(
                 gameItem = gameItem,
                 modifier = Modifier
                     .width(contentWidth)
                     .height(itemHeight)
+                    .alpha(favoriteGameContentVisibility)
                     .padding(start = 15.dp, top = 5.dp, bottom = 5.dp)
-                    .align(Alignment.CenterEnd),
-                onAddedToFavoritesClicked = onAddedToFavoritesClicked,
-                onShareWithFriendsClicked = onShareWithFriendsClicked
+                    .align(Alignment.CenterEnd)
             )
         FavoriteGameImage(
             gameImage = gameItem.gamePoster,
@@ -69,7 +71,8 @@ fun FavoriteGame(
                 .fillMaxWidth()
                 .height(itemHeight)
                 .align(Alignment.Center),
-            onImageLoadedSuccess = { isGameContentVisible = true }
+            onImageLoadedSuccess = { isGameContentVisible = true },
+            onGameClicked = onGameClicked
         )
     }
 }
@@ -77,9 +80,7 @@ fun FavoriteGame(
 @Composable
 fun FavoriteGameContent(
     gameItem: GameItem,
-    modifier: Modifier = Modifier,
-    onAddedToFavoritesClicked: (Int) -> Unit,
-    onShareWithFriendsClicked: (GameItem) -> Unit
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,
@@ -98,19 +99,18 @@ fun FavoriteGameContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             OutlinedButton(
-                onClick = { /*TODO*/ },
+                onClick = { },
                 shape = RoundedCornerShape(5.dp),
                 border = BorderStroke(width = 1.dp, color = Color.White),
                 colors = ButtonDefaults.outlinedButtonColors(backgroundColor = Color.Black)
             ) {
                 Text(
-                    text = "Add To cart".uppercase(),
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp)
-                        .gradient(DefaultHorizontalGradient),
+                    text = stringResource(R.string.add_to_cart).uppercase(),
+                    modifier = Modifier.padding(horizontal = 10.dp),
                     fontFamily = Mark,
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
+                    style = GradinentTextStyle()
                 )
             }
             Text(
@@ -123,9 +123,6 @@ fun FavoriteGameContent(
             )
         }
         Row(
-            modifier = Modifier.clickable {
-                onAddedToFavoritesClicked(gameItem.gameId)
-                                          },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -143,7 +140,6 @@ fun FavoriteGameContent(
             )
         }
         Row(
-            modifier = Modifier.clickable { onShareWithFriendsClicked(gameItem) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -169,7 +165,8 @@ fun FavoriteGameImage(
     gameImage: String?,
     gameTitle: String,
     onImageLoadedSuccess: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onGameClicked: () -> Unit
 ) {
     val swipeAbleState = rememberSwipeableState(initialValue = 0)
 
@@ -193,6 +190,7 @@ fun FavoriteGameImage(
                 )
             }
             .clip(RoundedCornerShape(8.dp))
+            .clickable { onGameClicked() }
             .shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp)),
         contentScale = ContentScale.Crop,
         onSuccess = onImageLoadedSuccess

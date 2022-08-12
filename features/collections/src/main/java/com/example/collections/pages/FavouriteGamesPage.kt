@@ -19,13 +19,13 @@ import com.fabledt5.domain.model.items.GameItem
 @Composable
 fun FavouriteGamesPage(
     favoriteGames: Resource<List<GameItem>>,
-    onAddedToFavoritesClicked: (Int) -> Unit
+    onGameClicked: (Int) -> Unit
 ) {
     when (favoriteGames) {
         Resource.Idle -> EmptyGamesPage()
         is Resource.Success -> ShowFavoriteGames(
             data = favoriteGames.data,
-            onAddedToFavoritesClicked = onAddedToFavoritesClicked
+            onGameClicked = onGameClicked
         )
         else -> Unit
     }
@@ -33,7 +33,10 @@ fun FavouriteGamesPage(
 
 @ExperimentalMaterialApi
 @Composable
-fun ShowFavoriteGames(data: List<GameItem>, onAddedToFavoritesClicked: (Int) -> Unit) {
+fun ShowFavoriteGames(
+    data: List<GameItem>,
+    onGameClicked: (Int) -> Unit
+) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 10.dp)
@@ -41,12 +44,11 @@ fun ShowFavoriteGames(data: List<GameItem>, onAddedToFavoritesClicked: (Int) -> 
         items(
             items = data,
             key = { it.gameId }
-        ) { item ->
+        ) { gameItem ->
             FavoriteGame(
-                gameItem = item,
+                gameItem = gameItem,
                 itemHeight = 180.dp,
-                onAddedToFavoritesClicked = onAddedToFavoritesClicked,
-                onShareWithFriendsClicked = {},
+                onGameClicked = { onGameClicked(gameItem.gameId) },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(10.dp))

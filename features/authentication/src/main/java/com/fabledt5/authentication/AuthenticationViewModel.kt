@@ -20,7 +20,7 @@ class AuthenticationViewModel @Inject constructor(
     private val authenticationCases: AuthenticationCases
 ) : ViewModel() {
 
-    private val _registrationState = MutableStateFlow<Resource<Any?>>(Resource.Idle)
+    private val _registrationState = MutableStateFlow<Resource<Any>>(Resource.Idle)
     val registrationState = _registrationState.asStateFlow()
 
     private val _loginState = MutableStateFlow<Resource<Any>>(Resource.Idle)
@@ -39,13 +39,20 @@ class AuthenticationViewModel @Inject constructor(
         }
         .launchIn(viewModelScope)
 
+    private fun openHomePage() = navigationManager.navigate(PrimaryAppDirections.home)
+
     fun openPasswordRecoveryScreen() =
         navigationManager.navigate(AuthorizationDirections.passwordRecovery)
 
+    fun recoverPassword(userEmail: String) {
+
+    }
+
     fun registerUser(userEmail: String, userPassword: String, userNickname: String) =
-        authenticationCases.registerUser(userEmail, userPassword, userNickname).onEach { resource ->
-            _registrationState.value = resource
-        }
+        authenticationCases.registerUser(userEmail, userPassword, userNickname)
+            .onEach { resource ->
+                _registrationState.value = resource
+            }
             .flowOn(Dispatchers.IO)
             .launchIn(viewModelScope)
 
@@ -55,7 +62,5 @@ class AuthenticationViewModel @Inject constructor(
         }
             .flowOn(Dispatchers.IO)
             .launchIn(viewModelScope)
-
-    private fun openHomePage() = navigationManager.navigate(PrimaryAppDirections.home)
 
 }

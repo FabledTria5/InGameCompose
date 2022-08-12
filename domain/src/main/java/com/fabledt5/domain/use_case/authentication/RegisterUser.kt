@@ -18,7 +18,7 @@ class RegisterUser @Inject constructor(
             is Resource.Error -> emit(signUpResult)
             is Resource.Success -> {
                 val uId = signUpResult.data
-                uId?.let {
+                uId.let {
                     fireStoreRepository.createUser(
                         userEmail = email,
                         userNickname = nickName,

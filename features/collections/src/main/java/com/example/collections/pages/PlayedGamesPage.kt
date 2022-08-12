@@ -26,12 +26,14 @@ import com.fabledt5.domain.model.items.GameItem
 @Composable
 fun PlayedGamesPage(
     playedGames: Resource<List<GameItem>>,
+    onGameClicked: (Int) -> Unit,
     onAddToFavoriteClicked: (GameItem) -> Unit
 ) {
     when (playedGames) {
         Resource.Idle -> EmptyGamesPage()
         is Resource.Success -> ShowPlayedGames(
-            playedGames.data,
+            data = playedGames.data,
+            onGameClicked = onGameClicked,
             onAddToFavoriteClicked = onAddToFavoriteClicked
         )
         else -> Unit
@@ -39,30 +41,34 @@ fun PlayedGamesPage(
 }
 
 @Composable
-fun ShowPlayedGames(data: List<GameItem>, onAddToFavoriteClicked: (GameItem) -> Unit) {
+fun ShowPlayedGames(
+    data: List<GameItem>,
+    onGameClicked: (Int) -> Unit,
+    onAddToFavoriteClicked: (GameItem) -> Unit
+) {
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 10.dp)
+        modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(horizontal = 10.dp)
     ) {
         items(
             items = data,
             key = { it.gameId }
-        ) { item ->
+        ) { gameItem ->
             SharedGameItem(
-                gameItem = item,
-                onGameClicked = {},
+                gameItem = gameItem,
+                onGameClicked = { onGameClicked(gameItem.gameId) },
                 gameAction = {
                     Text(
                         text = stringResource(R.string.add_to_favorite),
-                        modifier = Modifier.clickable { onAddToFavoriteClicked(item) },
+                        modifier = Modifier
+                            .weight(.1f)
+                            .clickable { onAddToFavoriteClicked(gameItem) },
                         color = Color.White.copy(alpha = .3f),
                         fontFamily = Mark,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                         overflow = TextOverflow.Ellipsis
                     )
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(10.dp))
         }
     }

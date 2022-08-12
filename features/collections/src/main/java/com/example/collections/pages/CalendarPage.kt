@@ -1,5 +1,6 @@
 package com.example.collections.pages
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.collections.R
 import com.example.collections.components.CalendarComponents
 import com.example.collections.components.CalendarGame
+import com.example.collections.utils.toCalendarFormat
 import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.theme.*
 import com.fabledt5.domain.model.Resource
@@ -31,10 +33,10 @@ import java.time.LocalDate
 @ExperimentalFoundationApi
 @Composable
 fun CalendarPage(
-    calendarGames: SnapshotStateMap<String, Resource<List<GameItem>>>,
+    calendarGames: SnapshotStateMap<LocalDate, Resource<List<GameItem>>>,
     onDateSelected: (LocalDate) -> Unit,
     onGameClicked: (Int) -> Unit,
-    onAddToPlayedClicked: (GameItem) -> Unit
+    onAddToPlayedClicked: (GameItem) -> Unit,
 ) {
     val calendarState = rememberSelectableCalendarState(
         initialSelection = listOf(LocalDate.now()),
@@ -49,7 +51,9 @@ fun CalendarPage(
     ) {
         item {
             SelectableCalendar(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize(),
                 calendarState = calendarState,
                 horizontalSwipeEnabled = false,
                 monthHeader = {
@@ -77,48 +81,55 @@ fun CalendarPage(
         showGames(
             gamesMap = calendarGames,
             onGameClicked = onGameClicked,
-            onAddToPlayedClicked = onAddToPlayedClicked
+            onAddToPlayed = onAddToPlayedClicked,
         )
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.showGames(
-    gamesMap: SnapshotStateMap<String, Resource<List<GameItem>>>,
+    gamesMap: SnapshotStateMap<LocalDate, Resource<List<GameItem>>>,
     onGameClicked: (Int) -> Unit,
-    onAddToPlayedClicked: (GameItem) -> Unit
+    onAddToPlayed: (GameItem) -> Unit,
 ) {
-    gamesMap.forEach { (key, value) ->
-        stickyHeader {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Background)
-            ) {
-                Text(
-                    text = key,
-                    modifier = Modifier.padding(vertical = 10.dp),
-                    color = Color.White,
-                    fontFamily = Proxima
-                )
+    gamesMap
+        .toSortedMap(Comparator.reverseOrder())
+        .forEach { (key, value) ->
+            val isUpcoming = LocalDate.now() < key
+
+            stickyHeader {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Background)
+                ) {
+                    Text(
+                        text = key.toCalendarFormat(),
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        color = Color.White,
+                        fontFamily = Proxima
+                    )
+                }
+            }
+            when (value) {
+                is Resource.Error -> showGamesError(value.error.errorMessage)
+                is Resource.Success -> {
+                    if (value.data.isNotEmpty())
+                        items(items = value.data.reversed()) { game ->
+                            CalendarGame(
+                                gameItem = game,
+                                isUpcoming = isUpcoming,
+                                onGameClicked = onGameClicked,
+                                onActionClicked = {
+                                    onAddToPlayed(game)
+                                }
+                            )
+                        }
+                    else showGamesError()
+                }
+                else -> showGamesLoading()
             }
         }
-        when (value) {
-            is Resource.Error -> showGamesError(value.error.errorMessage)
-            is Resource.Success -> {
-                if (value.data.isNotEmpty())
-                    items(value.data) { game ->
-                        CalendarGame(
-                            gameItem = game,
-                            onGameClicked = onGameClicked,
-                            onAddToPlayedClicked = onAddToPlayedClicked
-                        )
-                    }
-                else showGamesError()
-            }
-            else -> showGamesLoading()
-        }
-    }
 }
 
 fun LazyListScope.showGamesLoading() {

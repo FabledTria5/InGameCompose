@@ -2,6 +2,8 @@ package com.fabledt5.common.theme
 
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.TextStyle
 
 val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
@@ -18,4 +20,8 @@ val MidNightBlack = Color(0xFF191A1D)
 val DarkLateBlack = Color(0xFF222224)
 
 val DefaultHorizontalGradient = Brush.horizontalGradient(colors = listOf(Turquoise, MediumLateBlue))
-val DefaultVerticalGradient = Brush.verticalGradient(colors = listOf(Turquoise, MediumLateBlue))
+
+@OptIn(ExperimentalTextApi::class)
+fun GradinentTextStyle(isEnabled: Boolean = true): TextStyle = TextStyle(
+    brush = if (isEnabled) DefaultHorizontalGradient else null
+)

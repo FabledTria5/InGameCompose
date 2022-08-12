@@ -36,8 +36,8 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+            .statusBarsPadding()
+            .padding(vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TabRow(
@@ -62,11 +62,13 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
             count = authenticationTabs.size,
             modifier = Modifier.fillMaxSize(),
             state = pagerState,
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            itemSpacing = 20.dp,
             userScrollEnabled = false
         ) { page ->
             when (page) {
                 0 -> SignInPage(
-                    onForgotPasswordClicked = { authenticationViewModel.openPasswordRecoveryScreen() },
+                    onPasswordRecoveryClicked = { authenticationViewModel.openPasswordRecoveryScreen() },
                     onSignInClicked = { userEmail, userPassword ->
                         authenticationViewModel.authenticateUser(userEmail, userPassword)
                     },

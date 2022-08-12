@@ -23,7 +23,7 @@ fun SharedGameItem(
     gameItem: GameItem,
     onGameClicked: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    gameAction: @Composable () -> Unit = {},
+    gameAction: @Composable ColumnScope.() -> Unit = {},
 ) {
     var isImageLoaded by remember { mutableStateOf(false) }
 
@@ -43,10 +43,11 @@ fun SharedGameItem(
         Column(
             modifier = Modifier
                 .weight(weight = 1f)
-                .height(100.dp),
+                .height(100.dp)
+                .padding(vertical = 5.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {
+            Column(modifier = Modifier.weight(.9f)) {
                 Text(
                     text = gameItem.gameTitle,
                     modifier = Modifier.padding(bottom = 5.dp),
@@ -58,21 +59,13 @@ fun SharedGameItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = gameItem.gameGenres,
-                    modifier = Modifier.padding(bottom = 5.dp),
-                    color = Color.White.copy(alpha = .3f),
-                    fontFamily = Proxima,
-                    fontSize = 11.sp
-                )
-                Text(
                     text = "Release date: ${gameItem.releaseDate}",
-                    modifier = Modifier.padding(bottom = 5.dp),
                     color = Color.White.copy(alpha = .3f),
                     fontFamily = Proxima,
                     fontSize = 11.sp
                 )
-                gameAction()
             }
+            gameAction()
         }
     }
 }

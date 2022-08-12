@@ -9,5 +9,4 @@ data class CollectionsCases @Inject constructor(
     val getPlayedGames: GetPlayedGames,
     val markAsFavorite: MarkAsFavorite,
     val markAsPlayed: MarkAsPlayed,
-    val removeGameFromFavorites: RemoveGameFromFavorites
 )

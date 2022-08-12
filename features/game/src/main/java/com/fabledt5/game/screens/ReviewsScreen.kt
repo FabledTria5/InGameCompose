@@ -52,7 +52,7 @@ fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<Rating
 @Composable
 fun ShowGameReviewsSuccess(gameItem: GameItem, ratingItem: RatingItem) {
     Scaffold(
-        modifier = Modifier.systemBarsPadding(),
+        modifier = Modifier.statusBarsPadding(),
         topBar = {
             Row(
                 modifier = Modifier
