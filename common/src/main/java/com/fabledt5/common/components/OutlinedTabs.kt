@@ -4,9 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -30,13 +28,12 @@ import com.google.accompanist.pager.PagerState
 fun OutlinedTabs(
     pagerState: PagerState,
     tabsTitles: Array<String>,
-    textSize: TextUnit = 12.sp,
-    onTabSelected: (Int) -> Unit
+    onTabSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    textSize: TextUnit = 12.sp
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 10.dp)
+        modifier = modifier
             .border(
                 width = 1.dp,
                 color = Color.White.copy(alpha = .3f),

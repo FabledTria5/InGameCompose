@@ -36,7 +36,7 @@ fun InfoGamePage(gameItem: GameItem) {
                 fontSize = 14.sp
             )
             Text(
-                text = gameItem.gameReleaseYear,
+                text = gameItem.releaseDate,
                 modifier = Modifier.weight(weight = .7f),
                 fontFamily = Proxima,
                 color = Color.White,

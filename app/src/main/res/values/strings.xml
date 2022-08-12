@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">InGameCompose</string>
+    <string name="notification_channel_id">Releases Notification Channel</string>
+    <string name="notification_channel_Description">This channel is used to send game releases notifications to user</string>
 </resources>

@@ -1,15 +1,10 @@
 package com.fabledt5.ingamecompose.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -28,29 +23,20 @@ import com.fabledt5.ingamecompose.navigation.authenticationGraph
 import com.fabledt5.ingamecompose.navigation.gameGraph
 import com.fabledt5.ingamecompose.navigation.primaryGraph
 import com.fabledt5.ingamecompose.utils.BottomBarItem
+import com.fabledt5.ingamecompose.utils.setBackgroundColor
 import com.fabledt5.ingamecompose.utils.setPrimaryColor
 import com.fabledt5.ingamecompose.utils.setTransparentStatusBar
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.Routes
-import com.fabledt5.navigation.directions.BackDirection
-import com.fabledt5.navigation.directions.GameDirections
-import com.fabledt5.navigation.directions.PrimaryAppDirections
-import com.fabledt5.navigation.directions.SplashDirections
+import com.fabledt5.navigation.directions.*
 import com.fabledt5.splash.SplashScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
-@ExperimentalMaterial3Api
-@ExperimentalPagerApi
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@ExperimentalFoundationApi
-@ExperimentalCoroutinesApi
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navigationManager: NavigationManager) {
     val systemUiController = rememberSystemUiController()
@@ -87,6 +73,8 @@ fun MainScreen(navigationManager: NavigationManager) {
             SplashDirections.splash.route -> systemUiController.setTransparentStatusBar()
             GameDirections.gameScreenRoute -> systemUiController.setTransparentStatusBar()
             PrimaryAppDirections.home.route -> systemUiController.setTransparentStatusBar()
+            AuthorizationDirections.authorization.route -> systemUiController.setBackgroundColor()
+            AuthorizationDirections.passwordRecovery.route -> systemUiController.setBackgroundColor()
             else -> systemUiController.setPrimaryColor()
         }
     }
@@ -96,12 +84,14 @@ fun MainScreen(navigationManager: NavigationManager) {
             navHostController = navHostController,
             currentDestination = currentDestination
         )
-    }) {
+    }) { paddingValues ->
         AnimatedNavHost(
             navController = navHostController,
             startDestination = SplashDirections.splash.route,
             route = Routes.ROOT,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = paddingValues.calculateBottomPadding())
         ) {
             composable(route = SplashDirections.splash.route) {
                 SplashScreen(splashViewModel = hiltViewModel())
@@ -132,7 +122,7 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
     }
     val bottomNavigationHeight by animateDpAsState(
         targetValue = if (isBottomNavigationVisible) 70.dp else 0.dp,
-        animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
+        animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
     )
 
     NavigationBar(
@@ -161,7 +151,15 @@ fun RowScope.AddNavigationItem(
     val selected = currentDestination == screen.destination.route
     NavigationBarItem(
         selected = selected,
-        onClick = { navHostController.navigate(screen.destination.route) },
+        onClick = {
+            if (!navHostController.popBackStack(
+                    route = screen.destination.route,
+                    inclusive = false
+                )
+            ) {
+                navHostController.navigate(screen.destination.route)
+            }
+        },
         label = {
             Text(
                 text = screen.title,

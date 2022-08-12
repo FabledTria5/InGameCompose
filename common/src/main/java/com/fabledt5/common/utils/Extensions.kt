@@ -32,6 +32,8 @@ fun String.createFromHtml() = HtmlCompat.fromHtml(
     HtmlCompat.FROM_HTML_MODE_COMPACT
 ).toString()
 
+fun String.capitalize() = replaceFirstChar { it.titlecase() }
+
 fun Modifier.gradient(brush: Brush) = graphicsLayer(alpha = .99f)
     .drawWithCache {
         onDrawWithContent {

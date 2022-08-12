@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_timeout">Server not responding. Try again in few minutes</string>
+    <string name="error_bad_request">Bad request. Please, try again in few seconds</string>
+    <string name="error_unauthorized">You are not authorized</string>
+    <string name="error_forbidden">You are not allowed to do this action</string>
+    <string name="error_not_found">This resource is not found</string>
+    <string name="error_sever">Server is unavailable. Please try again later </string>
+    <string name="error_unknown">Unknown error. Please, try again later</string>
+
+    <string name="error_user_not_exists">This user was not found</string>
+    <string name="error_invalid_credentials">Invalid credentials</string>
+    <string name="error_existing_user">User with this credential already exists</string>
+
+    <string name="error_operation_cancelled">Cancelled</string>
+    <string name="error_resource_already_exists">This resource is already exists</string>
+</resources>

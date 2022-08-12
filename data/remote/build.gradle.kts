@@ -19,7 +19,7 @@ android {
     buildTypes {
         release {
             buildConfigField("String", "APIKEY", "\"f02ee92cf89a46bea018996a1b45fd3f\"")
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -54,7 +54,7 @@ dependencies {
     androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
 
     // Retrofit
-    implementation(dependencyNotation = Dependencies.retrofit)
+    api(dependencyNotation = Dependencies.retrofit)
     implementation(dependencyNotation = Dependencies.kotlinSerializationConverter)
     implementation(dependencyNotation = Dependencies.loggingInterceptor)
 

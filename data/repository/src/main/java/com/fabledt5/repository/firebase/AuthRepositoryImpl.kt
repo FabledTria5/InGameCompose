@@ -1,64 +1,63 @@
 package com.fabledt5.repository.firebase
 
 import com.fabledt5.domain.model.Resource
+import com.fabledt5.domain.repository.ErrorRepository
 import com.fabledt5.domain.repository.firebase.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AuthRepositoryImpl @Inject constructor(private val authenticator: FirebaseAuth) :
-    AuthRepository {
+class AuthRepositoryImpl @Inject constructor(
+    private val authenticator: FirebaseAuth,
+    private val errorRepository: ErrorRepository
+) : AuthRepository {
 
-    override fun isUserAuthenticatedInFirebase() = authenticator.currentUser != null
+    override val isUserAuthenticated: Boolean
+        get() = authenticator.currentUser != null
 
-    override fun signUpFirebase(email: String, password: String) = flow {
-        try {
-            emit(Resource.Loading)
-            authenticator.createUserWithEmailAndPassword(email, password).await()
-            emit(Resource.Success(data = authenticator.currentUser?.uid))
-        } catch (e: Exception) {
-            emit(Resource.Error(exception = e))
-        }
+    override suspend fun signUpFirebase(email: String, password: String) = try {
+        val result = authenticator.createUserWithEmailAndPassword(email, password).await()
+        Resource.Success(data = result.user!!.uid)
+    } catch (exception: FirebaseAuthException) {
+        Timber.e(exception)
+        val error = errorRepository.resolveAuthenticationError(exception)
+        Resource.Error(error)
     }
 
-    override fun signInFirebase(email: String, password: String) = flow {
-        try {
-            emit(Resource.Loading)
-            authenticator.signInWithEmailAndPassword(email, password).await()
-            emit(Resource.Success(data = true))
-        } catch (e: Exception) {
-            emit(Resource.Error(exception = e))
-        }
+    override suspend fun signInFirebase(email: String, password: String) = try {
+        authenticator.signInWithEmailAndPassword(email, password).await()
+        Resource.Success(data = true)
+    } catch (exception: FirebaseAuthException) {
+        Timber.e(exception)
+        val error = errorRepository.resolveAuthenticationError(exception)
+        Resource.Error(error)
     }
 
-    override fun resetPassword(email: String) = flow {
-        try {
-            emit(Resource.Loading)
-            authenticator.sendPasswordResetEmail(email).await()
-            emit(Resource.Success(data = true))
-        } catch (e: Exception) {
-            emit(Resource.Error(exception = e))
-        }
+    override suspend fun resetPassword(email: String) = try {
+        authenticator.sendPasswordResetEmail(email).await()
+        Resource.Success(data = true)
+    } catch (exception: FirebaseAuthException) {
+        Timber.e(exception)
+        val error = errorRepository.resolveAuthenticationError(exception)
+        Resource.Error(error)
     }
 
-    override fun signOut() = flow {
-        try {
-            emit(Resource.Loading)
-            authenticator.currentUser?.delete()?.await()
-            emit(Resource.Success(true))
-        } catch (e: Exception) {
-            emit(Resource.Error(exception = e))
-        }
+    override suspend fun signOut() = try {
+        authenticator.currentUser?.delete()?.await()
+        Resource.Success(true)
+    } catch (exception: FirebaseAuthException) {
+        Timber.e(exception)
+        val error = errorRepository.resolveAuthenticationError(exception)
+        Resource.Error(error)
     }
 
-    override fun getFirebaseAuthState() = callbackFlow {
+    override fun checkAuthStatus() = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
-            trySend(auth.currentUser == null)
+            trySend(element = auth.currentUser != null)
         }
         authenticator.addAuthStateListener(authStateListener)
         awaitClose {

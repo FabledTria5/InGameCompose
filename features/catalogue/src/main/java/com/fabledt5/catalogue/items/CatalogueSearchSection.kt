@@ -13,10 +13,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.fabledt5.catalogue.R
+import com.fabledt5.catalogue.utils.isError
+import com.fabledt5.catalogue.utils.isIdle
+import com.fabledt5.catalogue.utils.isLoading
+import com.fabledt5.catalogue.utils.isSuccess
 import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.components.SharedGameItem
 import com.fabledt5.common.theme.Mark
@@ -27,30 +30,23 @@ import com.fabledt5.domain.model.items.GameItem
 fun CatalogueSearchSection(
     searchResults: LazyPagingItems<GameItem>,
     onGameClicked: (Int) -> Unit,
-    onGameLoadingError: (LoadState) -> Unit
 ) {
     when {
-        searchResults.loadState.refresh is LoadState.Loading && searchResults.itemCount == 0 ->
-            ShowSearchLoading(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(fraction = .5f)
-            )
-        searchResults.loadState.refresh is LoadState.NotLoading && searchResults.itemCount > 0 ->
-            ShowSearchResults(
-                searchResults = searchResults,
-                onGameClicked = onGameClicked
-            )
-        searchResults.loadState.refresh is LoadState.Error -> {
-            onGameLoadingError(searchResults.loadState.refresh)
-            ShowSearchError(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(fraction = .5f)
-            )
-        }
-        searchResults.loadState.refresh is LoadState.NotLoading && searchResults.itemCount == 0 ->
-            ShowSearchSuggestions()
+        searchResults.isIdle() -> ShowSearchSuggestions()
+        searchResults.isLoading() -> ShowSearchLoading(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(fraction = .5f)
+        )
+        searchResults.isSuccess() -> ShowSearchResults(
+            searchResults = searchResults,
+            onGameClicked = onGameClicked
+        )
+        searchResults.isError() -> ShowSearchError(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(fraction = .5f)
+        )
     }
 }
 
@@ -104,7 +100,7 @@ fun ShowSearchResults(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 15.dp, top = 15.dp, end = 15.dp, bottom = 70.dp)
+        contentPadding = PaddingValues(start = 10.dp, top = 10.dp, end = 10.dp)
     ) {
         items(searchResults, key = { it.gameId }) { gameItem ->
             gameItem?.let {

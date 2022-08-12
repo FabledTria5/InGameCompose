@@ -1,8 +1,10 @@
 package com.fabledt5.remote.api.dto.list_of_games
 
+import androidx.annotation.Keep
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Keep
 @Serializable
 data class GamesListResult(
     @SerialName("added")
@@ -22,7 +24,7 @@ data class GamesListResult(
     @SerialName("parent_platforms")
     val parentPlatforms: List<ParentPlatform>,
     @SerialName("platforms")
-    val platforms: List<Platform>,
+    val platforms: List<Platform>?,
     @SerialName("playtime")
     val playtime: Int,
     @SerialName("rating")
@@ -34,7 +36,7 @@ data class GamesListResult(
     @SerialName("ratings_count")
     val ratingsCount: Int,
     @SerialName("released")
-    val released: String,
+    val released: String?,
     @SerialName("reviews_count")
     val reviewsCount: Int,
     @SerialName("reviews_text_count")

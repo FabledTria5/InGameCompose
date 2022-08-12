@@ -20,11 +20,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        signingConfig = signingConfigs.getByName("debug")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isDebuggable = false
+            isRenderscriptDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -32,6 +35,8 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = Config.javaVersion
         targetCompatibility = Config.javaVersion
     }
@@ -62,27 +67,20 @@ dependencies {
     implementation(project(":features:home"))
     implementation(project(":features:game"))
     implementation(project(":features:catalogue"))
+    implementation(project(":features:collections"))
 
     // Kotlin
     implementation(dependencyNotation = Dependencies.kotlinCoreKtx)
     implementation(dependencyNotation = Dependencies.lifecycleRuntime)
     implementation(dependencyNotation = Dependencies.firebaseAuth)
+    coreLibraryDesugaring(dependencyNotation = Dependencies.desugar)
 
     // Design
     implementation(dependencyNotation = Dependencies.appcompat)
     implementation(dependencyNotation = Dependencies.material)
 
-    // Compose
-    implementation(dependencyNotation = Dependencies.composeUi)
-    implementation(dependencyNotation = Dependencies.composeMaterial)
-    implementation(dependencyNotation = Dependencies.composeToolingPreview)
-    implementation(dependencyNotation = Dependencies.composeTooling)
-    implementation(dependencyNotation = Dependencies.activityCompose)
-    androidTestImplementation(dependencyNotation = Dependencies.junitCompose)
-
     // Accompanist
     implementation(dependencyNotation = Dependencies.systemUiController)
-    implementation(dependencyNotation = Dependencies.pager)
 
     // Compose Navigation
     implementation(dependencyNotation = Dependencies.composeNavigation)

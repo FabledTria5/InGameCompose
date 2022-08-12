@@ -5,24 +5,26 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.fabledt5.db.dao.FiltersDao
 import com.fabledt5.db.dao.GamesDao
-import com.fabledt5.db.entities.DeveloperEntity
-import com.fabledt5.db.entities.GenreEntity
-import com.fabledt5.db.entities.HotGameEntity
-import com.fabledt5.db.entities.PlatformEntity
+import com.fabledt5.db.entities.*
+import com.fabledt5.db.entities.refrences.FavoriteGamesRef
+import com.fabledt5.db.entities.refrences.PlayedGamesRef
 import com.fabledt5.db.utils.Converter
 
 @Database(
     entities = [
         HotGameEntity::class,
+        SavedGameEntity::class,
         PlatformEntity::class,
         DeveloperEntity::class,
-        GenreEntity::class
+        GenreEntity::class,
+        FavoriteGamesRef::class,
+        PlayedGamesRef::class
     ],
-    version = 9,
-    exportSchema = true,
+    version = 12,
+    exportSchema = true
 )
 @TypeConverters(Converter::class)
 abstract class GamesDataBase : RoomDatabase() {
-    abstract fun hotGamesDao(): GamesDao
+    abstract fun gamesDao(): GamesDao
     abstract fun filtersDao(): FiltersDao
 }

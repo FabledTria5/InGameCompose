@@ -8,7 +8,7 @@ import com.fabledt5.remote.api.SearchGamesPagingSource
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
-    private val searchGamesPagingSource: SearchGamesPagingSource.Factory
+    private val searchGamesPagingSource: SearchGamesPagingSource.Factory,
 ) : SearchRepository {
 
     override fun searchGames(

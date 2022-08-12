@@ -17,7 +17,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isRenderscriptDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -50,17 +51,12 @@ dependencies {
     implementation(dependencyNotation = Dependencies.lifecycleRuntime)
     implementation(dependencyNotation = Dependencies.lifecycleViewModel)
 
-    // Compose
-    implementation(dependencyNotation = Dependencies.composeUi)
-    implementation(dependencyNotation = Dependencies.composeMaterial)
-    implementation(dependencyNotation = Dependencies.composeToolingPreview)
-    implementation(dependencyNotation = Dependencies.composeTooling)
-    implementation(dependencyNotation = Dependencies.composeUiUtil)
-    implementation(dependencyNotation = Dependencies.activityCompose)
-
     // Accompanist
     implementation(dependencyNotation = Dependencies.pager)
     implementation(dependencyNotation = Dependencies.pagerIndicators)
+
+    // Compose
+    implementation(dependencyNotation = Dependencies.composeUiUtil)
 
     // Design
     implementation(dependencyNotation = Dependencies.appcompat)
@@ -69,9 +65,4 @@ dependencies {
     // Dagger Hilt
     implementation(dependencyNotation = Dependencies.hiltAndroid)
     kapt(dependencyNotation = Dependencies.hiltCompiler)
-
-    // Testing
-    testImplementation(dependencyNotation = Dependencies.junit)
-    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
-    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
 }

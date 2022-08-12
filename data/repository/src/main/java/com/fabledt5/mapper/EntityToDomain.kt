@@ -1,9 +1,6 @@
 package com.fabledt5.mapper
 
-import com.fabledt5.db.entities.DeveloperEntity
-import com.fabledt5.db.entities.GenreEntity
-import com.fabledt5.db.entities.HotGameEntity
-import com.fabledt5.db.entities.PlatformEntity
+import com.fabledt5.db.entities.*
 import com.fabledt5.domain.model.items.DeveloperItem
 import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.model.items.GenreItem
@@ -20,22 +17,34 @@ fun Flow<List<HotGameEntity>>.toDomain(): Flow<List<GameItem>> = map { list ->
             gameTitle = entity.gameTitle,
             gameGenres = entity.gameGenres,
             gamePEGIRating = entity.gamePEGIRating,
-            gameReleaseYear = entity.releaseYear,
+            releaseDate = entity.releaseYear,
         )
     }
 }
 
-fun Flow<PlatformEntity?>.toDomain(): Flow<PlatformItem?> = map { entity ->
-    entity?.let {
-        PlatformItem(
-            platformId = it.platformId,
-            platformName = it.platformName,
-            platformImage = it.platformImage
+@JvmName("toDomainSavedGameEntity")
+fun Flow<List<SavedGameEntity>>.toDomain(): Flow<List<GameItem>> = map { list ->
+    list.map { savedGameEntity ->
+        GameItem(
+            gameId = savedGameEntity.gameId,
+            gamePoster = savedGameEntity.gamePoster,
+            gameTitle = savedGameEntity.gameTitle,
+            gameDeveloper = savedGameEntity.gameDeveloper,
+            releaseDate = savedGameEntity.releaseDate
         )
     }
 }
 
 @JvmName("toDomainPlatformEntity")
+fun Flow<PlatformEntity>.toDomain(): Flow<PlatformItem> = map { entity ->
+    PlatformItem(
+        platformId = entity.platformId,
+        platformName = entity.platformName,
+        platformImage = entity.platformImage
+    )
+}
+
+@JvmName("toDomainPlatformEntityList")
 fun Flow<List<PlatformEntity>>.toDomain(): Flow<List<PlatformItem>> = map { list ->
     list.map { entity ->
         PlatformItem(

@@ -23,11 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.fabledt5.catalogue.R
 import com.fabledt5.catalogue.components.FilterImageItem
 import com.fabledt5.catalogue.components.FilterTextItem
-import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.theme.PROGRESS_INDICATOR_REGULAR
 import com.fabledt5.common.theme.Proxima
-import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.DeveloperItem
 import com.fabledt5.domain.model.items.GenreItem
 import com.fabledt5.domain.model.items.PlatformItem
@@ -37,9 +34,9 @@ import com.google.accompanist.flowlayout.FlowRow
 @ExperimentalFoundationApi
 @Composable
 fun CatalogueFiltersSection(
-    developersFilters: Resource<List<DeveloperItem>>,
-    genresFilters: Resource<List<GenreItem>>,
-    platformsFilters: Resource<List<PlatformItem>>,
+    developersFilters: List<DeveloperItem>,
+    genresFilters: List<GenreItem>,
+    platformsFilters: List<PlatformItem>,
     selectedGenres: List<Int>,
     selectedPlatforms: List<Int>,
     selectedDevelopers: List<String>,
@@ -47,39 +44,17 @@ fun CatalogueFiltersSection(
     onGenreClicked: (Int) -> Unit,
     onDeveloperClicked: (String) -> Unit
 ) {
-    when {
-        (platformsFilters is Resource.Error
-                || genresFilters is Resource.Error
-                || developersFilters is Resource.Error
-                ) -> ShowFiltersError()
-        (platformsFilters is Resource.Success
-                && genresFilters is Resource.Success
-                && developersFilters is Resource.Success
-                ) -> ShowFiltersSuccess(
-            developersFilters.data,
-            genresFilters.data,
-            platformsFilters.data,
-            selectedGenres,
-            selectedPlatforms,
-            selectedDevelopers,
-            onDeveloperClicked = onDeveloperClicked,
-            onGenreClicked = onGenreClicked,
-            onPlatformClicked = onPlatformClicked
-        )
-        else -> ShowFiltersLoading()
-    }
-}
-
-@Composable
-fun ShowFiltersLoading() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        ColorfulProgressIndicator(modifier = Modifier.size(PROGRESS_INDICATOR_REGULAR))
-    }
-}
-
-@Composable
-fun ShowFiltersError() {
-
+    ShowFiltersSuccess(
+        developersFilters,
+        genresFilters,
+        platformsFilters,
+        selectedGenres,
+        selectedPlatforms,
+        selectedDevelopers,
+        onDeveloperClicked = onDeveloperClicked,
+        onGenreClicked = onGenreClicked,
+        onPlatformClicked = onPlatformClicked
+    )
 }
 
 @ExperimentalFoundationApi

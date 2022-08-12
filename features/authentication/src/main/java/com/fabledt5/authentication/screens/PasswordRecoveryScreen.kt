@@ -1,7 +1,10 @@
 package com.fabledt5.authentication.screens
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -15,57 +18,48 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fabledt5.authentication.AuthenticationViewModel
 import com.fabledt5.authentication.R
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordRecoveryScreen() {
+fun PasswordRecoveryScreen(authenticationViewModel: AuthenticationViewModel) {
 
     var userEmail by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding()
-            .padding(horizontal = 20.dp, vertical = 10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(.4f),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Text(
-                text = stringResource(id = R.string.forgot_password).uppercase(),
-                fontFamily = Mark,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray
-            )
-        }
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = stringResource(id = R.string.forgot_password).uppercase(),
+            modifier = Modifier.align(Alignment.TopCenter),
+            fontFamily = Mark,
+            fontWeight = FontWeight.Bold,
+            color = Color.Gray
+        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(R.string.password_recovery_message),
+                modifier = Modifier.padding(bottom = 30.dp),
                 fontFamily = Proxima,
                 color = Color.Gray,
                 fontSize = 13.sp,
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(30.dp))
             OutlinedTextField(
                 value = userEmail,
                 onValueChange = { userEmail = it },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp),
                 placeholder = {
                     Text(
                         text = stringResource(R.string.email_placeholder).uppercase(),
@@ -91,9 +85,8 @@ fun PasswordRecoveryScreen() {
                     placeholderColor = Color.DarkGray
                 )
             )
-            Spacer(modifier = Modifier.height(20.dp))
             OutlinedButton(
-                onClick = { /*TODO*/ },
+                onClick = { authenticationViewModel.recoverPassword(userEmail) },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(5.dp),
                 border = BorderStroke(width = 1.dp, color = Color.White),
@@ -111,10 +104,4 @@ fun PasswordRecoveryScreen() {
             }
         }
     }
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFF18181C)
-@Composable
-fun PasswordRecoveryScreenPreview() {
-    PasswordRecoveryScreen()
 }

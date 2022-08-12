@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -21,9 +21,12 @@ import com.fabledt5.domain.model.items.GameItem
 @Composable
 fun SharedGameItem(
     gameItem: GameItem,
+    onGameClicked: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    onGameClicked: (Int) -> Unit
+    gameAction: @Composable ColumnScope.() -> Unit = {},
 ) {
+    var isImageLoaded by remember { mutableStateOf(false) }
+
     Row(modifier = modifier.clickable { onGameClicked(gameItem.gameId) }) {
         RemoteImage(
             imagePath = gameItem.gamePoster,
@@ -32,17 +35,19 @@ fun SharedGameItem(
                 .weight(weight = 1f)
                 .height(100.dp)
                 .clip(RoundedCornerShape(7.dp))
-                .shadow(elevation = 10.dp),
-            contentScale = ContentScale.Crop
+                .then(if (isImageLoaded) Modifier.shadow(elevation = 10.dp) else Modifier),
+            contentScale = ContentScale.Crop,
+            onSuccess = { isImageLoaded = true }
         )
         Spacer(modifier = Modifier.width(10.dp))
         Column(
             modifier = Modifier
                 .weight(weight = 1f)
-                .height(100.dp),
-            verticalArrangement = Arrangement.SpaceAround
+                .height(100.dp)
+                .padding(vertical = 5.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {
+            Column(modifier = Modifier.weight(.9f)) {
                 Text(
                     text = gameItem.gameTitle,
                     modifier = Modifier.padding(bottom = 5.dp),
@@ -54,20 +59,13 @@ fun SharedGameItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = gameItem.gameGenres,
-                    modifier = Modifier.padding(bottom = 5.dp),
-                    color = Color.White.copy(alpha = .3f),
-                    fontFamily = Proxima,
-                    fontSize = 11.sp
-                )
-                Text(
-                    text = "Release date: ${gameItem.gameReleaseYear}",
-                    modifier = Modifier.padding(bottom = 5.dp),
+                    text = "Release date: ${gameItem.releaseDate}",
                     color = Color.White.copy(alpha = .3f),
                     fontFamily = Proxima,
                     fontSize = 11.sp
                 )
             }
+            gameAction()
         }
     }
 }

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,10 +21,12 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(splashViewModel: SplashViewModel) {
 
+    val isUserAuthenticated by splashViewModel.isUserAuthenticated.collectAsState()
+
     LaunchedEffect(key1 = true) {
         delay(timeMillis = 500)
-        if (!splashViewModel.isUserAuthenticated) splashViewModel.openLoginScreen()
-        else splashViewModel.openHomeScreen()
+        if (isUserAuthenticated) splashViewModel.openHomeScreen()
+        else splashViewModel.openLoginScreen()
     }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -31,7 +35,7 @@ fun SplashScreen(splashViewModel: SplashViewModel) {
             contentDescription = stringResource(R.string.splash_background),
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
-            alpha = .5f
+            alpha = .4f
         )
         Icon(
             painter = painterResource(id = R.drawable.ic_launcher_foreground),

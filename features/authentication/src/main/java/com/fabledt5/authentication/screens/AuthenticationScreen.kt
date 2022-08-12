@@ -1,10 +1,7 @@
 package com.fabledt5.authentication.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,11 +20,9 @@ import com.fabledt5.common.theme.Mark
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
-@ExperimentalPagerApi
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
     val pagerState = rememberPagerState()
@@ -35,14 +30,14 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
 
     val authenticationTabs = stringArrayResource(id = R.array.authentication_options)
 
-    val registrationState by authenticationViewModel.registrationState.collectAsState()
-    val loginState by authenticationViewModel.loginState.collectAsState()
+    val signUpState by authenticationViewModel.registrationState.collectAsState()
+    val signInState by authenticationViewModel.loginState.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+            .statusBarsPadding()
+            .padding(vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TabRow(
@@ -67,21 +62,23 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
             count = authenticationTabs.size,
             modifier = Modifier.fillMaxSize(),
             state = pagerState,
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            itemSpacing = 20.dp,
             userScrollEnabled = false
         ) { page ->
             when (page) {
                 0 -> SignInPage(
-                    onForgotPasswordClicked = { authenticationViewModel.openPasswordRecoveryScreen() },
+                    onPasswordRecoveryClicked = { authenticationViewModel.openPasswordRecoveryScreen() },
                     onSignInClicked = { userEmail, userPassword ->
                         authenticationViewModel.authenticateUser(userEmail, userPassword)
                     },
-                    signInState = loginState
+                    signInState = signInState
                 )
                 1 -> SignUpPage(
                     onSignUpClicked = { userEmail, userPassword, userNickname ->
                         authenticationViewModel.registerUser(userEmail, userPassword, userNickname)
                     },
-                    signUpState = registrationState
+                    signUpState = signUpState
                 )
             }
         }

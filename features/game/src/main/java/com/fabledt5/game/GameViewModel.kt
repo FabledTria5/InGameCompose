@@ -3,6 +3,7 @@ package com.fabledt5.game
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.fabledt5.domain.model.DefaultErrors
 import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.model.items.RatingItem
@@ -51,29 +52,54 @@ class GameViewModel @AssistedInject constructor(
         loadGameData()
     }
 
+    private fun loadGameData() = gameCases.getGameDetails(gameId = gameId)
+        .onEach { result ->
+            _gameData.value = result
+            if (result is Resource.Success) {
+                loadGameSnapshots()
+                val gameUrl = result.data.gameReviewsUrl
+                Timber.d(gameUrl)
+                loadGameReviews(gameUrl)
+            }
+        }
+        .catch { exception ->
+            Timber.e(exception)
+            _gameData.value = Resource.Error(DefaultErrors.UnknownError(errorMessage = ""))
+        }
+        .flowOn(Dispatchers.IO)
+        .launchIn(viewModelScope)
+
+    private fun loadGameSnapshots() = gameCases.getGameSnapshots(gameId = gameId)
+        .onEach { result ->
+            _gameSnapshots.value = result
+        }
+        .catch { exception ->
+            Timber.e(exception)
+            _gameSnapshots.value = Resource.Success(listOf())
+        }
+        .flowOn(Dispatchers.IO)
+        .launchIn(viewModelScope)
+
+    private fun loadGameReviews(gameReviewsUrl: String?) {
+        if (!gameReviewsUrl.isNullOrEmpty()) {
+            gameCases.getGameReviews(gameReviewsUrl).onEach { result ->
+                _gameReviews.value = result
+            }
+                .catch { exception ->
+                    Timber.e(exception)
+                    _gameReviews.value = Resource.Success(RatingItem())
+                }
+                .flowOn(Dispatchers.IO)
+                .launchIn(viewModelScope)
+        } else _gameReviews.value = Resource.Success(RatingItem())
+    }
+
     fun openReviewsScreen() = navigationManager.navigate(GameDirections.reviews(gameId = gameId))
 
-    fun onBackClicked() = navigationManager.navigateBack()
-
-    private fun loadGameData() = gameCases.getGameDetails(gameId = gameId).onEach { result ->
-        _gameData.value = result
-        if (result is Resource.Success) {
-            loadGameSnapshots()
-            loadGameReviews(result.data.gameReviewsUrl)
-        }
-    }.launchIn(viewModelScope)
-
-    private fun loadGameSnapshots() = gameCases.getGameSnapshots(gameId = gameId).onEach { result ->
-        _gameSnapshots.value = result
-    }.launchIn(viewModelScope)
-
-    private fun loadGameReviews(gameReviewsUrl: String?) = viewModelScope.launch(Dispatchers.IO) {
-        gameReviewsUrl?.let { url ->
-            gameCases.getGameReviews(url).onEach { result ->
-                _gameReviews.value = result
-                if (result is Resource.Error) Timber.e(result.exception)
-            }.collect()
-        }
+    fun markGameAsPlayed(gameItem: GameItem) = viewModelScope.launch(Dispatchers.IO) {
+        gameCases.markAsPlayed(gameItem)
     }
+
+    fun onBackClicked() = navigationManager.navigateBack()
 
 }

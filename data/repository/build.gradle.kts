@@ -3,7 +3,6 @@ plugins {
     id(Plugins.hilt)
     kotlin(Plugins.android)
     kotlin(Plugins.kapt)
-    id(Plugins.googleServices)
 }
 
 android {
@@ -18,7 +17,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -26,6 +25,8 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = Config.javaVersion
         targetCompatibility = Config.javaVersion
     }
@@ -37,7 +38,6 @@ android {
 dependencies {
 
     implementation(project(":domain"))
-    implementation(project(":data:preferences"))
     implementation(project(":data:db"))
     implementation(project(":data:remote"))
 
@@ -47,6 +47,7 @@ dependencies {
     implementation(dependencyNotation = Dependencies.fireStore)
     implementation(dependencyNotation = Dependencies.firebaseDatabase)
     implementation(dependencyNotation = Dependencies.firebaseCoroutines)
+    coreLibraryDesugaring(dependencyNotation = Dependencies.desugar)
 
     // Testing
     testImplementation(dependencyNotation = Dependencies.junit)
@@ -58,5 +59,8 @@ dependencies {
 
     // Pagination
     implementation(dependencyNotation = Dependencies.pagingRuntime)
+
+    // Timber
+    implementation(dependencyNotation = Dependencies.timber)
 
 }

@@ -1,24 +1,17 @@
 package com.fabledt5.ingamecompose.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
+import com.example.collections.screens.CollectionsScreen
 import com.fabledt5.catalogue.screens.CatalogueScreen
 import com.fabledt5.home.screens.HomeScreen
 import com.fabledt5.navigation.Routes
 import com.fabledt5.navigation.directions.PrimaryAppDirections
 import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.pager.ExperimentalPagerApi
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalMaterial3Api
-@ExperimentalPagerApi
-@ExperimentalFoundationApi
-@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.primaryGraph(viewModelStoreOwner: ViewModelStoreOwner) {
     navigation(
@@ -35,6 +28,13 @@ fun NavGraphBuilder.primaryGraph(viewModelStoreOwner: ViewModelStoreOwner) {
         composable(PrimaryAppDirections.catalogue.route) {
             CatalogueScreen(
                 catalogueViewModel = hiltViewModel(
+                    viewModelStoreOwner = viewModelStoreOwner
+                )
+            )
+        }
+        composable(PrimaryAppDirections.collections.route) {
+            CollectionsScreen(
+                collectionsViewModel = hiltViewModel(
                     viewModelStoreOwner = viewModelStoreOwner
                 )
             )

@@ -31,6 +31,7 @@ import com.fabledt5.game.GameViewModel
 import com.fabledt5.game.R
 import com.fabledt5.game.components.GameReviewItem
 import com.fabledt5.game.components.RatingCounter
+import com.fabledt5.game.utils.calculatePercent
 import com.fabledt5.game.utils.toRatingsCounter
 
 @Composable
@@ -51,7 +52,7 @@ fun ShowReviewsScreen(gameItem: Resource<GameItem>, gameReviews: Resource<Rating
 @Composable
 fun ShowGameReviewsSuccess(gameItem: GameItem, ratingItem: RatingItem) {
     Scaffold(
-        modifier = Modifier.systemBarsPadding(),
+        modifier = Modifier.statusBarsPadding(),
         topBar = {
             Row(
                 modifier = Modifier
@@ -138,11 +139,8 @@ fun GameReviewsHeader(gameItem: GameItem, ratingItem: RatingItem) {
         )
         ratingItem.gameReviews.toRatingsCounter().let { gameRatingsMap ->
             gameRatingsMap.keys.forEachIndexed { index, key ->
-                val ratingPercent = gameRatingsMap[key]
-                    ?.toFloat()
-                    ?.div(ratingItem.gameReviews.size)
-                    ?.times(100)
-                    ?.toInt() ?: 0
+                val ratingPercent =
+                    gameRatingsMap[key].calculatePercent(ratingItem.gameReviews.size)
                 RatingCounter(
                     rating = key,
                     ratingsCount = gameRatingsMap[key],

@@ -1,6 +1,5 @@
 package com.fabledt5.game.screens
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -38,20 +37,19 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@ExperimentalPagerApi
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun GameScreen(gameViewModel: GameViewModel) {
     val gameData by gameViewModel.gameData.collectAsState()
     val gameSnapshots by gameViewModel.gameSnapshots.collectAsState()
     val gameReviews by gameViewModel.gameReviews.collectAsState()
 
-    BackHandler { gameViewModel.onBackClicked() }
-
     ShowGameScreen(
         gameData = gameData,
         gameSnapshots = gameSnapshots,
         ratingItem = gameReviews,
         onShowReviewsClicked = { gameViewModel.openReviewsScreen() },
+        onMarkAsPlayedClicked = { gameViewModel.markGameAsPlayed(it) },
         onBackClicked = { gameViewModel.onBackClicked() }
     )
 }
@@ -63,6 +61,7 @@ fun ShowGameScreen(
     gameSnapshots: Resource<List<String>>,
     ratingItem: Resource<RatingItem>,
     onShowReviewsClicked: () -> Unit,
+    onMarkAsPlayedClicked: (GameItem) -> Unit,
     onBackClicked: () -> Unit
 ) {
     when (gameData) {
@@ -72,6 +71,7 @@ fun ShowGameScreen(
             gameSnapshots = gameSnapshots,
             ratingItem = ratingItem,
             onShowReviewsClicked = onShowReviewsClicked,
+            onMarkAsPlayedClicked = onMarkAsPlayedClicked,
             onBackClicked = onBackClicked
         )
         else -> ShowGameLoading()
@@ -95,6 +95,7 @@ fun ShowGameLoadingError() {
         Icon(
             painter = painterResource(id = R.drawable.ic_sad_face),
             contentDescription = stringResource(R.string.icon_loading_error),
+            modifier = Modifier.size(50.dp),
             tint = Color.LightGray
         )
         Text(
@@ -118,6 +119,7 @@ fun ShowGameSuccess(
     gameSnapshots: Resource<List<String>>,
     ratingItem: Resource<RatingItem>,
     onShowReviewsClicked: () -> Unit,
+    onMarkAsPlayedClicked: (GameItem) -> Unit,
     onBackClicked: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -128,17 +130,24 @@ fun ShowGameSuccess(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
             .verticalScroll(screenScrollState)
     ) {
-        GameHeader(gameItem = gameItem, onBackClicked = onBackClicked)
+        GameHeader(
+            gameItem = gameItem,
+            onBackClicked = onBackClicked,
+            onMarkAsPlayedClicked = onMarkAsPlayedClicked
+        )
         OutlinedTabs(
             pagerState = gameDataPagerState,
             tabsTitles = gameDataTabs,
             textSize = 10.sp,
             onTabSelected = { tabIndex ->
                 scope.launch { gameDataPagerState.animateScrollToPage(tabIndex) }
-            })
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 10.dp)
+        )
         HorizontalPager(
             count = gameDataTabs.size,
             modifier = Modifier.wrapContentHeight(),

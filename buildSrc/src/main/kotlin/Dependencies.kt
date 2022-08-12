@@ -10,7 +10,7 @@ object Config {
     const val applicationId = "com.fabledt5.ingamecompose"
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
     const val jvmTargetVersion = "11"
-    const val composeCompilerExtensionVersion = "1.2.0-beta03"
+    const val composeCompilerExtensionVersion = "1.3.0-rc01"
 
     val javaVersion = JavaVersion.VERSION_11
 }
@@ -18,62 +18,68 @@ object Config {
 object Versions {
 
     // Core
-    const val gradle = "7.2.1"
-    const val kotlinGradleVersion = "1.6.21"
-    const val googleServices = "4.3.10"
-    const val kspVersion = "1.6.21-1.0.5"
+    const val gradle = "7.2.2"
+    const val kotlinGradleVersion = "1.7.10"
+    const val googleServices = "4.3.13"
+    const val kspVersion = "1.7.10-1.0.6"
+    const val gradleDependencies = "0.42.0"
 
     // Kotlin
-    const val kotlinVersion = "1.7.0"
-    const val lifecycleRuntime = "2.4.1"
-    const val kotlinSerialization = "1.3.2"
+    const val kotlinVersion = "1.8.0"
+    const val lifecycleRuntime = "2.6.0-alpha01"
+    const val kotlinSerialization = "1.4.0-RC"
+    const val desugar = "1.1.5"
 
     // Firebase
-    const val firebaseAuth = "21.0.3"
-    const val fireStore = "24.1.1"
+    const val firebaseAuth = "21.0.6"
+    const val fireStore = "24.2.1"
     const val firebaseDatabase = "20.0.5"
-    const val coroutinesNative = "1.6.0-native-mt"
+    const val coroutinesCore = "1.6.4"
 
     // Design
-    const val appCompat = "1.4.1"
+    const val appCompat = "1.6.0-alpha05"
     const val material = "1.6.0"
-    const val exoPlayer = "2.17.1"
 
     // Compose
-    const val compose = "1.2.0-beta03"
-    const val composeMaterial = "1.0.0-alpha13"
-    const val activityCompose = "1.4.0"
-    const val accompanist = "0.24.9-beta"
-    const val coil = "2.0.0"
+    const val compose = "1.3.0-alpha02"
+    const val composeMaterial = "1.0.0-alpha15"
+    const val activityCompose = "1.5.0"
+    const val accompanist = "0.26.0-alpha"
+    const val coil = "2.1.0"
     const val hiltCompose = "1.0.0"
+    const val customview = "1.2.0-alpha01"
+    const val poolingContainer = "1.0.0"
+    const val constraintLayout = "1.1.0-alpha03"
+    const val calendar = "0.6.0"
+    const val extendedIcons = "1.3.0-alpha02"
 
     // Dagger Hilt
-    const val hiltAndroid = "2.40.5"
+    const val hiltAndroid = "2.43.1"
 
     // Testing
     const val jUnit = "4.13.2"
-    const val androidJUnit = "1.1.3"
-    const val espressoCore = "3.4.0"
+    const val androidJUnit = "1.1.4-alpha07"
+    const val espressoCore = "3.5.0-alpha07"
 
     // Timber
     const val timber = "5.0.1"
 
     // Room
-    const val roomVersion = "2.4.2"
+    const val roomVersion = "2.5.0-alpha02"
 
-    // Preferences
-    const val datastorePreferences = "1.0.0"
+    // Work Manager
+    const val workManager = "2.7.1"
 
     // Network
     const val retrofitVersion = "2.9.0"
     const val kotlinSerializationConverter = "0.8.0"
-    const val loggingInterceptor = "5.0.0-alpha.3"
+    const val loggingInterceptor = "5.0.0-alpha.10"
 
     // Jsoup
-    const val jsoup = "1.14.3"
+    const val jsoup = "1.15.2"
 
     // Pagination
-    const val pagingVersion = "3.1.1"
+    const val pagingVersion = "3.2.0-alpha01"
     const val pagingCompose = "1.0.0-alpha15"
 }
 
@@ -86,6 +92,8 @@ object Dependencies {
     const val hiltAndroidPlugin =
         "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltAndroid}"
     const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
+    const val gradleDependencies =
+        "com.github.ben-manes:gradle-versions-plugin:${Versions.gradleDependencies}"
 
     // Kotlin
     const val kotlinCoreKtx = "androidx.core:core-ktx:${Versions.kotlinVersion}"
@@ -94,10 +102,11 @@ object Dependencies {
     const val lifecycleViewModel =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleRuntime}"
     const val javaInject = "javax.inject:javax.inject:1"
-    const val coroutinesNative =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}"
+    const val coroutinesCore =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesCore}"
     const val kotlinSerialization =
         "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
+    const val desugar = "com.android.tools:desugar_jdk_libs:${Versions.desugar}"
 
     // Firebase
     const val firebaseAuth = "com.google.firebase:firebase-auth-ktx:${Versions.firebaseAuth}"
@@ -105,12 +114,11 @@ object Dependencies {
     const val firebaseDatabase =
         "com.google.firebase:firebase-database-ktx:${Versions.firebaseDatabase}"
     const val firebaseCoroutines =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutinesNative}"
+        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutinesCore}"
 
     // Design
     const val appcompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val material = "com.google.android.material:material:${Versions.material}"
-    const val exoPlayer = "com.google.android.exoplayer:exoplayer:${Versions.exoPlayer}"
     const val coil = "io.coil-kt:coil-compose:${Versions.coil}"
 
     // Compose
@@ -121,8 +129,16 @@ object Dependencies {
     const val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
     const val composeUiUtil = "androidx.compose.ui:ui-util:${Versions.compose}"
-    const val composeViewBinding = "androidx.compose.ui:ui-viewbinding:${Versions.compose}"
     const val junitCompose = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
+    const val customview = "androidx.customview:customview:${Versions.customview}"
+    const val poolingContainer =
+        "androidx.customview:customview-poolingcontainer:${Versions.poolingContainer}"
+    const val constraintLayout =
+        "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayout}"
+    const val calendar =
+        "io.github.boguszpawlowski.composecalendar:composecalendar:${Versions.calendar}"
+    const val extendedIcons =
+        "androidx.compose.material:material-icons-extended:${Versions.extendedIcons}"
 
     // Accompanist
     const val systemUiController =
@@ -144,9 +160,8 @@ object Dependencies {
     const val pagingCommon = "androidx.paging:paging-common:${Versions.pagingVersion}"
     const val pagingCompose = "androidx.paging:paging-compose:${Versions.pagingCompose}"
 
-    // Preferences
-    const val dataStorePreferences =
-        "androidx.datastore:datastore-preferences:${Versions.datastorePreferences}"
+    // Work Manger
+    const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
 
     // Room
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
@@ -181,4 +196,5 @@ object Plugins {
     const val hilt = "dagger.hilt.android.plugin"
     const val googleServices = "com.google.gms.google-services"
     const val serialization = "plugin.serialization"
+    const val gradleVersions = "com.github.ben-manes.versions"
 }

@@ -17,3 +17,5 @@ fun List<ReviewItem>.toRatingsCounter(): Map<Int, Int> {
             else it.value!!
         }
 }
+
+fun Int?.calculatePercent(size: Int) = this?.toFloat()?.div(size)?.times(100)?.toInt() ?: 0

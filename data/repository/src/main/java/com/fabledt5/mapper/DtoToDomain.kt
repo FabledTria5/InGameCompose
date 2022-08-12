@@ -10,14 +10,15 @@ import com.fabledt5.domain.model.items.ReviewItem
 import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
-import com.fabledt5.remote.api.dto.game_screenshots.ScreenshotsResult
-import com.fabledt5.remote.api.dto.game_trailers.GameTrailersResponse
+import com.fabledt5.remote.api.dto.game_screenshots.GameScreenshotsResult
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResponse
 import com.fabledt5.remote.api.dto.list_of_games.GamesListResult
 import com.fabledt5.remote.parser.dto.GameReviewDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 fun GamesListResponse.toDomainShort() = results.map { result ->
@@ -25,7 +26,8 @@ fun GamesListResponse.toDomainShort() = results.map { result ->
         gameId = result.id,
         gamePoster = result.backgroundImage,
         gameTitle = result.name,
-        gameReleaseYear = result.released.take(n = 4),
+        releaseDate = result.released?.formatReleaseDate().orEmpty(),
+        gameLastUpdate = formatUpdateDate(result.updated),
         gameGenres = result.genres.joinToString(),
         gamePEGIRating = result.esrbRating?.slug.toPEGI()
     )
@@ -64,26 +66,19 @@ fun Flow<PagingData<GamesListResult>>.toDomain(): Flow<PagingData<GameItem>> =
                     gameId = result.id,
                     gamePoster = result.backgroundImage,
                     gameTitle = result.name,
-                    gameReleaseYear = result.released.run {
-                        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                        val date = formatter.parse(this)
-                        val newFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
-                        newFormatter.format(date!!)
-                    },
+                    releaseDate = result.released?.formatReleaseDate().orEmpty(),
                     gameGenres = result.genres.take(n = 2).joinToString { it.name }
                 )
             }
     }
 
-fun List<ScreenshotsResult>.toDomain() = map { result ->
+fun GameScreenshotsResult.toDomain() = results.map { result ->
     result.image
 }
 
-@JvmName("toDomainGameReviewDto")
 fun List<GameReviewDto>.toDomain() = RatingItem(
     gameRating = getAverageRating(),
-    gameReviews = filter { it.criticScore.isNotEmpty() }
-        .shuffled()
+    gameReviews = shuffled()
         .map { dto ->
             ReviewItem(
                 reviewerName = dto.criticName,
@@ -94,16 +89,35 @@ fun List<GameReviewDto>.toDomain() = RatingItem(
         }
 )
 
-fun GameTrailersResponse.toDomain(): String =
-    results.lastOrNull { it.data.x480.isNotEmpty() }?.data?.x480 ?: ""
-
-private fun List<GameReviewDto>.getAverageRating(): String {
-    var ratingsSum = 0
-    this.forEach {
-        if (it.criticScore.isNotEmpty())
-            ratingsSum += it.criticScore.toRating()
-    }
-    return (ratingsSum.toDouble() / this.size).setScale(n = 1).toString()
+private fun String.formatReleaseDate(): String {
+    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    val date = formatter.parse(this)
+    val newFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
+    return newFormatter.format(date!!)
 }
 
-private fun String.toRating() = if (this.toInt() > 90) 5 else this.toInt() / 20
+private fun formatUpdateDate(date: String): String {
+    val localDate = LocalDate.parse(date.split('T')[0])
+    return localDate.format(DateTimeFormatter.ofPattern("dd MMM. yyyy"))
+}
+
+private fun List<GameReviewDto>.getAverageRating(): String {
+    val ratingSum = sumOf { it.criticScore }
+
+    return (ratingSum.toDouble() / size)
+        .toRating()
+        .setScale(n = 1)
+        .toString()
+}
+
+private fun Int.toRating() =
+    1 + (this > 30).toInt() + (this > 59).toInt() + (this > 74).toInt() + (this > 89).toInt()
+
+private fun Double.toRating(): Double {
+    val rawNumber =
+        1 + (this > 30).toInt() + (this > 59).toInt() + (this > 74).toInt() + (this > 91).toInt()
+    if (rawNumber < 5) return (rawNumber + (this.toInt() - this))
+    return rawNumber.toDouble()
+}
+
+private fun Boolean.toInt() = if (this) 1 else 0

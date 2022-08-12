@@ -1,8 +1,7 @@
 package com.fabledt5.splash
 
 import androidx.lifecycle.ViewModel
-import com.fabledt5.domain.model.Resource
-import com.fabledt5.domain.use_case.authentication.IsUserAuthenticated
+import com.fabledt5.domain.use_case.authentication.IsAuthenticated
 import com.fabledt5.navigation.NavigationManager
 import com.fabledt5.navigation.directions.AuthorizationDirections
 import com.fabledt5.navigation.directions.PrimaryAppDirections
@@ -14,10 +13,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
-    private val isUserAuthenticatedCase: IsUserAuthenticated
+    isAuthenticated: IsAuthenticated
 ) : ViewModel() {
 
-    val isUserAuthenticated get() = isUserAuthenticatedCase()
+    private val _isUserAuthenticated = MutableStateFlow(value = false)
+    val isUserAuthenticated = _isUserAuthenticated.asStateFlow()
+
+    init {
+        _isUserAuthenticated.value = isAuthenticated()
+    }
 
     fun openLoginScreen() = navigationManager.navigate(AuthorizationDirections.authorization)
 

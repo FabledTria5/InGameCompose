@@ -15,7 +15,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isRenderscriptDebuggable = false
             proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules.pro"
@@ -24,7 +25,6 @@ android {
     }
     buildFeatures {
         compose = true
-        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Config.composeCompilerExtensionVersion
@@ -49,22 +49,27 @@ dependencies {
     // Design
     implementation(dependencyNotation = Dependencies.appcompat)
     implementation(dependencyNotation = Dependencies.material)
-    implementation(dependencyNotation = Dependencies.exoPlayer)
 
     // Compose
-    implementation(dependencyNotation = Dependencies.composeUi)
-    implementation(dependencyNotation = Dependencies.composeMaterial)
-    implementation(dependencyNotation = Dependencies.composeToolingPreview)
-    implementation(dependencyNotation = Dependencies.composeViewBinding)
-    debugImplementation(dependencyNotation = Dependencies.composeTooling)
+    api(dependencyNotation = Dependencies.composeUi)
+    api(dependencyNotation = Dependencies.composeMaterial)
+    api(dependencyNotation = Dependencies.activityCompose)
+    api(dependencyNotation = Dependencies.extendedIcons)
+
+    // Compose Preview
+    api(dependencyNotation = Dependencies.composeToolingPreview)
+    debugApi(dependencyNotation = Dependencies.composeTooling)
+    debugApi(dependencyNotation = Dependencies.customview)
+    debugApi(dependencyNotation = Dependencies.poolingContainer)
 
     // Accompanist
     implementation(dependencyNotation = Dependencies.pager)
 
     // Testing
-    testImplementation(dependencyNotation = Dependencies.junit)
-    androidTestImplementation(dependencyNotation = Dependencies.androidJunit)
-    androidTestImplementation(dependencyNotation = Dependencies.espressoCore)
+    testApi(dependencyNotation = Dependencies.junit)
+    androidTestApi(dependencyNotation = Dependencies.androidJunit)
+    androidTestApi(dependencyNotation = Dependencies.espressoCore)
+    androidTestApi(dependencyNotation = Dependencies.junitCompose)
 
     // Coil
     implementation(dependencyNotation = Dependencies.coil)
