@@ -21,10 +21,4 @@ object PrimaryAppDirections {
         override val route = "collections"
         override val inclusive = false
     }
-
-    val profile = object : NavigationCommand {
-        override val arguments = emptyList<NamedNavArgument>()
-        override val route = "profile"
-        override val inclusive = false
-    }
 }

@@ -57,7 +57,7 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
             pagerState = gamesPagerState,
             tabsTitles = recommendedGamesTabs,
             onTabSelected = { index ->
-                scope.launch { gamesPagerState.scrollToPage(index) }
+                scope.launch { gamesPagerState.animateScrollToPage(index) }
             },
             modifier = Modifier
                 .fillMaxWidth()

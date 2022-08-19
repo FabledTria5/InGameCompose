@@ -10,4 +10,6 @@
     <string name="icon_favorite">Favorite Icon</string>
     <string name="share_with_friends">Share with friends</string>
     <string name="visit_website">Visit website</string>
+
+    <string name="game_poster_template">%1$s game poster</string>
 </resources>

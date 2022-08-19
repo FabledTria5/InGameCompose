@@ -3,8 +3,6 @@ package com.fabledt5.authentication.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +28,8 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
 
     val authenticationTabs = stringArrayResource(id = R.array.authentication_options)
 
-    val signUpState by authenticationViewModel.registrationState.collectAsState()
-    val signInState by authenticationViewModel.loginState.collectAsState()
+    val signUpState = authenticationViewModel.signUpState
+    val signInState = authenticationViewModel.signInState
 
     Column(
         modifier = Modifier
@@ -45,7 +43,7 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
             modifier = Modifier.width(200.dp),
             containerColor = Color.Transparent,
             indicator = { TabRowDefaults.Indicator(height = 0.dp, color = Color.Transparent) },
-            divider = { TabRowDefaults.Divider(color = Color.Transparent) }
+            divider = { Divider(color = Color.Transparent) }
         ) {
             authenticationTabs.forEachIndexed { index, text ->
                 Tab(
@@ -68,17 +66,13 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
         ) { page ->
             when (page) {
                 0 -> SignInPage(
-                    onPasswordRecoveryClicked = { authenticationViewModel.openPasswordRecoveryScreen() },
-                    onSignInClicked = { userEmail, userPassword ->
-                        authenticationViewModel.authenticateUser(userEmail, userPassword)
-                    },
+                    onPasswordRecoveryClicked = authenticationViewModel::openPasswordRecoveryScreen,
+                    onFormEvent = authenticationViewModel::onSignInEvent,
                     signInState = signInState
                 )
                 1 -> SignUpPage(
-                    onSignUpClicked = { userEmail, userPassword, userNickname ->
-                        authenticationViewModel.registerUser(userEmail, userPassword, userNickname)
-                    },
-                    signUpState = signUpState
+                    signUpState = signUpState,
+                    onFormEvent = authenticationViewModel::onSignUpEvent
                 )
             }
         }

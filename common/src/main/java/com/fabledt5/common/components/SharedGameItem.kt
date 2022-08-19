@@ -10,10 +10,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fabledt5.common.R
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.domain.model.items.GameItem
@@ -30,7 +32,10 @@ fun SharedGameItem(
     Row(modifier = modifier.clickable { onGameClicked(gameItem.gameId) }) {
         RemoteImage(
             imagePath = gameItem.gamePoster,
-            contentDescription = "${gameItem.gameTitle} game poster",
+            contentDescription = stringResource(
+                id = R.string.game_poster_template,
+                gameItem.gameTitle
+            ),
             modifier = Modifier
                 .weight(weight = 1f)
                 .height(100.dp)

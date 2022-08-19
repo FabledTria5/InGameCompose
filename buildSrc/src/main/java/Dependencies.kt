@@ -1,7 +1,7 @@
 import org.gradle.api.JavaVersion
 
 object Config {
-    const val compileSdk = 32
+    const val compileSdk = 33
     const val minSdk = 23
     const val targetSdk = 32
     const val versionCode = 1
@@ -10,7 +10,7 @@ object Config {
     const val applicationId = "com.fabledt5.ingamecompose"
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
     const val jvmTargetVersion = "11"
-    const val composeCompilerExtensionVersion = "1.3.0-rc01"
+    const val composeCompilerExtensionVersion = "1.3.0"
 
     val javaVersion = JavaVersion.VERSION_11
 }
@@ -31,30 +31,30 @@ object Versions {
     const val desugar = "1.1.5"
 
     // Firebase
-    const val firebaseAuth = "21.0.6"
-    const val fireStore = "24.2.1"
+    const val firebaseAuth = "21.0.7"
+    const val fireStore = "24.2.2"
     const val firebaseDatabase = "20.0.5"
     const val coroutinesCore = "1.6.4"
 
     // Design
-    const val appCompat = "1.6.0-alpha05"
+    const val appCompat = "1.6.0-beta01"
     const val material = "1.6.0"
 
     // Compose
-    const val compose = "1.3.0-alpha02"
-    const val composeMaterial = "1.0.0-alpha15"
+    const val compose = "1.3.0-alpha03"
+    const val composeMaterial = "1.0.0-alpha16"
     const val activityCompose = "1.5.0"
-    const val accompanist = "0.26.0-alpha"
+    const val accompanist = "0.26.1-alpha"
     const val coil = "2.1.0"
     const val hiltCompose = "1.0.0"
     const val customview = "1.2.0-alpha01"
     const val poolingContainer = "1.0.0"
     const val constraintLayout = "1.1.0-alpha03"
     const val calendar = "0.6.0"
-    const val extendedIcons = "1.3.0-alpha02"
+    const val extendedIcons = "1.3.0-alpha03"
 
     // Dagger Hilt
-    const val hiltAndroid = "2.43.1"
+    const val hiltAndroid = "2.43.2"
 
     // Testing
     const val jUnit = "4.13.2"
@@ -67,9 +67,6 @@ object Versions {
     // Room
     const val roomVersion = "2.5.0-alpha02"
 
-    // Work Manager
-    const val workManager = "2.7.1"
-
     // Network
     const val retrofitVersion = "2.9.0"
     const val kotlinSerializationConverter = "0.8.0"
@@ -79,8 +76,8 @@ object Versions {
     const val jsoup = "1.15.2"
 
     // Pagination
-    const val pagingVersion = "3.2.0-alpha01"
-    const val pagingCompose = "1.0.0-alpha15"
+    const val pagingVersion = "3.2.0-alpha02"
+    const val pagingCompose = "1.0.0-alpha16"
 }
 
 object Dependencies {
@@ -159,9 +156,6 @@ object Dependencies {
     const val pagingRuntime = "androidx.paging:paging-runtime:${Versions.pagingVersion}"
     const val pagingCommon = "androidx.paging:paging-common:${Versions.pagingVersion}"
     const val pagingCompose = "androidx.paging:paging-compose:${Versions.pagingCompose}"
-
-    // Work Manger
-    const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
 
     // Room
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"

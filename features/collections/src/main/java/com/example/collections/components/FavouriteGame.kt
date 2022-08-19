@@ -177,7 +177,7 @@ fun FavoriteGameImage(
 
     RemoteImage(
         imagePath = gameImage,
-        contentDescription = "$gameTitle game poster",
+        contentDescription = stringResource(id = R.string.game_poster_template, gameTitle),
         modifier = modifier
             .swipeable(
                 state = swipeAbleState, anchors = anchors, thresholds = { _, _ ->

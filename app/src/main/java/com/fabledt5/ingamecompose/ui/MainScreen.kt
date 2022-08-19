@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.fabledt5.common.theme.DefaultHorizontalGradient
 import com.fabledt5.common.theme.DimGray
+import com.fabledt5.common.theme.GradinentTextStyle
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.utils.gradient
 import com.fabledt5.ingamecompose.navigation.authenticationGraph
@@ -114,7 +115,6 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
         BottomBarItem.Home,
         BottomBarItem.Catalogue,
         BottomBarItem.Collections,
-        BottomBarItem.Profile
     )
 
     val isBottomNavigationVisible = !currentDestination.isNullOrEmpty() && screens.any { screen ->
@@ -163,16 +163,14 @@ fun RowScope.AddNavigationItem(
         label = {
             Text(
                 text = screen.title,
-                modifier = Modifier.then(
-                    if (selected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
-                ),
-                fontFamily = Mark
+                fontFamily = Mark,
+                style = GradinentTextStyle(isEnabled = selected)
             )
         },
         icon = {
             Icon(
                 painter = painterResource(id = screen.icon),
-                contentDescription = null,
+                contentDescription = "${screen.title} screen",
                 modifier = Modifier.then(
                     if (selected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
                 )

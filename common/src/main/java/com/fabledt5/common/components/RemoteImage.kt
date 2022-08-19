@@ -20,8 +20,7 @@ fun RemoteImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale,
     colorFilter: ColorFilter? = null,
-    onSuccess: () -> Unit = {},
-    onError: () -> Unit = {}
+    onSuccess: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
     val crossfadeDuration = 500

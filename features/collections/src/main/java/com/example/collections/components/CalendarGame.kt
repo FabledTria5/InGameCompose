@@ -42,7 +42,10 @@ fun CalendarGame(
         Row {
             RemoteImage(
                 imagePath = gameItem.gamePoster,
-                contentDescription = "${gameItem.gameTitle} game poster",
+                contentDescription = stringResource(
+                    id = R.string.game_poster_template,
+                    gameItem.gameTitle
+                ),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .shadow(elevation = 5.dp, shape = RoundedCornerShape(5.dp))

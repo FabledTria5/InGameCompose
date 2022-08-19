@@ -36,7 +36,7 @@ fun NavGraphBuilder.authenticationGraph() {
                 )
             }
         ) {
-            PasswordRecoveryScreen()
+            PasswordRecoveryScreen(authenticationViewModel = hiltViewModel())
         }
     }
 }

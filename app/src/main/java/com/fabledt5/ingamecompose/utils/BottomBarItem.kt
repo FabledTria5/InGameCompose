@@ -25,9 +25,4 @@ sealed class BottomBarItem(
         title = "Collections",
         icon = R.drawable.ic_collections
     )
-    object Profile : BottomBarItem(
-        destination = PrimaryAppDirections.profile,
-        title = "Profile",
-        icon = R.drawable.ic_profile
-    )
 }

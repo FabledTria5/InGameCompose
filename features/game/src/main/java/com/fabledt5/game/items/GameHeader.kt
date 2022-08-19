@@ -1,19 +1,22 @@
 package com.fabledt5.game.items
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Games
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -36,7 +39,10 @@ fun GameHeader(
     Box(modifier = Modifier.fillMaxWidth()) {
         RemoteImage(
             imagePath = gameItem.gamePoster,
-            contentDescription = "${gameItem.gameTitle} game poster",
+            contentDescription = stringResource(
+                id = R.string.game_poster_template,
+                gameItem.gameTitle
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
@@ -65,11 +71,11 @@ fun GameHeader(
                 .align(Alignment.TopEnd)
                 .statusBarsPadding()
         ) {
-            Icon(
-                imageVector = Icons.Default.Games,
+            Image(
+                painter = painterResource(id = R.drawable.save),
                 contentDescription = stringResource(R.string.mark_as_played),
                 modifier = Modifier.size(35.dp),
-                tint = Color.White
+                colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) })
             )
         }
         Column(

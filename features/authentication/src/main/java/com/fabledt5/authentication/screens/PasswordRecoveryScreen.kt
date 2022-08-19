@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.authentication.AuthenticationViewModel
 import com.fabledt5.authentication.R
+import com.fabledt5.common.theme.GradinentTextStyle
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.theme.Turquoise
@@ -99,7 +100,7 @@ fun PasswordRecoveryScreen(authenticationViewModel: AuthenticationViewModel) {
                     modifier = Modifier.padding(vertical = 8.dp),
                     fontFamily = Mark,
                     fontWeight = FontWeight.Bold,
-                    color = Turquoise
+                    style = GradinentTextStyle()
                 )
             }
         }

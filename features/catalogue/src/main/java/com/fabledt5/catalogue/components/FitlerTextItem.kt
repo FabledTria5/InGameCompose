@@ -20,9 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.theme.DarkLateBlack
-import com.fabledt5.common.theme.DefaultHorizontalGradient
+import com.fabledt5.common.theme.GradinentTextStyle
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.utils.gradient
 
 @Composable
 fun FilterTextItem(
@@ -56,13 +55,13 @@ fun FilterTextItem(
             text = filterName.uppercase(),
             modifier = Modifier
                 .padding(vertical = 15.dp)
-                .align(Alignment.Center)
-                .then(if (isActive) Modifier.gradient(DefaultHorizontalGradient) else Modifier),
+                .align(Alignment.Center),
             color = if (!isActive) Color.White.copy(alpha = .3f) else Color.White,
             fontFamily = Mark,
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = GradinentTextStyle(isEnabled = isActive)
         )
     }
 }

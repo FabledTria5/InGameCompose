@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.collections.R
 import com.fabledt5.common.theme.DefaultHorizontalGradient
+import com.fabledt5.common.theme.GradinentTextStyle
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.common.utils.capitalize
-import com.fabledt5.common.utils.gradient
 import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.header.MonthState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
@@ -148,12 +148,10 @@ object CalendarComponents {
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
-                    }
-                    .then(
-                        if (isSelected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
-                    ),
+                    },
                 color = if (isCurrentMonth) unSelectedColor else unSelectedColor.copy(alpha = .5f),
-                fontFamily = Proxima
+                fontFamily = Proxima,
+                style = GradinentTextStyle(isEnabled = isSelected)
             )
         }
     }
