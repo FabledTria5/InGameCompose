@@ -9,11 +9,11 @@ class AuthenticateUser @Inject constructor(private val authRepository: AuthRepos
 
     operator fun invoke(userEmail: String, userPassword: String) = flow {
         emit(Resource.Loading)
-        when (val authenticationResult =
-            authRepository.signInFirebase(email = userEmail, password = userPassword)) {
-            is Resource.Error -> emit(authenticationResult)
-            else -> Unit
-        }
+        val authenticationResult = authRepository.signInFirebase(
+            email = userEmail,
+            password = userPassword
+        )
+        emit(authenticationResult)
     }
 
 }

@@ -3,6 +3,8 @@ package com.fabledt5.authentication.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,8 +30,9 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
 
     val authenticationTabs = stringArrayResource(id = R.array.authentication_options)
 
-    val signUpState = authenticationViewModel.signUpState
-    val signInState = authenticationViewModel.signInState
+    val signUpState by authenticationViewModel.signUpState.collectAsState()
+    val signInState by authenticationViewModel.signInState.collectAsState()
+    val authenticationState by authenticationViewModel.authenticationState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -66,12 +69,13 @@ fun AuthenticationScreen(authenticationViewModel: AuthenticationViewModel) {
         ) { page ->
             when (page) {
                 0 -> SignInPage(
-                    onPasswordRecoveryClicked = authenticationViewModel::openPasswordRecoveryScreen,
-                    onFormEvent = authenticationViewModel::onSignInEvent,
-                    signInState = signInState
+                    signInState = signInState,
+                    authenticationState = authenticationState,
+                    onFormEvent = authenticationViewModel::onSignInEvent
                 )
                 1 -> SignUpPage(
                     signUpState = signUpState,
+                    authenticationState = authenticationState,
                     onFormEvent = authenticationViewModel::onSignUpEvent
                 )
             }

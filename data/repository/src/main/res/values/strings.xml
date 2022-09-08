@@ -14,4 +14,11 @@
 
     <string name="error_operation_cancelled">Cancelled</string>
     <string name="error_resource_already_exists">This resource is already exists</string>
+
+    <string name="error_empty_email">Email can not be empty</string>
+    <string name="error_incorrect_email">Incorrect email format</string>
+    <string name="error_empty_password">Password can not be empty</string>
+    <string name="error_short_password">Password can not be less than 8 characters</string>
+    <string name="error_incorrect_password">Password must contain at least 1 digit</string>
+    <string name="error_empty_nickname">Nickname can not be empty</string>
 </resources>

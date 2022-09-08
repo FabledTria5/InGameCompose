@@ -19,6 +19,6 @@ interface ErrorRepository {
     fun resolveShortPassword(): String
 
     fun resolveIncorrectPassword(): String
-    fun resolveEmptyNickname(): String?
+    fun resolveEmptyNickname(): String
 
 }

@@ -6,6 +6,7 @@ import com.fabledt5.domain.model.Resource
 import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.repository.ErrorRepository
 import com.fabledt5.domain.repository.firebase.FireStoreRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -14,10 +15,9 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Named
 
 class FireStoreRepositoryImpl @Inject constructor(
-    @Named("Firebase User Id") private val uId: String,
+    firebaseAuth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val errorRepository: ErrorRepository,
 ) : FireStoreRepository {
@@ -36,6 +36,8 @@ class FireStoreRepositoryImpl @Inject constructor(
         private const val GAME_DEVELOPER = "game_developer"
         private const val RELEASE_DATE = "release_date"
     }
+
+    private val uId = firebaseAuth.uid ?: ""
 
     override suspend fun createUser(
         userEmail: String,

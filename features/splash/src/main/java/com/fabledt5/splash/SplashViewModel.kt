@@ -1,5 +1,6 @@
 package com.fabledt5.splash
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import com.fabledt5.domain.use_case.authentication.IsAuthenticated
 import com.fabledt5.navigation.NavigationManager
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
+@Stable
 class SplashViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     isAuthenticated: IsAuthenticated

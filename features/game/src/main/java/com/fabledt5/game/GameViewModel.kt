@@ -1,5 +1,6 @@
 package com.fabledt5.game
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@Stable
 class GameViewModel @AssistedInject constructor(
     @Assisted private val gameId: Int,
     private val navigationManager: NavigationManager,

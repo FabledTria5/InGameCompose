@@ -9,7 +9,7 @@ interface AuthRepository {
 
     suspend fun signInFirebase(email: String, password: String): Resource<Boolean>
 
-    suspend fun signUpFirebase(email: String, password: String): Resource<String>
+    suspend fun signUpFirebase(email: String, password: String): Resource<Boolean>
 
     suspend fun resetPassword(email: String): Resource<Boolean>
 

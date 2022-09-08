@@ -1,5 +1,6 @@
 package com.fabledt5.home
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fabledt5.domain.model.Resource
@@ -16,6 +17,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
+@Stable
 class HomeViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val homeCases: HomeCases

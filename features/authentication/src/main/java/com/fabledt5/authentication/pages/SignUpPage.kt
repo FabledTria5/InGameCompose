@@ -20,18 +20,20 @@ import androidx.compose.ui.unit.sp
 import com.fabledt5.authentication.R
 import com.fabledt5.authentication.model.AuthenticationFormEvent
 import com.fabledt5.authentication.model.AuthenticationFormState
-import com.fabledt5.common.theme.GradinentTextStyle
-import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.theme.Proxima
+import com.fabledt5.common.components.ColorfulProgressIndicator
+import com.fabledt5.common.theme.*
+import com.fabledt5.domain.model.Resource
 
 @ExperimentalMaterial3Api
 @Composable
 fun SignUpPage(
-    onFormEvent: (AuthenticationFormEvent) -> Unit,
-    signUpState: AuthenticationFormState
+    signUpState: AuthenticationFormState,
+    authenticationState: Resource<Boolean>,
+    onFormEvent: (AuthenticationFormEvent) -> Unit
 ) {
     SignUpContent(
         signUpState = signUpState,
+        authenticationState = authenticationState,
         onFormEvent = onFormEvent
     )
 }
@@ -40,6 +42,7 @@ fun SignUpPage(
 @Composable
 fun SignUpContent(
     signUpState: AuthenticationFormState,
+    authenticationState: Resource<Boolean>,
     onFormEvent: (AuthenticationFormEvent) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -56,24 +59,31 @@ fun SignUpContent(
                 .align(Alignment.BottomCenter),
             contentAlignment = Alignment.Center
         ) {
-            OutlinedButton(
-                onClick = { onFormEvent(AuthenticationFormEvent.Submit) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 20.dp),
-                shape = RoundedCornerShape(5.dp),
-                border = BorderStroke(width = 1.dp, color = Color.White),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color(0xFF0e0e0f)
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.sign_up).uppercase(),
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    fontFamily = Mark,
-                    fontWeight = FontWeight.Bold,
-                    style = GradinentTextStyle()
-                )
+            when (authenticationState) {
+                Resource.Loading -> {
+                    ColorfulProgressIndicator(modifier = Modifier.size(PROGRESS_INDICATOR_REGULAR))
+                }
+                else -> {
+                    OutlinedButton(
+                        onClick = { onFormEvent(AuthenticationFormEvent.Submit) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 20.dp),
+                        shape = RoundedCornerShape(5.dp),
+                        border = BorderStroke(width = 1.dp, color = Color.White),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = DarkContainerColor
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.sign_up).uppercase(),
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            fontFamily = Mark,
+                            fontWeight = FontWeight.Bold,
+                            style = GradinentTextStyle()
+                        )
+                    }
+                }
             }
         }
     }
@@ -121,7 +131,7 @@ fun SignUpDataInput(
             shape = RoundedCornerShape(size = 3.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 textColor = Color.White,
-                containerColor = Color(0xFF111113),
+                containerColor = DarkContainerColor,
                 cursorColor = Color.White,
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
@@ -159,7 +169,7 @@ fun SignUpDataInput(
             shape = RoundedCornerShape(size = 3.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 textColor = Color.White,
-                containerColor = Color(0xFF111113),
+                containerColor = DarkContainerColor,
                 cursorColor = Color.White,
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
@@ -197,7 +207,7 @@ fun SignUpDataInput(
             shape = RoundedCornerShape(size = 3.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 textColor = Color.White,
-                containerColor = Color(0xFF111113),
+                containerColor = DarkContainerColor,
                 cursorColor = Color.White,
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
