@@ -80,7 +80,7 @@ fun SignUpContent(
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontFamily = Mark,
                             fontWeight = FontWeight.Bold,
-                            style = GradinentTextStyle()
+                            style = gradientTextStyle()
                         )
                     }
                 }

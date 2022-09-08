@@ -18,7 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.fabledt5.authentication.screens.AuthenticationScreen
 import com.fabledt5.common.theme.DefaultHorizontalGradient
 import com.fabledt5.common.theme.DimGray
-import com.fabledt5.common.theme.GradinentTextStyle
+import com.fabledt5.common.theme.gradientTextStyle
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.utils.gradient
 import com.fabledt5.ingamecompose.navigation.gameGraph
@@ -165,7 +165,7 @@ fun RowScope.AddNavigationItem(
             Text(
                 text = screen.title,
                 fontFamily = Mark,
-                style = GradinentTextStyle(isEnabled = selected)
+                style = gradientTextStyle(isEnabled = selected)
             )
         },
         icon = {

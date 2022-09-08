@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.theme.GradinentTextStyle
+import com.fabledt5.common.theme.gradientTextStyle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 
@@ -72,7 +72,7 @@ fun OutlinedTabs(
                             text = tabName.uppercase(),
                             fontSize = textSize,
                             fontWeight = FontWeight.Bold,
-                            style = GradinentTextStyle(isEnabled = index == pagerState.currentPage)
+                            style = gradientTextStyle(isEnabled = index == pagerState.currentPage)
                         )
                     },
                     unselectedContentColor = Color.DarkGray,

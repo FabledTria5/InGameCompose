@@ -23,6 +23,6 @@ val DarkLateBlack = Color(0xFF222224)
 val DefaultHorizontalGradient = Brush.horizontalGradient(colors = listOf(Turquoise, MediumLateBlue))
 
 @OptIn(ExperimentalTextApi::class)
-fun GradinentTextStyle(isEnabled: Boolean = true): TextStyle = TextStyle(
+fun gradientTextStyle(isEnabled: Boolean = true): TextStyle = TextStyle(
     brush = if (isEnabled) DefaultHorizontalGradient else null
 )

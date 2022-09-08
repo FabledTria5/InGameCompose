@@ -33,7 +33,7 @@ fun FilterImageItem(
         targetValue = if (isActive) Color.Black else DarkLateBlack
     )
     val iconTint by animateColorAsState(
-        targetValue = if (isActive) Color.White else Color.White.copy(alpha = .3f)
+        targetValue = if (isActive) Color.White else Color.Gray
     )
     Box(
         modifier = modifier
