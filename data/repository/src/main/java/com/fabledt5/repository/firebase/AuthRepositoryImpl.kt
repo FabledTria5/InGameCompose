@@ -20,8 +20,8 @@ class AuthRepositoryImpl @Inject constructor(
         get() = authenticator.currentUser != null
 
     override suspend fun signUpFirebase(email: String, password: String) = try {
-        val result = authenticator.createUserWithEmailAndPassword(email, password).await()
-        Resource.Success(data = result.user!!.uid)
+        authenticator.createUserWithEmailAndPassword(email, password).await()
+        Resource.Success(data = true)
     } catch (exception: FirebaseAuthException) {
         Timber.e(exception)
         val error = errorRepository.resolveAuthenticationError(exception)

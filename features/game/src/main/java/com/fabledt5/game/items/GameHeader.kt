@@ -5,7 +5,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Games
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,7 +36,10 @@ fun GameHeader(
     Box(modifier = Modifier.fillMaxWidth()) {
         RemoteImage(
             imagePath = gameItem.gamePoster,
-            contentDescription = "${gameItem.gameTitle} game poster",
+            contentDescription = stringResource(
+                id = R.string.game_poster_template,
+                gameItem.gameTitle
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(height = (configuration.screenHeightDp.dp / 1.5.dp).dp)
@@ -66,7 +69,7 @@ fun GameHeader(
                 .statusBarsPadding()
         ) {
             Icon(
-                imageVector = Icons.Default.Games,
+                imageVector = Icons.Default.AddCircle,
                 contentDescription = stringResource(R.string.mark_as_played),
                 modifier = Modifier.size(35.dp),
                 tint = Color.White

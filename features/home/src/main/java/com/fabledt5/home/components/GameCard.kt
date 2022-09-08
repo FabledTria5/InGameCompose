@@ -8,10 +8,12 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fabledt5.common.components.RemoteImage
 import com.fabledt5.common.theme.DimGray
 import com.fabledt5.domain.model.items.GameItem
+import com.fabledt5.home.R
 
 @Composable
 fun GameCard(game: GameItem, modifier: Modifier = Modifier, onGameClick: (Int) -> Unit) {
@@ -26,7 +28,7 @@ fun GameCard(game: GameItem, modifier: Modifier = Modifier, onGameClick: (Int) -
     ) {
         RemoteImage(
             imagePath = game.gamePoster,
-            contentDescription = "${game.gameTitle} game poster",
+            contentDescription = stringResource(id = R.string.game_poster_template, game.gameTitle),
             contentScale = ContentScale.Crop
         )
     }

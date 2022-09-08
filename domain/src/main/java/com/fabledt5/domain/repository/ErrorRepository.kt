@@ -10,4 +10,15 @@ interface ErrorRepository {
 
     fun resolveRemoteUserDataError(exception: Exception): ErrorItem
 
+    fun resolveEmptyEmail(): String
+
+    fun resolveIncorrectEmail(): String
+
+    fun resolveEmptyPassword(): String
+
+    fun resolveShortPassword(): String
+
+    fun resolveIncorrectPassword(): String
+    fun resolveEmptyNickname(): String
+
 }

@@ -14,14 +14,4 @@ object AuthorizationDirections {
         override val inclusive = false
 
     }
-
-    val passwordRecovery = object : NavigationCommand {
-
-        override val arguments = emptyList<NamedNavArgument>()
-
-        override val route = "password_recovery"
-
-        override val inclusive = false
-
-    }
 }

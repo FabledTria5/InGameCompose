@@ -5,10 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -20,61 +19,37 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.authentication.R
+import com.fabledt5.authentication.model.AuthenticationFormEvent
+import com.fabledt5.authentication.model.AuthenticationFormState
+import com.fabledt5.common.components.ColorfulProgressIndicator
 import com.fabledt5.common.theme.*
 import com.fabledt5.domain.model.Resource
 
 @ExperimentalMaterial3Api
 @Composable
 fun SignInPage(
-    onPasswordRecoveryClicked: () -> Unit,
-    onSignInClicked: (String, String) -> Unit,
-    signInState: Resource<Any>
+    onFormEvent: (AuthenticationFormEvent) -> Unit,
+    signInState: AuthenticationFormState,
+    authenticationState: Resource<Boolean>
 ) {
-    var userEmail by remember { mutableStateOf("") }
-    var userPassword by remember { mutableStateOf("") }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (signInState is Resource.Loading)
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .size(20.dp)
-                    .align(Alignment.Center),
-                color = MediumLateBlue
-            )
-        else SignInContent(
-            onEmailChanged = { userEmail = it },
-            onPasswordChanges = { userPassword = it },
-            signInState = signInState,
-            userEmail = userEmail,
-            userPassword = userPassword,
-            onPasswordRecoveryClicked = onPasswordRecoveryClicked,
-            onSignInClicked = { onSignInClicked(userEmail, userPassword) }
-        )
-    }
+    SignInContent(
+        formState = signInState,
+        onFormEvent = onFormEvent,
+        authenticationState = authenticationState
+    )
 }
 
 @ExperimentalMaterial3Api
 @Composable
 fun SignInContent(
-    userEmail: String,
-    userPassword: String,
-    onEmailChanged: (String) -> Unit,
-    onPasswordChanges: (String) -> Unit,
-    signInState: Resource<Any>,
-    onPasswordRecoveryClicked: () -> Unit,
-    onSignInClicked: () -> Unit
+    formState: AuthenticationFormState,
+    onFormEvent: (AuthenticationFormEvent) -> Unit,
+    authenticationState: Resource<Boolean>
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .alpha(alpha = if (signInState is Resource.Loading) .5f else 1f),
-    ) {
-        UserDataInput(
-            userEmail = userEmail,
-            userPassword = userPassword,
-            onEmailChanged = onEmailChanged,
-            onPasswordChanged = onPasswordChanges,
-            onPasswordRecoveryClicked = onPasswordRecoveryClicked,
+    Box(modifier = Modifier.fillMaxSize()) {
+        SignInDataInput(
+            formState = formState,
+            onFormEvent = onFormEvent,
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.Center)
@@ -85,25 +60,31 @@ fun SignInContent(
                 .align(Alignment.BottomCenter),
             contentAlignment = Alignment.Center
         ) {
-            OutlinedButton(
-                onClick = onSignInClicked,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 20.dp),
-                shape = RoundedCornerShape(5.dp),
-                border = BorderStroke(width = 1.dp, color = Color.White),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color(0xFF0e0e0f)
-                ),
-                enabled = userEmail.isNotEmpty() && userPassword.isNotEmpty()
-            ) {
-                Text(
-                    text = stringResource(id = R.string.sign_in).uppercase(),
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    fontFamily = Mark,
-                    fontWeight = FontWeight.Bold,
-                    style = GradinentTextStyle()
-                )
+            when (authenticationState) {
+                Resource.Loading -> {
+                    ColorfulProgressIndicator(modifier = Modifier.size(PROGRESS_INDICATOR_REGULAR))
+                }
+                else -> {
+                    OutlinedButton(
+                        onClick = { onFormEvent(AuthenticationFormEvent.Submit) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 20.dp),
+                        shape = RoundedCornerShape(5.dp),
+                        border = BorderStroke(width = 1.dp, color = Color.White),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = DarkContainerColor
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.sign_in).uppercase(),
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            fontFamily = Mark,
+                            fontWeight = FontWeight.Bold,
+                            style = gradientTextStyle()
+                        )
+                    }
+                }
             }
         }
     }
@@ -111,13 +92,10 @@ fun SignInContent(
 
 @ExperimentalMaterial3Api
 @Composable
-fun UserDataInput(
-    userEmail: String,
-    userPassword: String,
-    onEmailChanged: (String) -> Unit,
-    onPasswordChanged: (String) -> Unit,
-    onPasswordRecoveryClicked: () -> Unit,
-    modifier: Modifier = Modifier
+fun SignInDataInput(
+    modifier: Modifier = Modifier,
+    formState: AuthenticationFormState,
+    onFormEvent: (AuthenticationFormEvent) -> Unit,
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
@@ -128,14 +106,12 @@ fun UserDataInput(
             fontSize = 13.sp,
             textAlign = TextAlign.Center
         )
+
         OutlinedTextField(
-            value = userEmail,
-            onValueChange = {
-                onEmailChanged(it)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 10.dp),
+            value = formState.email,
+            onValueChange = { onFormEvent(AuthenticationFormEvent.EmailChanged(it)) },
+            modifier = Modifier.fillMaxWidth(),
+            isError = formState.emailError != null,
             placeholder = {
                 Text(
                     text = stringResource(R.string.email_placeholder).uppercase(),
@@ -153,7 +129,7 @@ fun UserDataInput(
             shape = RoundedCornerShape(size = 3.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 textColor = Color.White,
-                containerColor = Color(0xFF111113),
+                containerColor = DarkContainerColor,
                 cursorColor = Color.White,
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
@@ -161,10 +137,19 @@ fun UserDataInput(
                 placeholderColor = Color.DarkGray
             ),
         )
+        if (formState.emailError != null)
+            Text(
+                text = formState.emailError,
+                modifier = Modifier.padding(top = 5.dp, bottom = 15.dp),
+                color = MaterialTheme.colorScheme.error,
+                fontFamily = Mark
+            )
+
         OutlinedTextField(
-            value = userPassword,
-            onValueChange = { onPasswordChanged(it) },
+            value = formState.password,
+            onValueChange = { onFormEvent(AuthenticationFormEvent.PasswordChanged(it)) },
             modifier = Modifier.fillMaxWidth(),
+            isError = formState.passwordError != null,
             placeholder = {
                 Text(
                     text = stringResource(R.string.password_placeholder).uppercase(),
@@ -172,16 +157,6 @@ fun UserDataInput(
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp
                 )
-            },
-            trailingIcon = {
-                TextButton(onClick = onPasswordRecoveryClicked) {
-                    Text(
-                        text = stringResource(id = R.string.forgot_password),
-                        fontFamily = Proxima,
-                        color = Color.DarkGray,
-                        fontSize = 11.sp
-                    )
-                }
             },
             textStyle = TextStyle(fontSize = 12.sp),
             keyboardOptions = KeyboardOptions(
@@ -192,7 +167,7 @@ fun UserDataInput(
             shape = RoundedCornerShape(size = 3.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 textColor = Color.White,
-                containerColor = Color(0xFF111113),
+                containerColor = DarkContainerColor,
                 cursorColor = Color.White,
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
@@ -201,5 +176,12 @@ fun UserDataInput(
             ),
             visualTransformation = PasswordVisualTransformation()
         )
+        if (formState.nicknameError != null)
+            Text(
+                text = formState.nicknameError,
+                modifier = Modifier.padding(top = 5.dp),
+                color = MaterialTheme.colorScheme.error,
+                fontFamily = Mark
+            )
     }
 }

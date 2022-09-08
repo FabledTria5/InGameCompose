@@ -1,5 +1,6 @@
 package com.fabledt5.catalogue
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,6 +21,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
+@Stable
 class CatalogueViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val filtersCases: FiltersCases,

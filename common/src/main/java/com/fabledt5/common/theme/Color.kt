@@ -14,6 +14,7 @@ val Turquoise = Color(0xFF2dE1F3)
 val MediumLateBlue = Color(0xFF747EFB)
 val SandyBrown = Color(0xFFf5CD4E)
 val Background = Color(0xFF121214)
+val DarkContainerColor = Color(0xFF0e0e0f)
 val DarkLateGray = Color(0xFF2B2C2F)
 val DimGray = Color(0xFF656467)
 val MidNightBlack = Color(0xFF191A1D)
@@ -22,6 +23,6 @@ val DarkLateBlack = Color(0xFF222224)
 val DefaultHorizontalGradient = Brush.horizontalGradient(colors = listOf(Turquoise, MediumLateBlue))
 
 @OptIn(ExperimentalTextApi::class)
-fun GradinentTextStyle(isEnabled: Boolean = true): TextStyle = TextStyle(
+fun gradientTextStyle(isEnabled: Boolean = true): TextStyle = TextStyle(
     brush = if (isEnabled) DefaultHorizontalGradient else null
 )

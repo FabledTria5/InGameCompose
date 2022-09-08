@@ -80,7 +80,7 @@ fun ShowRecommendedGames(gamesList: List<GameItem>, onGameClick: (Int) -> Unit) 
     FlowRow(
         modifier = Modifier
             .navigationBarsPadding()
-            .padding(horizontal = 10.dp)
+            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             .fillMaxWidth(),
         mainAxisAlignment = MainAxisAlignment.SpaceBetween,
         crossAxisSpacing = 10.dp,

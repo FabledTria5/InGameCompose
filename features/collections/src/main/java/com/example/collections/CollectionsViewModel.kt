@@ -1,5 +1,6 @@
 package com.example.collections
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
+@Stable
 class CollectionsViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val collectionsCases: CollectionsCases

@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.collections.R
 import com.fabledt5.common.components.RemoteImage
-import com.fabledt5.common.theme.GradinentTextStyle
+import com.fabledt5.common.theme.gradientTextStyle
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.theme.Proxima
 import com.fabledt5.domain.model.items.GameItem
@@ -110,7 +110,7 @@ fun FavoriteGameContent(
                     fontFamily = Mark,
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    style = GradinentTextStyle()
+                    style = gradientTextStyle()
                 )
             }
             Text(
@@ -177,7 +177,7 @@ fun FavoriteGameImage(
 
     RemoteImage(
         imagePath = gameImage,
-        contentDescription = "$gameTitle game poster",
+        contentDescription = stringResource(id = R.string.game_poster_template, gameTitle),
         modifier = modifier
             .swipeable(
                 state = swipeAbleState, anchors = anchors, thresholds = { _, _ ->

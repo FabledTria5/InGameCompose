@@ -7,7 +7,6 @@ import com.fabledt5.domain.model.items.GameItem
 import com.fabledt5.domain.model.items.RatingItem
 import com.fabledt5.domain.model.items.RequirementsItem
 import com.fabledt5.domain.model.items.ReviewItem
-import com.fabledt5.domain.utlis.setScale
 import com.fabledt5.domain.utlis.toPEGI
 import com.fabledt5.remote.api.dto.game_details.Platform
 import com.fabledt5.remote.api.dto.game_screenshots.GameScreenshotsResult
@@ -77,7 +76,7 @@ fun GameScreenshotsResult.toDomain() = results.map { result ->
 }
 
 fun List<GameReviewDto>.toDomain() = RatingItem(
-    gameRating = getAverageRating(),
+    gameRating = (sumOf { it.criticScore } / size).toString(),
     gameReviews = shuffled()
         .map { dto ->
             ReviewItem(
@@ -101,23 +100,7 @@ private fun formatUpdateDate(date: String): String {
     return localDate.format(DateTimeFormatter.ofPattern("dd MMM. yyyy"))
 }
 
-private fun List<GameReviewDto>.getAverageRating(): String {
-    val ratingSum = sumOf { it.criticScore }
-
-    return (ratingSum.toDouble() / size)
-        .toRating()
-        .setScale(n = 1)
-        .toString()
-}
-
 private fun Int.toRating() =
     1 + (this > 30).toInt() + (this > 59).toInt() + (this > 74).toInt() + (this > 89).toInt()
-
-private fun Double.toRating(): Double {
-    val rawNumber =
-        1 + (this > 30).toInt() + (this > 59).toInt() + (this > 74).toInt() + (this > 91).toInt()
-    if (rawNumber < 5) return (rawNumber + (this.toInt() - this))
-    return rawNumber.toDouble()
-}
 
 private fun Boolean.toInt() = if (this) 1 else 0

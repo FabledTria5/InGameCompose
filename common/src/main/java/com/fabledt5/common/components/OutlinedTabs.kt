@@ -6,10 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,8 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fabledt5.common.theme.DefaultHorizontalGradient
-import com.fabledt5.common.utils.gradient
+import com.fabledt5.common.theme.gradientTextStyle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 
@@ -46,40 +42,41 @@ fun OutlinedTabs(
             modifier = Modifier.height(50.dp),
             containerColor = Color.Transparent,
             indicator = { TabRowDefaults.Indicator(color = Color.Transparent) },
-            divider = { TabRowDefaults.Divider(color = Color.Transparent) }
+            divider = { Divider(color = Color.Transparent) }
         ) {
             tabsTitles.forEachIndexed { index, tabName ->
                 Tab(
-                    selected = pagerState.currentPage == index,
+                    selected = index == pagerState.currentPage,
                     onClick = { onTabSelected(index) },
                     modifier = Modifier
                         .background(
                             color = if (pagerState.currentPage == index)
-                                Color(0xFF0c0d0e)
+                                Color.Black
                             else
                                 Color.Transparent,
                             shape = RoundedCornerShape(size = 10.dp)
                         )
                         .border(
-                            border = if (pagerState.currentPage == index) BorderStroke(
+                            border = if (index == pagerState.currentPage) BorderStroke(
                                 width = 1.dp,
                                 color = Color.White
-                            ) else BorderStroke(width = 0.dp, color = Color.Transparent),
+                            ) else
+                                BorderStroke(
+                                    width = 0.dp,
+                                    color = Color.Transparent
+                                ),
                             shape = RoundedCornerShape(size = 10.dp)
                         ),
                     text = {
                         Text(
                             text = tabName.uppercase(),
-                            modifier = Modifier.then(
-                                if (pagerState.currentPage == index) Modifier.gradient(
-                                    DefaultHorizontalGradient
-                                ) else Modifier
-                            ),
                             fontSize = textSize,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            style = gradientTextStyle(isEnabled = index == pagerState.currentPage)
                         )
                     },
-                    unselectedContentColor = Color.White.copy(alpha = .5f)
+                    unselectedContentColor = Color.DarkGray,
+                    selectedContentColor = Color.White
                 )
             }
         }

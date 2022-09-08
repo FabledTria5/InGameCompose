@@ -1,6 +1,5 @@
 package com.example.collections.pages
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -51,9 +50,7 @@ fun CalendarPage(
     ) {
         item {
             SelectableCalendar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .animateContentSize(),
+                modifier = Modifier.fillMaxWidth(),
                 calendarState = calendarState,
                 horizontalSwipeEnabled = false,
                 monthHeader = {

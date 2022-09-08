@@ -108,7 +108,10 @@ fun HotGame(hotGame: GameItem, onGameClicked: (Int) -> Unit) {
     Box(modifier = Modifier.clickable { onGameClicked(hotGame.gameId) }) {
         RemoteImage(
             imagePath = hotGame.gamePoster,
-            contentDescription = "${hotGame.gameTitle} game poster",
+            contentDescription = stringResource(
+                id = R.string.game_poster_template,
+                hotGame.gameTitle
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp)

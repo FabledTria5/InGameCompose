@@ -44,7 +44,7 @@ data class GamesListResult(
     @SerialName("saturated_color")
     val saturatedColor: String,
     @SerialName("short_screenshots")
-    val shortScreenshots: List<ShortScreenshot>,
+    val shortScreenshots: List<ShortScreenshot>?,
     @SerialName("slug")
     val slug: String,
     @SerialName("suggestions_count")

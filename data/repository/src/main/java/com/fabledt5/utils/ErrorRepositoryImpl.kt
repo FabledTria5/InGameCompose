@@ -81,4 +81,17 @@ class ErrorRepositoryImpl @Inject constructor(
             else -> RemoteDataStoreErrors.ServerError(context.getString(R.string.error_sever))
         }
     }
+
+    override fun resolveEmptyEmail(): String = context.getString(R.string.error_empty_email)
+
+    override fun resolveIncorrectEmail(): String = context.getString(R.string.error_incorrect_email)
+
+    override fun resolveEmptyPassword(): String = context.getString(R.string.error_empty_password)
+
+    override fun resolveShortPassword(): String = context.getString(R.string.error_short_password)
+
+    override fun resolveIncorrectPassword(): String =
+        context.getString(R.string.error_incorrect_password)
+
+    override fun resolveEmptyNickname(): String = context.getString(R.string.error_empty_nickname)
 }

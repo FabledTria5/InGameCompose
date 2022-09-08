@@ -20,9 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fabledt5.common.theme.DarkLateBlack
-import com.fabledt5.common.theme.DefaultHorizontalGradient
+import com.fabledt5.common.theme.gradientTextStyle
 import com.fabledt5.common.theme.Mark
-import com.fabledt5.common.utils.gradient
 
 @Composable
 fun FilterTextItem(
@@ -37,6 +36,7 @@ fun FilterTextItem(
     val borderColor by animateColorAsState(
         targetValue = if (isActive) Color.White else Color.DarkGray
     )
+
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(size = 8.dp))
@@ -56,13 +56,13 @@ fun FilterTextItem(
             text = filterName.uppercase(),
             modifier = Modifier
                 .padding(vertical = 15.dp)
-                .align(Alignment.Center)
-                .then(if (isActive) Modifier.gradient(DefaultHorizontalGradient) else Modifier),
-            color = if (!isActive) Color.White.copy(alpha = .3f) else Color.White,
+                .align(Alignment.Center),
+            color = Color.Gray,
             fontFamily = Mark,
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = gradientTextStyle(isEnabled = isActive)
         )
     }
 }

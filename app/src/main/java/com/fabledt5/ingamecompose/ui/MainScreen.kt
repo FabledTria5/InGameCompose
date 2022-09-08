@@ -15,11 +15,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.fabledt5.authentication.screens.AuthenticationScreen
 import com.fabledt5.common.theme.DefaultHorizontalGradient
 import com.fabledt5.common.theme.DimGray
+import com.fabledt5.common.theme.gradientTextStyle
 import com.fabledt5.common.theme.Mark
 import com.fabledt5.common.utils.gradient
-import com.fabledt5.ingamecompose.navigation.authenticationGraph
 import com.fabledt5.ingamecompose.navigation.gameGraph
 import com.fabledt5.ingamecompose.navigation.primaryGraph
 import com.fabledt5.ingamecompose.utils.BottomBarItem
@@ -74,7 +75,6 @@ fun MainScreen(navigationManager: NavigationManager) {
             GameDirections.gameScreenRoute -> systemUiController.setTransparentStatusBar()
             PrimaryAppDirections.home.route -> systemUiController.setTransparentStatusBar()
             AuthorizationDirections.authorization.route -> systemUiController.setBackgroundColor()
-            AuthorizationDirections.passwordRecovery.route -> systemUiController.setBackgroundColor()
             else -> systemUiController.setPrimaryColor()
         }
     }
@@ -96,7 +96,9 @@ fun MainScreen(navigationManager: NavigationManager) {
             composable(route = SplashDirections.splash.route) {
                 SplashScreen(splashViewModel = hiltViewModel())
             }
-            authenticationGraph()
+            composable(route = AuthorizationDirections.authorization.route) {
+                AuthenticationScreen(authenticationViewModel = hiltViewModel())
+            }
             primaryGraph(viewModelStoreOwner = viewModelStoreOwner)
             gameGraph(
                 viewModelStoreOwner = viewModelStoreOwner,
@@ -114,7 +116,6 @@ fun BottomBar(navHostController: NavHostController, currentDestination: String?)
         BottomBarItem.Home,
         BottomBarItem.Catalogue,
         BottomBarItem.Collections,
-        BottomBarItem.Profile
     )
 
     val isBottomNavigationVisible = !currentDestination.isNullOrEmpty() && screens.any { screen ->
@@ -163,16 +164,14 @@ fun RowScope.AddNavigationItem(
         label = {
             Text(
                 text = screen.title,
-                modifier = Modifier.then(
-                    if (selected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
-                ),
-                fontFamily = Mark
+                fontFamily = Mark,
+                style = gradientTextStyle(isEnabled = selected)
             )
         },
         icon = {
             Icon(
                 painter = painterResource(id = screen.icon),
-                contentDescription = null,
+                contentDescription = "${screen.title} screen",
                 modifier = Modifier.then(
                     if (selected) Modifier.gradient(DefaultHorizontalGradient) else Modifier
                 )
